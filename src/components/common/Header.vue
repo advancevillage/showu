@@ -33,11 +33,11 @@
     #header {
         width: 100%;
         height: 45px;
-        background: skyblue;
+        background: black;
         z-index: 25;
     }
     .level-item {
-        padding: 10px 0;
+        padding: 6px 0;
     }
     .header_notice_text {
         color: white;
