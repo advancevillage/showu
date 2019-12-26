@@ -23,6 +23,5 @@
     min-width: 1024px;
     width: 100%;
     height: 100%;
-    border: red solid 2px;
   }
 </style>

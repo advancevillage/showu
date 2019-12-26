@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 
+
 //安装插件 vue-router
 Vue.use(VueRouter);
 Vue.use(Buefy);
