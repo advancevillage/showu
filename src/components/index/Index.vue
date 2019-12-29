@@ -3,7 +3,7 @@
         <Header/>
         <div id="container">
             <div>
-                <!-- 菜单Tab页 -->
+                <!-- 菜单页 -->
                 <div class="container_menu">
                     <b-navbar class="container_menu_items" v-bind:style="containerMenuItemsStyle" v-on:mouseenter.native="categoryMouseEnter()" v-on:mouseleave.native="categoryMouseLeave()">
                         <template slot="start">
@@ -59,21 +59,16 @@
             <!-- 热销展示-->
             <div class="container_hot">
                 <div class="container_hot_items">
-                    <!--<div class="container_hot_item" v-for="item in containerHot.hots" :key="item.goodsId">-->
-                        <!--<div class="container_hot_item_in">-->
-                            <!--<figure class="image is-256x172">-->
-                                <!--<img :src="item.imageUrl" alt="hot image">-->
-                            <!--</figure>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <div class="swiper-container">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide container_hot_item" v-for="item in containerHot.hots" :key="item.goodsId">
-                                <img :src="item.imageUrl">
+                    <swiper :options="containerHot.option">
+                        <div class="swiper-slide" v-for="item in containerHot.hots" :key="item.goodsId">
+                            <div class="swiper_slide_item">
+                                <img class="container_hot_item" :src="item.imageUrl">
                             </div>
                         </div>
-                        <div class="swiper-pagination"></div>
-                    </div>
+                        <div class="swiper-pagination" slot="pagination"></div>
+                        <div class="swiper-button-prev" slot="button-prev"></div>
+                        <div class="swiper-button-next" slot="button-next"></div>
+                    </swiper>
                 </div>
             </div>
             <!-- 买家秀-->
@@ -148,8 +143,18 @@
                         {imageUrl: "https://res.cloudinary.com/everlane/image/upload/c_fill,dpr_2.0,f_auto,h_580,q_auto,w_580/v1/i/f9bb5b3f_54e4.jpg", goodsId: "444444444", goodsDescription: "Lorem ipsum dolor sit amet"},
                         {imageUrl: "https://res.cloudinary.com/everlane/image/upload/c_fill,dpr_2.0,f_auto,h_580,q_auto,w_580/v1/i/f9bb5b3f_54e4.jpg", goodsId: "555555555", goodsDescription: "Lorem ipsum dolor sit amet"},
                         {imageUrl: "https://res.cloudinary.com/everlane/image/upload/c_fill,dpr_2.0,f_auto,h_580,q_auto,w_580/v1/i/f9bb5b3f_54e4.jpg", goodsId: "666666666", goodsDescription: "Lorem ipsum dolor sit amet"},
-
-                    ]
+                    ],
+                    option: {
+                        slidesPerView: 4,
+                        spaceBetween: 3,
+                        slidesPerGroup: 2,
+                        loop: false,
+                        loopFillGroupWithBlank: true,
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev'
+                        }
+                    }
                 },
 
                 //样式区
@@ -161,7 +166,7 @@
                 },
                 containerMenuItemContextListStyle: {
                     display: "none"
-                }
+                },
             }
         },
         name: "Index",
@@ -186,7 +191,7 @@
             },
             categoryItemMouseLeave: function () {
                 this.containerMenuItemContextListStyle.display = "none";
-            }
+            },
         }
     }
 </script>
@@ -254,15 +259,22 @@
     }
     .container_hot {
         width: 100%;
-        height: 300px;
+        height: 550px;
         overflow: hidden;
     }
     .container_hot_items {
         padding: 5px 2%;
     }
     .container_hot_item {
-        width: 256px;
-        height: 256px;
+        width: 330px;
+        height: 440px;
+    }
+    .swiper_slide_item {
+        width: 340px;
+        padding: 5px;
+    }
+    .swiper_slide_item:hover, .swiper_slide_item:focus, .swiper_slide_item:active {
+        padding: 0;
     }
     .container_newIn_item_in {
         padding: 10px;
@@ -274,22 +286,5 @@
         font-size: larger;
         padding: 0;
         text-align: center;
-    }
-    .swiper-slide {
-        text-align: center;
-        background: #fff;
-        /* Center slide text vertically */
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
     }
 </style>

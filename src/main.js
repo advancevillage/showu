@@ -3,11 +3,14 @@ import VueRouter from 'vue-router'
 //引入组件库
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
 
 
 //安装插件 vue-router
 Vue.use(VueRouter);
 Vue.use(Buefy);
+Vue.use(VueAwesomeSwiper);
 //载入组件
 import App            from './App.vue'
 import Index          from './components/index/Index'          //组件之首页
