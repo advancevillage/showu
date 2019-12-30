@@ -5,27 +5,31 @@
             <div>
                 <!-- 菜单页 -->
                 <div class="container_menu">
-                    <b-navbar class="container_menu_items" v-bind:style="containerMenuItemsStyle" v-on:mouseenter.native="categoryMouseEnter()" v-on:mouseleave.native="categoryMouseLeave()">
+                    <b-navbar class="container_menu_items" :class="{'container_menu_items_hover': containerMenu.hover}" v-on:mouseenter.native="containerMenuItemsMouseEnter()" v-on:mouseleave.native="containerMenuItemsMouseLeave()">
                         <template slot="start">
-                            <b-navbar-item href="#" v-for="cat in containerMenu.categories" :key="cat.categoryId" v-on:mouseenter.native="categoryItemMouseEnter()" v-on:mouseleave="categoryItemMouseLeave()">
-                                <span class="container_menu_item" v-bind:style="containerMenuItemStyle">{{cat.categoryName}}</span>
+                            <b-navbar-item :key="index" href="#" v-for="(cat, index) in containerMenu.categories"
+                                           v-on:mouseenter.native="containerMenuItemMouseEnter(index)"
+                                           v-on:mouseleave.native="containerMenuItemMouseLeave()">
+                                <span class="container_menu_item" :class="{'container_menu_item_hover': showContainerMenuItem(index) }">{{cat.categoryName}}</span>
                             </b-navbar-item>
                         </template>
                         <template slot="end">
                             <b-navbar-item href="#" >
-                                <span class="container_menu_item" v-bind:style="containerMenuItemStyle">{{containerAccountInfo.accountName}}</span>
+                                <span class="container_menu_item">{{containerMenu.user.userNickName}}</span>
                             </b-navbar-item>
                             <b-navbar-item href="#" >
-                                <b-button class="container_menu_item_cart">{{containerAccountInfo.accountCartCount}}</b-button>
+                                <b-button class="container_menu_item_cart">{{containerMenu.user.userCartCount}}</b-button>
                             </b-navbar-item>
                         </template>
                     </b-navbar>
-                    <div class="container_menu_item_context">
-                        <div class="container_menu_item_context_list" v-bind:style="containerMenuItemContextListStyle">
-                            <b-table class="container_menu_item_context_list_item" :data="containerMenuItemContext.data" :columns="containerMenuItemContext.columns"></b-table>
-                        </div>
-                        <div class="container_menu_item_context_images">
-                        </div>
+                    <div class="container_menu_item_context" :class="{'container_menu_item_context_show': showContainerMenuItemContext() }"  v-on:mouseenter="containerMenuItemContextMouseEnter()" v-on:mouseleave="containerMenuItemContextMouseLeave()">
+                            <div class="container_menu_item_context_list">
+                                <div class="container_menu_item_context_list_item" v-for="(item, index) in containerMenu.itemContext.list" :key="index">
+                                    {{item.categories}}
+                                </div>
+                            </div>
+                            <div class="container_menu_item_context_images">
+                            </div>
                     </div>
                 </div>
                 <div class="container_carousel">
@@ -47,7 +51,7 @@
                                     <img :src="item.imageUrl" alt="Placeholder image">
                                 </figure>
                             </div>
-                            <div class="card-content">
+                            <div class="container_newIn_item_in_desc">
                                 <div class="content">
                                     {{item.goodsDescription}}
                                 </div>
@@ -60,9 +64,9 @@
             <div class="container_hot">
                 <div class="container_hot_items">
                     <swiper :options="containerHot.option">
-                        <div class="swiper-slide" v-for="item in containerHot.hots" :key="item.goodsId">
-                            <div class="swiper_slide_item">
-                                <img class="container_hot_item" :src="item.imageUrl">
+                        <div class="swiper-slide" v-for="(item, index) in containerHot.hots" :key="index">
+                            <div class="container_hot_item">
+                                <img class="container_hot_item_img" :class="{'container_hot_item_hover': containerHot.hover === index}" :src="item.imageUrl" v-on:mouseenter="containerHot.hover = index" v-on:mouseleave="containerHot.hover = -1">
                             </div>
                         </div>
                         <div class="swiper-pagination" slot="pagination"></div>
@@ -109,24 +113,25 @@
                         {categoryName: "NewIn", categoryId: "1111111111"},
                         {categoryName: "NewIn", categoryId: "2222222222"},
                         {categoryName: "NewIn", categoryId: "3333333333"},
-                    ]
-                },
-                containerAccountInfo: {
-                    accountName: "richard",
-                    accountId: "11111",
-                    accountCartCount: 3
-                },
-
-                containerMenuItemContext: {
-                    data: [
-                        {'man': '羽绒服', 'women': '嘻嘻', 'student': '校服', 'parent': '老年鞋'},
                     ],
-                    columns: [
-                        { label: '男士', field: 'man',},
-                        { label: '女士', field: 'women',},
-                        { label: '学生', field: 'student',},
-                        { label: '父母', field: 'parent',},
-                    ]
+                    hover: false,
+                    item: {
+                        hover: -1
+                    },
+                    itemContext: {
+                        hover: -1,
+                        list: [
+                            {categories: [1, 2, 3]},
+                            {categories: [4, 5, 6]},
+                            {categories: [7, 8 ,9]}
+                        ]
+                    },
+                    user: {
+                        userNickName: "richard",
+                        userId: "11111",
+                        userCartCount: 3
+                    },
+
                 },
                 containerNewIn: {
                     newIns: [
@@ -144,9 +149,10 @@
                         {imageUrl: "https://res.cloudinary.com/everlane/image/upload/c_fill,dpr_2.0,f_auto,h_580,q_auto,w_580/v1/i/f9bb5b3f_54e4.jpg", goodsId: "555555555", goodsDescription: "Lorem ipsum dolor sit amet"},
                         {imageUrl: "https://res.cloudinary.com/everlane/image/upload/c_fill,dpr_2.0,f_auto,h_580,q_auto,w_580/v1/i/f9bb5b3f_54e4.jpg", goodsId: "666666666", goodsDescription: "Lorem ipsum dolor sit amet"},
                     ],
+                    hover: -1,
                     option: {
                         slidesPerView: 4,
-                        spaceBetween: 3,
+                        spaceBetween: 1,
                         slidesPerGroup: 2,
                         loop: false,
                         loopFillGroupWithBlank: true,
@@ -155,17 +161,6 @@
                             prevEl: '.swiper-button-prev'
                         }
                     }
-                },
-
-                //样式区
-                containerMenuItemsStyle: {
-                    background: "rgba(192, 192, 192, 0)"
-                },
-                containerMenuItemStyle: {
-                    color: "white",
-                },
-                containerMenuItemContextListStyle: {
-                    display: "none"
                 },
             }
         },
@@ -178,20 +173,35 @@
             getCarouselImageUrl: function (value) {
                 return `https://picsum.photos/id/43${value}/1230/500`
             },
-            categoryMouseEnter: function () {
-                this.containerMenuItemsStyle.background = "rgba(192, 192, 192, 1)";
-                this.containerMenuItemStyle.color = "black";
+            /*菜单页*/
+            containerMenuItemsMouseEnter() {
+                this.containerMenu.hover = true;
             },
-            categoryMouseLeave: function () {
-                this.containerMenuItemsStyle.background = "rgba(192, 192, 192, 0)";
-                this.containerMenuItemStyle.color = "white";
+            containerMenuItemsMouseLeave() {
+                this.containerMenu.hover = false;
             },
-            categoryItemMouseEnter: function () {
-                this.containerMenuItemContextListStyle.display = "block";
+            containerMenuItemMouseEnter(index) {
+                this.containerMenu.item.hover = index;
+                this.containerMenu.itemContext.hover = index;
             },
-            categoryItemMouseLeave: function () {
-                this.containerMenuItemContextListStyle.display = "none";
+            containerMenuItemMouseLeave() {
+                this.containerMenu.item.hover = -1;
             },
+            containerMenuItemContextMouseEnter() {
+                this.containerMenu.hover = true;
+                this.containerMenu.item.hover = this.containerMenu.itemContext.hover;
+            },
+            containerMenuItemContextMouseLeave() {
+                this.containerMenu.hover = false;
+                this.containerMenu.item.hover = -1;
+                this.containerMenu.itemContext.hover = -1;
+            },
+            showContainerMenuItem(index) {
+                return this.containerMenu.hover && this.containerMenu.item.hover === index
+            },
+            showContainerMenuItemContext() {
+                return this.containerMenu.hover && this.containerMenu.item.hover !== -1
+            }
         }
     }
 </script>
@@ -208,44 +218,68 @@
         width: 100%;
         height: 100%;
     }
+    /*菜单页 菜单栏*/
     .container_menu {
         z-index: 25;
         position: absolute;
         width: 100%;
         height: 40px;
     }
+    .container_menu_items {
+        padding: 5px 40px 0 40px;
+        background: rgba(192, 192, 192, 0);
+    }
+    .container_menu_items_hover {
+        background: rgba(192, 192, 192, 1);
+    }
     .container_menu_item {
         width: 100%;
         text-align: center;
+        color: white;
     }
-    .container_menu_item:focus,.container_menu_item:hover,.container_menu_item:active {
-        border-bottom: solid 2px white;
-    }
-    .container_menu_items {
-        padding: 5px 40px 0 40px;
+    .container_menu_item_hover {
+        font-weight: bolder;
+        border-bottom: 2px solid white;
     }
     .container_menu_item_cart {
         background-color: darkgray;
         border-radius: 50px;
     }
-    .container_carousel {
-        z-index: 5;
+    .container_menu_item_context {
+        width: 100%;
+        height: 240px;
+        padding: 0 40px;
+        display: none;
+    }
+    .container_menu_item_context_show {
+        display: block;
+        background: rgba(216, 216, 216, 0.9);
+        border-top: 2px solid white;
+    }
+    .container_menu_item_context_list {
+        float: left;
+        width: 45%;
+        height: 240px;
+    }
+    .container_menu_item_context_list_item {
+        width: 25%;
+        height: 220px;
+        float: left;
+        margin: 10px;
+    }
+    .container_menu_item_context_images {
+        float: left;
+        width: 55%;
+        height: 240px;
     }
     a.navbar-item:focus, a.navbar-item:focus-within, a.navbar-item:hover {
         background-color: rgba(128, 128, 128, 0);
     }
-    .container_menu_item_context {
-        width: 100%;
-        height: 200px;
-        padding: 0 40px;
+    /*菜单页 走马灯*/
+    .container_carousel {
+        z-index: 5;
     }
-    .container_menu_item_context_list, container_menu_item_context_images {
-        float: left;
-        font-size: x-small;
-    }
-    .container_menu_item_context_list {
-        width: 40%;
-    }
+    /*新品区*/
     .container_newIn_items {
         width: 100%;
         height: 700px;
@@ -257,34 +291,31 @@
         height: 100%;
         margin: 0 1%;
     }
-    .container_hot {
-        width: 100%;
-        height: 550px;
-        overflow: hidden;
-    }
-    .container_hot_items {
-        padding: 5px 2%;
-    }
-    .container_hot_item {
-        width: 330px;
-        height: 440px;
-    }
-    .swiper_slide_item {
-        width: 340px;
-        padding: 5px;
-    }
-    .swiper_slide_item:hover, .swiper_slide_item:focus, .swiper_slide_item:active {
-        padding: 0;
-    }
     .container_newIn_item_in {
         padding: 10px;
     }
     .container_newIn_item_in:hover, .container_newIn_item_in:focus, .container_newIn_item_in:active {
         padding: 0;
     }
-    .card-content {
-        font-size: larger;
+    /*热销区*/
+    .container_hot {
+        width: 100%;
+        height: 550px;
+        overflow: hidden;
+        padding: 0 2%;
+    }
+    .container_hot_item {
+        width: 340px;
+        height: 452px;
+    }
+    .container_hot_item_img {
+        width: 320px;
+        height: 432px;
+        padding: 10px;
+    }
+    .container_hot_item_hover {
+        width: 340px;
+        height: 452px;
         padding: 0;
-        text-align: center;
     }
 </style>
