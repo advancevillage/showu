@@ -25,8 +25,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
 ### TODO
- 1: vue buefy 引入图标
-
-
-### feature
- 1: 导航栏 六班
+ 1: 导航栏 滚动置顶
+ 2: 买家秀 
+ 3: 页脚
+ 
+ 
