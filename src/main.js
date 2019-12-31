@@ -7,11 +7,13 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 //引入请求组件
 import axios from './axios'
+import VueScroll from 'vue-scroll'
 
 //安装插件 vue-router
 Vue.use(VueRouter);
 Vue.use(Buefy);
 Vue.use(VueAwesomeSwiper);
+Vue.use(VueScroll);
 //全局注册
 Vue.prototype.$axios = axios;
 //载入组件

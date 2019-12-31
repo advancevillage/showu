@@ -34,7 +34,7 @@
                 </div>
                 <div class="container_carousel">
                     <!-- Banner走马灯-->
-                    <b-carousel :indicator="containerCarousel.indicator" :indicator-inside="containerCarousel.indicatorInside" :indicator-mode="containerCarousel.indicatorMode" :indicator-style="containerCarousel.indicatorStyle" :pause-info="containerCarousel.pauseInfo" :animated="containerCarousel.animated" :pause-hover="containerCarousel.pauseHover">
+                    <b-carousel :arrow="containerCarousel.arrow" :indicator="containerCarousel.indicator" :indicator-inside="containerCarousel.indicatorInside" :indicator-mode="containerCarousel.indicatorMode" :indicator-style="containerCarousel.indicatorStyle" :pause-info="containerCarousel.pauseInfo" :animated="containerCarousel.animated" :pause-hover="containerCarousel.pauseHover">
                         <b-carousel-item v-for="i in 6" :key="i">
                             <img class="container_carousel_image" :src="getCarouselImageUrl(i)">
                         </b-carousel-item>
@@ -60,6 +60,7 @@
                     </div>
                 </div>
             </div>
+            <hr style="margin: 1.5rem"/>
             <!-- 热销展示-->
             <div class="container_hot">
                 <div class="container_hot_items">
@@ -75,9 +76,21 @@
                     </swiper>
                 </div>
             </div>
+            <hr style="margin: 1.5rem"/>
             <!-- 买家秀-->
             <div class="container_buyer">
-
+                <div class="container_buyer_items">
+                    <swiper :options="containerBuyer.option">
+                        <div class="swiper-slide" v-for="(item, index) in containerBuyer.buyers" :key="index">
+                            <div class="container_buyer_item">
+                                <img class="container_buyer_item_img" :class="{'container_buyer_item_hover': containerBuyer.hover === index}" :src="item.imageUrl" v-on:mouseenter="containerBuyer.hover = index" v-on:mouseleave="containerBuyer.hover = -1">
+                            </div>
+                        </div>
+                        <div class="swiper-pagination" slot="pagination"></div>
+                        <div class="swiper-button-prev" slot="button-prev"></div>
+                        <div class="swiper-button-next" slot="button-next"></div>
+                    </swiper>
+                </div>
             </div>
         </div>
         <Footer/>
@@ -92,19 +105,14 @@
         data() {
             return {
                 containerCarousel: {
+                    arrow: false,
                     indicator: true,
                     indicatorInside: true,
                     indicatorMode: 'hover',
                     indicatorStyle: 'is-dots',
                     pauseInfo: false,
                     animated: 'fate',
-                    pauseHover: true,
-                    carousels: [
-                        { title: 'Slide 1', color: 'info' },
-                        { title: 'Slide 2', color: 'success' },
-                        { title: 'Slide 3', color: 'warning' },
-                        { title: 'Slide 4', color: 'danger' }
-                    ]
+                    pauseHover: true
                 },
                 containerMenu: {
                     position: "is-left",
@@ -162,12 +170,38 @@
                         }
                     }
                 },
+                containerBuyer: {
+                    option: {
+                        slidesPerView: 4,
+                        spaceBetween: 1,
+                        slidesPerGroup: 2,
+                        loop: false,
+                        loopFillGroupWithBlank: true,
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev'
+                        }
+                    },
+                    buyers: [
+                        {imageUrl: "https://res.cloudinary.com/everlane/image/upload/c_fill,dpr_2.0,f_auto,h_580,q_auto,w_580/v1/i/f9bb5b3f_54e4.jpg", goodsId: "000000000", goodsDescription: "Lorem ipsum dolor sit amet"},
+                        {imageUrl: "https://res.cloudinary.com/everlane/image/upload/c_fill,dpr_2.0,f_auto,h_580,q_auto,w_580/v1/i/f9bb5b3f_54e4.jpg", goodsId: "111111111", goodsDescription: "Lorem ipsum dolor sit amet"},
+                        {imageUrl: "https://res.cloudinary.com/everlane/image/upload/c_fill,dpr_2.0,f_auto,h_580,q_auto,w_580/v1/i/f9bb5b3f_54e4.jpg", goodsId: "222222222", goodsDescription: "Lorem ipsum dolor sit amet"},
+                        {imageUrl: "https://res.cloudinary.com/everlane/image/upload/c_fill,dpr_2.0,f_auto,h_580,q_auto,w_580/v1/i/f9bb5b3f_54e4.jpg", goodsId: "333333333", goodsDescription: "Lorem ipsum dolor sit amet"},
+                        {imageUrl: "https://res.cloudinary.com/everlane/image/upload/c_fill,dpr_2.0,f_auto,h_580,q_auto,w_580/v1/i/f9bb5b3f_54e4.jpg", goodsId: "444444444", goodsDescription: "Lorem ipsum dolor sit amet"},
+                        {imageUrl: "https://res.cloudinary.com/everlane/image/upload/c_fill,dpr_2.0,f_auto,h_580,q_auto,w_580/v1/i/f9bb5b3f_54e4.jpg", goodsId: "555555555", goodsDescription: "Lorem ipsum dolor sit amet"},
+                        {imageUrl: "https://res.cloudinary.com/everlane/image/upload/c_fill,dpr_2.0,f_auto,h_580,q_auto,w_580/v1/i/f9bb5b3f_54e4.jpg", goodsId: "666666666", goodsDescription: "Lorem ipsum dolor sit amet"},
+                    ],
+                    hover: -1,
+                }
             }
         },
         name: "Index",
         components: {
             Header,
             Footer
+        },
+        mounted() {
+            window.addEventListener('scroll',this.handleScroll, true)
         },
         methods: {
             getCarouselImageUrl: function (value) {
@@ -298,24 +332,28 @@
         padding: 0;
     }
     /*热销区*/
-    .container_hot {
+    .container_hot, .container_buyer {
         width: 100%;
         height: 550px;
         overflow: hidden;
         padding: 0 2%;
     }
-    .container_hot_item {
+    .container_hot_item, .container_buyer_item {
         width: 340px;
         height: 452px;
     }
-    .container_hot_item_img {
+    .container_hot_item_img, .container_buyer_item_img {
         width: 320px;
         height: 432px;
         padding: 10px;
     }
-    .container_hot_item_hover {
+    .container_hot_item_hover, .container_buyer_item_hover {
         width: 340px;
         height: 452px;
         padding: 0;
+    }
+    /*买家秀*/
+    .container_buyer {
+        height: 500px;
     }
 </style>
