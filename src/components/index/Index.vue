@@ -23,13 +23,29 @@
                         </template>
                     </b-navbar>
                     <div class="container_menu_item_context" :class="{'container_menu_item_context_show': showContainerMenuItemContext() }"  v-on:mouseenter="containerMenuItemContextMouseEnter()" v-on:mouseleave="containerMenuItemContextMouseLeave()">
-                            <div class="container_menu_item_context_list">
-                                <div class="container_menu_item_context_list_item" v-for="(item, index) in containerMenu.itemContext.list" :key="index">
-                                    {{item.categories}}
-                                </div>
+                        <div class="container_menu_item_context_list">
+                            <div class="container_menu_item_context_list_item" v-for="(item, index) in containerMenu.itemContext.list" :key="index">
+                                {{item.categories}}
                             </div>
-                            <div class="container_menu_item_context_images">
-                            </div>
+                        </div>
+                        <div class="container_menu_item_context_images">
+                        </div>
+                    </div>
+                </div>
+                <div class="container_notes">
+                    <!--放在轮播图上的文字-->
+<!--                    <div>-->
+<!--                        <p>SHOW U</p>-->
+<!--                        <p>happy new year 2020</p>-->
+<!--                    </div>-->
+                    <div class="container_notes_top">
+
+                    </div>
+                    <div class="container_notes_mid">
+
+                    </div>
+                    <div class="container_notes_bottom">
+
                     </div>
                 </div>
                 <div class="container_carousel">
@@ -252,6 +268,9 @@
         width: 100%;
         height: 100%;
     }
+    .container_notes {
+
+    }
     /*菜单页 菜单栏*/
     .container_menu {
         z-index: 25;
@@ -312,6 +331,22 @@
     /*菜单页 走马灯*/
     .container_carousel {
         z-index: 5;
+    }
+    /*轮播图的文字*/
+    .container_notes {
+        position:absolute;
+        z-index:10;
+        font-size: 100px;
+        font-weight: 200;
+        font-family: monospace;
+        color:whitesmoke;
+        top:37%;
+        left:37%;
+    }
+    .container_notes_top {
+        width: 100%;
+        height: 25%;
+        border: 1px solid blue;
     }
     /*新品区*/
     .container_newIn_items {
