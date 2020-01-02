@@ -32,6 +32,32 @@
                             </div>
                     </div>
                 </div>
+                <div class="container_notes">
+                    <div class="container_notes_top">
+                    </div>
+                    <div class="container_notes_mid">
+                        <div class="container_notes_mid_left"></div>
+                        <div class="container_notes_mid_center">
+                            <div class="container_notes_mid_center_top"></div>
+                            <div class="container_notes_mid_center_mid">
+                                <p class="container_notes_mid_center_mid_desc">
+                                    Show U !
+                                </p>
+                                <p class="container_notes_mid_center_mid_detail">
+                                    happy new year 2020 ^_^
+                                </p>
+                            </div>
+                            <div class="container_notes_mid_center_bottom">
+                                <div class="container_notes_mid_center_bottom_link_button">
+                                    <b-button rounded>Shop Now!</b-button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container_notes_mid_right"></div>
+                    </div>
+                    <div class="container_notes_bottom">
+                    </div>
+                </div>
                 <div class="container_carousel">
                     <!-- Banner走马灯-->
                     <b-carousel :arrow="containerCarousel.arrow" :indicator="containerCarousel.indicator" :indicator-inside="containerCarousel.indicatorInside" :indicator-mode="containerCarousel.indicatorMode" :indicator-style="containerCarousel.indicatorStyle" :pause-info="containerCarousel.pauseInfo" :animated="containerCarousel.animated" :pause-hover="containerCarousel.pauseHover">
@@ -308,6 +334,62 @@
     }
     a.navbar-item:focus, a.navbar-item:focus-within, a.navbar-item:hover {
         background-color: rgba(128, 128, 128, 0);
+    }
+    /*菜单栏 文字描述*/
+    .container_notes {
+        width: 100%;
+        height: 660px;
+        position: absolute;
+        z-index: 10;
+    }
+    .container_notes_mid {
+        width: 100%;
+        height: 80%;
+    }
+    .container_notes_bottom, .container_notes_top {
+        width: 100%;
+        height: 10%;
+    }
+    .container_notes_mid_left, .container_notes_mid_right {
+        width: 10%;
+        height: 100%;
+        float: left;
+    }
+    .container_notes_mid_center {
+        width: 80%;
+        height: 100%;
+        float: left;
+    }
+    .container_notes_mid_center_top, .container_notes_mid_center_bottom {
+        width: 100%;
+        height: 20%;
+    }
+    .container_notes_mid_center_mid {
+        width: 100%;
+        height: 60%;
+    }
+    .container_notes_mid_center_mid_desc, .container_notes_mid_center_mid_detail {
+        padding: 0 0 0 25%;
+        font-size: -webkit-xxx-large;
+        font-size: 100px;
+        font-weight: 400;
+        color: whitesmoke;
+        font-style: oblique;
+        font-family: -webkit-pictograph;
+    }
+    .container_notes_mid_center_mid_detail {
+        padding: 0 0 0 25%;
+        font-size: 50px;
+    }
+    .container_notes_mid_center_bottom_link_button {
+        padding: 0 0 0 45%;
+    }
+    .container_notes_mid_center_bottom_link_button > .button {
+        font-family: -webkit-pictograph;
+        border: none;
+        font-size: x-large;
+        text-align: center;
+        background-color: rgba(128, 128, 128, 1);
     }
     /*菜单页 走马灯*/
     .container_carousel {
