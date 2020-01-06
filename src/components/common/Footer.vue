@@ -113,6 +113,7 @@
         height: 200px;
         background-color: rgba(192, 192, 192, 1);
         z-index: 25;
+        float: left;
     }
     .footer_container_left {
         width: 75%;

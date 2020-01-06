@@ -180,12 +180,6 @@
 </script>
 
 <style scoped>
-    #container {
-        min-height: 720px;
-        min-width: 1024px;
-        width: 100%;
-        height: 100%;
-    }
     .container_carousel_image {
         min-height: 680px;
         width: 100%;
@@ -226,7 +220,6 @@
     }
     .container_notes_mid_center_mid_desc, .container_notes_mid_center_mid_detail {
         padding: 0 0 0 25%;
-        font-size: -webkit-xxx-large;
         font-size: 100px;
         font-weight: 400;
         color: whitesmoke;

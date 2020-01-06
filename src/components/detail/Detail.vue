@@ -1,10 +1,22 @@
 <template>
-    <p>hello detail</p>
+    <div>
+        <Header/>
+        <div id="container">
+        </div>
+        <Footer/>
+    </div>
 </template>
 
 <script>
+    import Header from '../common/Header'
+    import Footer from '../common/Footer'
+
     export default {
-        name: "Detail"
+        name: "Detail",
+        components: {
+            Header,
+            Footer
+        },
     }
 </script>
 
