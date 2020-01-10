@@ -34,8 +34,8 @@
                     </div>
                     <!-- 登出状态 -->
                     <div v-else class="buttons">
-                        <div class="button account">
-                            Log in
+                        <div class="button account" v-on:click="Login">
+                            Login
                         </div>
                         <div class="button account">
                             Sign up
@@ -70,6 +70,8 @@
 </template>
 
 <script>
+    import Login from './Login'
+
     export default {
         name: "Menu",
         data() {
@@ -124,6 +126,16 @@
                     }
                 ]
             }
+        },
+        methods: {
+            Login() {
+                this.$buefy.modal.open({
+                    parent: this,
+                    component: Login,
+                    hasModalCard: true,
+                    trapFocus: true
+                });
+            },
         }
     }
 </script>
