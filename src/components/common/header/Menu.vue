@@ -6,10 +6,10 @@
              v-on:mouseleave="navBar=-1">
             <!-- 导航栏 -->
             <div class="navbar-menu">
-                <a class="navbar-item category" v-for="(item, index) in categories" :key="index" :href="item.categoryUrl"
+                <a class="navbar-item category" v-for="(item, index) in categories" :key="index"
                     v-on:mouseenter="navItem=index; navDetail=index"
                     v-on:mouseleave="navItem=-1">
-                    {{item.categoryName}}
+                    {{item.categoryName.english}}
                     <em v-if="navItem === index"></em>
                 </a>
             </div>
@@ -71,6 +71,7 @@
 
 <script>
     import Login from './Login'
+    import api   from '../../../axios/api'
 
     export default {
         name: "Menu",
@@ -81,51 +82,11 @@
                 navDetail: -1,
                 cartDetail: -1,
                 login: false,
-                categories: [
-                    {
-                        categoryId: "xxxxxxxxxxx",
-                        categoryName: "test",
-                        categoryUrl: "/",
-                        child: []
-                    },
-                    {
-                        categoryId: "xxxxxxxxxxx",
-                        categoryName: "test",
-                        categoryUrl: "/",
-                        child: []
-                    },
-                    {
-                        categoryId: "xxxxxxxxxxx",
-                        categoryName: "test",
-                        categoryUrl: "/",
-                        child: []
-                    },
-                    {
-                        categoryId: "xxxxxxxxxxx",
-                        categoryName: "test",
-                        categoryUrl: "/",
-                        child: []
-                    },
-                    {
-                        categoryId: "xxxxxxxxxxx",
-                        categoryName: "test",
-                        categoryUrl: "/",
-                        child: []
-                    },
-                    {
-                        categoryId: "xxxxxxxxxxx",
-                        categoryName: "test",
-                        categoryUrl: "/",
-                        child: []
-                    },
-                    {
-                        categoryId: "xxxxxxxxxxx",
-                        categoryName: "test",
-                        categoryUrl: "/",
-                        child: []
-                    }
-                ]
+                categories: []
             }
+        },
+        mounted: function() {
+            this.InitCategory()
         },
         methods: {
             Login() {
@@ -136,6 +97,13 @@
                     trapFocus: true
                 });
             },
+            /* 初始化 操作*/
+            InitCategory: async function() {
+                const params = {
+                    status: 513
+                };
+                this.categories = await  api.QueryCategories(params);
+            }
         }
     }
 </script>
