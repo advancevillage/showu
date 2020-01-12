@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import moment from 'moment'
 //引入组件库
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
@@ -11,6 +12,7 @@ import 'swiper/dist/css/swiper.css'
 Vue.use(VueRouter);
 Vue.use(Buefy);
 Vue.use(VueAwesomeSwiper);
+Vue.prototype.$moment = moment;
 
 //载入组件
 import App            from './App.vue'

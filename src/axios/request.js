@@ -3,7 +3,7 @@ import qs from 'qs';
 
 // 请求的默认域名
 const service = axios.create({
-    baseURL: 'http://localhost:13171',
+    baseURL: 'http://localhost:13147',
     timeout: 15 * 1000,
     responseType: 'json',
 });
