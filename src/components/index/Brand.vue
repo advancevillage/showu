@@ -1,51 +1,7 @@
 <template>
     <div>
         <div class="brand_warp">
-            <div class="brand_wrap_list">
-                <b-table
-                    :paginated="true"
-                    :per-page="perPage"
-                    :current-page.sync="page"
-                    :hoverable="true"
-                    :data="data">
-                    <template slot-scope="props">
-                        <b-table-column field="brandId" label="品牌标识" centered searchable>
-                            <span class="tag is-dark" >
-                                {{ props.row.brandId }}
-                            </span>
-                        </b-table-column>
-                        <b-table-column field="brandName" label="品牌名称" centered>
-                            <span class="tag is-light" >
-                                {{ FormatName(props.row.brandName)}}
-                            </span>
-                        </b-table-column>
-                        <b-table-column field="brandStatus" label="品牌状态" centered>
-                            <span class="tag" :class="brandStatus.type">
-                                {{ FormatStatus(props.row.brandStatus)}}
-                                {{ brandStatus.value}}
-                            </span>
-                        </b-table-column>
-                        <b-table-column field="brandCreateTime" label="创建时间" centered>
-                            <span class="tag is-info">
-                                {{ FormatTimestamp(props.row.brandCreateTime)}}
-                            </span>
-                        </b-table-column>
-                        <b-table-column field="brandCreateTime" label="更新时间" centered>
-                            <span class="tag is-warning">
-                                {{ FormatTimestamp(props.row.brandUpdateTime)}}
-                            </span>
-                        </b-table-column>
-                        <b-table-column field="brandCreateTime" label="删除时间" centered>
-                            <span v-if="props.row.brandDeleteTime > 0" class="tag is-danger">
-                                {{ FormatTimestamp(props.row.brandDeleteTime)}}
-                            </span>
-                        </b-table-column>
-                    </template>
-                </b-table>
-            </div>
-            <div class="brand_wrap_operate">
-
-            </div>
+            <i-table size="small" border :content="self" :columns="columns" :data="data"></i-table>
         </div>
     </div>
 </template>
@@ -57,13 +13,63 @@
         name: "Brand",
         data() {
             return {
+                self: this,
                 data: [],
-                brandStatus: {
-                    type: "",
-                    value: ""
-                },
-                perPage: 50,
-                page: 1,
+                language: "english",
+                format: "YYYY-MM-DD HH:mm:ss",
+                columns: [
+                    {title: "品牌名称", key: "brandName", fixed: 'left',
+                        render: (h, params) => {
+                            let key = params.column.key;
+                            let value = params.row[key];
+                            return h("span", value[this.language]);
+                        }
+                    },
+                    {title: "品牌标识", key: "brandId",},
+                    {title: "品牌状态", key: "brandStatus",
+                        render: (h, params) => {
+                            let key = params.column.key;
+                            let value = params.row[key];
+                            let str = '无效';
+                            switch (value) {
+                                case 0x701:
+                                    str = '正常';
+                                    break;
+                                case 0x702:
+                                    str = '被删除';
+                                    break;
+                                default:
+                                    str = '无效'
+                            }
+                            return h("span", str)
+                        }
+                    },
+                    {title: "创建时间", key: "brandCreateTime", sortable: true,
+                        render: (h, params) => {
+                            let key = params.column.key;
+                            let value = params.row[key];
+                            return h("span", this.$moment(value).format(this.format))
+                        }
+                    },
+                    {title: "更新时间", key: "brandUpdateTime", sortable: true,
+                        render: (h, params) => {
+                            let key = params.column.key;
+                            let value = params.row[key];
+                            return h("span", this.$moment(value).format(this.format))
+                        }
+                    },
+                    {title: "删除时间", key: "brandDeleteTime", sortable: true,
+                        render: (h, params) => {
+                            let key = params.column.key;
+                            let value = params.row[key];
+                            if (value > 0) {
+                                return h("span", this.$moment(value).format(this.format))
+                            } else {
+                                return h("span")
+                            }
+                        }
+                    },
+                ]
             }
         },
         mounted: function () {
@@ -76,44 +82,10 @@
                 };
                 this.data = await api.QueryBrands(params) || []
             },
-            FormatTimestamp: function (timestamp)  {
-                timestamp = timestamp || 0;
-                return this.$moment(timestamp).format('YYYY-MM-DD HH:mm:ss')
-            },
-            FormatStatus: function (status) {
-                switch (status) {
-                    case 0x701:
-                        this.brandStatus.value = "正常";
-                        this.brandStatus.type = "is-success";
-                        break;
-                    case 0x702:
-                        this.brandStatus.value = "被删除";
-                        this.brandStatus.type = "is-danger";
-                        break;
-                    default:
-                        this.brandStatus.value = "无效";
-                        this.brandStatus.type = "is-primary";
-                }
-            },
-            FormatName: function (name) {
-                name = name || {};
-                return name.english
-            }
         }
     }
 </script>
 
 <style scoped>
-    .brand_wrap_list, .brand_wrap_operate {
-        height: 100%;
-        border: 1px solid pink;
-        float: left;
-        min-height: 1024px;
-    }
-    .brand_wrap_list {
-        width: 80%;
-    }
-    .brand_wrap_operate {
-        width: 20%;
-    }
+
 </style>

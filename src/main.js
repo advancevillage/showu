@@ -4,14 +4,13 @@ import moment from 'moment'
 //引入组件库
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
-import VueAwesomeSwiper from 'vue-awesome-swiper'
-import 'swiper/dist/css/swiper.css'
-
+import ViewUI from 'view-design';
+import 'view-design/dist/styles/iview.css';
 
 //安装插件 vue-router
 Vue.use(VueRouter);
 Vue.use(Buefy);
-Vue.use(VueAwesomeSwiper);
+Vue.use(ViewUI);
 Vue.prototype.$moment = moment;
 
 //载入组件
