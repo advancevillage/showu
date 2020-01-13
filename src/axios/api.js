@@ -18,7 +18,16 @@ const QueryBrands = (params, headers) => {
     })
 };
 
+const CreateBrand = (body) => {
+    return service({
+        url: "/v1/brands",
+        method: "post",
+        data: body || {}
+    })
+};
+
 export default  {
     QueryCategories,
     QueryBrands,
+    CreateBrand,
 }

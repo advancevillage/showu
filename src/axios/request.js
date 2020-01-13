@@ -1,18 +1,24 @@
 import axios from 'axios';
-import qs from 'qs';
 
 // 请求的默认域名
 const service = axios.create({
-    baseURL: 'http://localhost:13147',
+    baseURL: 'http://localhost:13171',
     timeout: 15 * 1000,
     responseType: 'json',
+    headers: {
+        post: {
+          "Content-Type": "application/json"
+        },
+        put: {
+            "Content-Type": "application/json"
+        }
+    }
 });
 
 service.interceptors.request.use(config => {
-    config.method === 'post'
-        ? config.data = qs.stringify({...config.data})
-        : config.params = {...config.params};
-    config.headers["Content-Type"] = "application/json";
+    if (config.method === 'post') {
+        config.data = JSON.stringify(config.data);
+    }
     return config;
 }, error => {
     console.log(error);

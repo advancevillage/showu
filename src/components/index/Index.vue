@@ -99,7 +99,7 @@
         margin: 0;
         padding: 0;
         width: 100%;
-        min-height: 1024px;
+        max-height: 1024px;
     }
     .container_warp > .tree, .container_warp > .tabs {
         height: 100%;
