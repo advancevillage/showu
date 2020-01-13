@@ -8,7 +8,7 @@
                     </Tree>
                 </div>
                 <div class="tabs">
-                    <Tabs type="card" closable size="small" @on-tab-remove="handleDeleteTab">
+                    <Tabs v-model="pos" type="card" closable size="small" @on-tab-remove="handleDeleteTab">
                         <TabPane v-for="(tab, index) in tabs" :key="index" :label="tab.value">
                             <Brand v-if="tab.key === 0x107"/>
                         </TabPane>
@@ -51,7 +51,8 @@
                 ],
                 tabs: [
                     {key: 0x100, value: "商品管理"}
-                ]
+                ],
+                pos: 0
             }
         },
         name: "Index",
@@ -69,13 +70,14 @@
         },
         methods: {
             handleDeleteTab(index) {
-                this.tabs.splice(index, 1)
+                this.tabs.splice(index, 1);
             },
             handleCreateTab(key, value) {
                 let item = {};
                 item.key = key;
                 item.value = value;
                 this.tabs.push(item);
+                this.pos = this.tabs.length - 1;
             },
             handleTest() {
                 console.log(this.$refs.tree.getSelectedNodes());

@@ -10,7 +10,6 @@
             <div class="show">
                 <i-table height="900" size="small" border :content="self" :columns="columns" :data="data"></i-table>
             </div>
-
             <!-- 新增品牌 -->
             <div>
                 <Modal v-model="actions.brandCreate.modal"
