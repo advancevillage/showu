@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import moment from 'moment'
+import languages from './language/languages'
 //引入组件库
 import ViewUI from 'view-design';
 import 'view-design/dist/styles/iview.css';
@@ -9,6 +10,7 @@ import 'view-design/dist/styles/iview.css';
 Vue.use(VueRouter);
 Vue.use(ViewUI);
 Vue.prototype.$moment = moment;
+Vue.prototype.$languages = languages;
 
 //载入组件
 import App            from './App.vue'

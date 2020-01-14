@@ -2,7 +2,7 @@
     <div>
         <div class="brand_warp">
             <div class="operate">
-                <i-button type="info" size="small" @click="actions.brandCreate.modal = true">{{actions.brandCreate.title}}</i-button>
+                <i-button type="info" size="small" @click="actions.create.modal = true">{{this.$languages.Actions.create[this.language] + this.$languages.Brand[this.language]}}</i-button>
             </div>
             <div class="page">
                 <Page :total="100" :current="page + 1" :page-size="perPage" :page-size-opts="[30, 50, 150]" size="small" @on-change="UpdatePage" @on-page-size-change="UpdatePerPage" show-sizer></Page>
@@ -12,17 +12,33 @@
             </div>
             <!-- 新增品牌 -->
             <div>
-                <Modal v-model="actions.brandCreate.modal"
-                       @on-ok="CreateBrand">
+                <Modal v-model="actions.create.modal" :title="languages.Actions.create[language] + languages.Brand[language]" @on-ok="CreateBrand">
                     <div class="create_brand">
-                        <div class="brand">
-                            <Input v-model="actions.brandCreate.brandName[language]" size="small" :placeholder="actions.brandCreate.brandName[language]" maxlength="50"/>
-                        </div>
-                        <div class="brand">
-                            <Select v-model="actions.brandCreate.brandStatus" size="small">
-                                <Option v-for="item in actions.status" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                            </Select>
-                        </div>
+                        <i-form :model="actions.create" :label-width="80">
+                            <!-- 品牌名称-->
+                            <Form-item :label="languages.Brand[language]">
+                                <Row>
+                                    <i-col span="12">
+                                        <i-input v-model="actions.create.brandName.chinese" placeholder="chinese"></i-input>
+                                    </i-col>
+                                </Row>
+                                <Row>
+                                    <i-col span="12">
+                                        <i-input v-model="actions.create.brandName.english" placeholder="english"></i-input>
+                                    </i-col>
+                                </Row>
+                            </Form-item>
+                            <!-- 品牌状态-->
+                            <Form-item :label="languages.Status[language]">
+                                <Row>
+                                    <i-col span="8">
+                                        <Select v-model="actions.create.brandStatus" size="small">
+                                            <Option v-for="item in actions.status" :value="item.value" :key="item.value">{{ languages.Status[item.label][language] }}</Option>
+                                        </Select>
+                                    </i-col>
+                                </Row>
+                            </Form-item>
+                        </i-form>
                     </div>
                 </Modal>
             </div>
@@ -36,85 +52,112 @@
     export default {
         name: "Brand",
         data: function () {
+
             return {
                 self: this,
                 data: [],
-                language: "english",
+                languages: this.$languages,
+                language: "chinese",
                 format: "YYYY-MM-DD HH:mm:ss",
                 page: 0,
                 perPage: 25,
                 status: 0x701,
                 columns: [
                     {
-                        title: "品牌名称", key: "brandName", fixed: 'left',
+                        key: "brandName", fixed: 'left',
                         render: (h, params) => {
                             let key = params.column.key;
                             let value = params.row[key];
                             return h("span", value[this.language]);
+                        },
+                        renderHeader: (h, params) => {
+                            params.column.title = this.$languages.Brand.brandName[this.language];
+                            return h("span", this.$languages.Brand.brandName[this.language])
                         }
                     },
-                    {title: "品牌标识", key: "brandId",},
                     {
-                        title: "品牌状态", key: "brandStatus",
+                        key: "brandId",
+                        renderHeader: (h, params) => {
+                            params.column.title = this.$languages.Brand.brandId[this.language];
+                            return h("span", this.$languages.Brand.brandId[this.language])
+                        }
+                    },
+                    {
+                        key: "brandStatus",
                         render: (h, params) => {
                             let key = params.column.key;
                             let value = params.row[key];
-                            let str = '无效';
+                            let str = this.$languages.Status.unknown[this.language];
                             switch (value) {
                                 case 0x701:
-                                    str = '正常';
+                                    str = this.$languages.Status.normal[this.language];
                                     break;
                                 case 0x702:
-                                    str = '被删除';
+                                    str = this.$languages.Status.deleted[this.language];
                                     break;
                                 default:
-                                    str = '无效'
+                                    str = this.$languages.Status.unknown[this.language];
                             }
                             return h("span", str)
+                        },
+                        renderHeader: (h, params) => {
+                            params.column.title = this.$languages.Brand.brandStatus[this.language];
+                            return h("span", this.$languages.Brand.brandStatus[this.language])
                         }
                     },
                     {
-                        title: "创建时间", key: "brandCreateTime", sortable: true,
+                        key: "brandCreateTime", sortable: true,
                         render: (h, params) => {
                             let key = params.column.key;
                             let value = params.row[key];
-                            return h("span", this.$moment(value).format(this.format))
+                            return h("span", this.$moment.unix(value).format(this.format))
+                        },
+                        renderHeader: (h, params) => {
+                            params.column.title = this.$languages.Times.create[this.language];
+                            return h("span", this.$languages.Times.create[this.language])
                         }
                     },
                     {
-                        title: "更新时间", key: "brandUpdateTime", sortable: true,
+                        key: "brandUpdateTime", sortable: true,
                         render: (h, params) => {
                             let key = params.column.key;
                             let value = params.row[key];
-                            return h("span", this.$moment(value).format(this.format))
+                            return h("span", this.$moment.unix(value).format(this.format))
+                        },
+                        renderHeader: (h, params) => {
+                            params.column.title = this.$languages.Times.update[this.language];
+                            return h("span", this.$languages.Times.update[this.language])
                         }
                     },
                     {
-                        title: "删除时间", key: "brandDeleteTime", sortable: true,
+                        key: "brandDeleteTime", sortable: true,
                         render: (h, params) => {
                             let key = params.column.key;
                             let value = params.row[key];
                             if (value > 0) {
-                                return h("span", this.$moment(value).format(this.format))
+                                return h("span", this.$moment.unix(value).format(this.format))
                             } else {
                                 return h("span")
                             }
+                        },
+                        renderHeader: (h, params) => {
+                            params.column.title = this.$languages.Times.delete[this.language];
+                            return h("span", this.$languages.Times.delete[this.language])
                         }
                     },
                 ],
                 actions: {
-                    brandCreate: {
-                        title: "新增品牌",
+                    create: {
                         modal: false,
                         brandName: {
-                            english: "please input brand name",
-                            chinese: "请输入品牌名称"
+                            english: "",
+                            chinese: ""
                         },
-                        brandStatus: 0,
+                        brandStatus: 0x701,
                     },
                     status: [
-                        {label: '正常', value: 0x701},
-                        {label: '被删除', value: 0x702}
+                        {label: 'normal',  value: 0x701},
+                        {label: 'deleted', value: 0x702}
                     ]
                 }
             }
@@ -129,13 +172,28 @@
                     page: this.page,
                     perPage: this.perPage
                 };
-                this.data = await api.QueryBrands(params) || []
+                this.data = await api.QueryBrands(params) || [];
             },
             CreateBrand: async function() {
                 let body = {};
-                body.brandName = this.actions.brandCreate.brandName;
-                body.brandStatus = this.actions.brandCreate.brandStatus;
+                console.log(this.actions.create.brandName);
+                body.brandName = this.actions.create.brandName;
+                body.brandStatus = this.actions.create.brandStatus;
                 let data = await api.CreateBrand(body);
+                this.interceptor(data);
+            },
+            UpdatePage(page) {
+                this.page = page - 1;
+                this.refresh();
+            },
+            UpdatePerPage(perPage) {
+                this.perPage = perPage;
+                this.refresh();
+            },
+            refresh() {
+                this.QueryBrands()
+            },
+            interceptor(data) {
                 switch (data.code) {
                     case 200:
                         this.$Message.success(data.message);
@@ -143,18 +201,10 @@
                     default:
                         this.$Message.error(data.message);
                 }
-                this.RefreshData();
+                this.refresh();
             },
-            UpdatePage(page) {
-                this.page = page - 1;
-                this.RefreshData();
-            },
-            UpdatePerPage(perPage) {
-                this.perPage = perPage;
-                this.RefreshData();
-            },
-            RefreshData() {
-                this.QueryBrands()
+            test() {
+                console.log(this.actions.create.brandName);
             }
         }
     }
@@ -169,8 +219,8 @@
         height: 30px;
     }
     .create_brand {
-        width: 400px;
-        height: 400px;
+        /*width: 400px;*/
+        /*height: 400px;*/
         margin: 5% 0;
     }
     .brand {
