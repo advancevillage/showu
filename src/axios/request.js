@@ -7,7 +7,7 @@ const service = axios.create({
     responseType: 'json',
     headers: {
         post: {
-          "Content-Type": "application/json"
+            "Content-Type": "application/json"
         },
         put: {
             "Content-Type": "application/json"

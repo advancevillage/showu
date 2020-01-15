@@ -5,10 +5,10 @@
                 <i-button type="info" size="small" @click="actions.create.modal = true">{{this.$languages.Actions.create[this.language] + this.$languages.Brand[this.language]}}</i-button>
             </div>
             <div class="page">
-                <Page :total="100" :current="page + 1" :page-size="perPage" :page-size-opts="[30, 50, 150]" size="small" @on-change="UpdatePage" @on-page-size-change="UpdatePerPage" show-sizer></Page>
+                <Page :total="data.total" :current="page + 1" :page-size="perPage" :page-size-opts="[30, 60, 100]" size="small" @on-change="UpdatePage" @on-page-size-change="UpdatePerPage" show-sizer></Page>
             </div>
             <div class="show">
-                <i-table height="900" size="small" border :content="self" :columns="columns" :data="data"></i-table>
+                <i-table height="900" size="small" border :content="self" :columns="columns" :data="data.items"></i-table>
             </div>
             <!-- 新增品牌 -->
             <div>
@@ -52,15 +52,17 @@
     export default {
         name: "Brand",
         data: function () {
-
             return {
                 self: this,
-                data: [],
+                data: {
+                    total: 0,
+                    items: []
+                },
                 languages: this.$languages,
                 language: "chinese",
                 format: "YYYY-MM-DD HH:mm:ss",
                 page: 0,
-                perPage: 25,
+                perPage: 30,
                 status: 0x701,
                 columns: [
                     {
@@ -172,7 +174,7 @@
                     page: this.page,
                     perPage: this.perPage
                 };
-                this.data = await api.QueryBrands(params) || [];
+                this.data = await api.QueryBrands(params) || { total: 0, items: []};
             },
             CreateBrand: async function() {
                 let body = {};
@@ -203,9 +205,6 @@
                 }
                 this.refresh();
             },
-            test() {
-                console.log(this.actions.create.brandName);
-            }
         }
     }
 </script>
