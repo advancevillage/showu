@@ -18,6 +18,13 @@ const QueryBrands = (params, headers) => {
     })
 };
 
+const QueryBrand = (pathId) => {
+    return service({
+        url: "/v1/brands/" + pathId,
+        method: "get"
+    })
+};
+
 const CreateBrand = (body) => {
     return service({
         url: "/v1/brands",
@@ -26,8 +33,26 @@ const CreateBrand = (body) => {
     })
 };
 
+const UpdateBrand = (pathId, body) => {
+    return service({
+        url: "/v1/brands/" + pathId,
+        method: "put",
+        data: body || {}
+    })
+};
+
+const DeleteBrand = (pathId) => {
+    return service({
+        url: "/v1/brands/" + pathId,
+        method: "delete",
+    })
+};
+
 export default  {
     QueryCategories,
     QueryBrands,
+    QueryBrand,
     CreateBrand,
+    UpdateBrand,
+    DeleteBrand,
 }

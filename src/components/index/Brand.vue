@@ -19,7 +19,7 @@
                 <Page :total="data.total" :current="page + 1" :page-size="perPage" :page-size-opts="[30, 60, 100]" size="small" @on-change="UpdatePage" @on-page-size-change="UpdatePerPage" show-sizer></Page>
             </div>
             <div class="show">
-                <i-table height="900" size="small" border :content="self" :columns="columns" :data="data.items"></i-table>
+                <i-table  size="small" border :content="self" :columns="columns" :data="data.items"></i-table>
             </div>
             <!-- 新增品牌 -->
             <div>
@@ -44,6 +44,38 @@
                                 <Row>
                                     <i-col span="8">
                                         <Select v-model="actions.create.brandStatus" size="small">
+                                            <Option v-for="item in actions.status" :value="item.value" :key="item.value">{{ languages.Status[item.label][language] }}</Option>
+                                        </Select>
+                                    </i-col>
+                                </Row>
+                            </Form-item>
+                        </i-form>
+                    </div>
+                </Modal>
+            </div>
+            <!-- 编辑品牌 -->
+            <div>
+                <Modal v-model="actions.update.modal" :title="languages.Actions.update[language] + languages.Brand[language]" @on-ok="UpdateBrand">
+                    <div class="update_brand">
+                        <i-form :model="actions.update" :label-width="80">
+                            <!-- 品牌名称-->
+                            <Form-item :label="languages.Brand[language]">
+                                <Row>
+                                    <i-col span="12">
+                                        <i-input v-model="actions.update.brandName.chinese" placeholder="chinese"></i-input>
+                                    </i-col>
+                                </Row>
+                                <Row>
+                                    <i-col span="12">
+                                        <i-input v-model="actions.update.brandName.english" placeholder="english"></i-input>
+                                    </i-col>
+                                </Row>
+                            </Form-item>
+                            <!-- 品牌状态-->
+                            <Form-item :label="languages.Status[language]">
+                                <Row>
+                                    <i-col span="8">
+                                        <Select v-model="actions.update.brandStatus" size="small">
                                             <Option v-for="item in actions.status" :value="item.value" :key="item.value">{{ languages.Status[item.label][language] }}</Option>
                                         </Select>
                                     </i-col>
@@ -158,6 +190,48 @@
                             return h("span", this.$languages.Times.delete[this.language])
                         }
                     },
+                    {
+                        key: "action",
+                        align: "center",
+                        render: (h, params) => {
+                            return h("div", [
+                                h("Button", {
+                                    props: { type: 'primary', size: 'small' },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.actions.update.index =  params.index;
+                                            this.actions.update.brandId = params.row.brandId;
+                                            this.actions.update.brandName.chinese = params.row.brandName.chinese;
+                                            this.actions.update.brandName.english = params.row.brandName.english;
+                                            this.actions.update.brandStatus = params.row.brandStatus;
+                                            this.actions.update.modal = true;
+                                        }
+                                    }
+                                }, this.$languages.Actions.update[this.language]),
+                                h("Button", {
+                                    props: { type: 'error', size: 'small' },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            let row = params.row;
+                                            this.actions.delete.index = params.index;
+                                            this.actions.delete.brandId = row.brandId;
+                                            this.DeleteBrand();
+                                        }
+                                    }
+                                }, this.$languages.Actions.delete[this.language]),
+                            ]);
+                        },
+                        renderHeader: (h, params) => {
+                            params.column.title = this.$languages.Actions[this.language];
+                            return h("span", this.$languages.Actions[this.language])
+                        }
+                    }
                 ],
                 actions: {
                     create: {
@@ -167,6 +241,23 @@
                             chinese: ""
                         },
                         brandStatus: 0x701,
+                    },
+                    update: {
+                        modal: false,
+                        index: -1,
+                        brandId: "",
+                        brandName: {
+                            english: "",
+                            chinese: ""
+                        },
+                        brandStatus: 0,
+                        brandCreateTime: 0,
+                        brandUpdateTime: 0,
+                        brandDeleteTime: 0
+                    },
+                    delete: {
+                        brandId: "",
+                        index: -1,
                     },
                     status: [
                         {label: 'normal',  value: 0x701},
@@ -189,11 +280,30 @@
             },
             CreateBrand: async function() {
                 let body = {};
-                console.log(this.actions.create.brandName);
                 body.brandName = this.actions.create.brandName;
                 body.brandStatus = this.actions.create.brandStatus;
                 let data = await api.CreateBrand(body);
                 this.interceptor(data);
+                this.refresh()
+            },
+            UpdateBrand: async function() {
+                let body = {};
+                body.brandName = this.actions.update.brandName;
+                body.brandStatus = this.actions.update.brandStatus;
+                let data = await  api.UpdateBrand(this.actions.update.brandId, body);
+                this.interceptor(data);
+                data = await api.QueryBrand(this.actions.update.brandId);
+                this.data.items[this.actions.update.index].brandId = data.brandId;
+                this.data.items[this.actions.update.index].brandName = data.brandName;
+                this.data.items[this.actions.update.index].brandStatus = data.brandStatus;
+                this.data.items[this.actions.update.index].brandCreateTime = data.brandCreateTime;
+                this.data.items[this.actions.update.index].brandUpdateTime = data.brandUpdateTime;
+                this.data.items[this.actions.update.index].brandDeleteTime = data.brandDeleteTime;
+            },
+            DeleteBrand: async function() {
+                let data = await  api.DeleteBrand(this.actions.delete.brandId);
+                this.interceptor(data);
+                this.data.items.splice(this.actions.delete.index, 1);
             },
             UpdatePage(page) {
                 this.page = page - 1;
@@ -214,7 +324,6 @@
                     default:
                         this.$Message.error(data.message);
                 }
-                this.refresh();
             },
         }
     }
@@ -224,6 +333,7 @@
     .brand_warp, .operate, .show {
         width: 100%;
         padding: 0 5px;
+        margin-bottom: 5px;
     }
     .operate {
         height: 60px;
@@ -231,9 +341,7 @@
     .operate > .rows {
         margin-bottom: 5px;
     }
-    .create_brand {
-        /*width: 400px;*/
-        /*height: 400px;*/
+    .create_brand, .update_brand {
         margin: 5% 0;
     }
     .brand_warp > .page {

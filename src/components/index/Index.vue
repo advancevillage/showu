@@ -101,7 +101,7 @@
         margin: 0;
         padding: 0;
         width: 100%;
-        max-height: 1024px;
+        height: 100%;
     }
     .container_warp > .tree, .container_warp > .tabs {
         height: 100%;
@@ -111,7 +111,9 @@
     }
     .container_warp > .tree {
         width: 10%;
-        border-right: 1px solid black;
+    }
+    .container_warp > .tabs {
+        border-left: 1px solid black;
     }
     .container_warp > .tabs > .ivu-tabs {
         width: 100%;

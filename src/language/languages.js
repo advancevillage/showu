@@ -60,7 +60,7 @@ const Actions = {
     },
     update: {
         english: "Update",
-        chinese: "更新"
+        chinese: "编辑"
     },
     delete: {
         english: "Delete",
@@ -70,6 +70,8 @@ const Actions = {
         english: "Export",
         chinese: "导出"
     },
+    english: "Actions",
+    chinese: "操作"
 };
 
 
