@@ -2,7 +2,18 @@
     <div>
         <div class="brand_warp">
             <div class="operate">
-                <i-button type="info" size="small" @click="actions.create.modal = true">{{this.$languages.Actions.create[this.language] + this.$languages.Brand[this.language]}}</i-button>
+                <Row class="rows">
+                    <!-- 新增品牌 -->
+                    <i-col span="6">
+                        <i-button type="info" size="small" @click="actions.create.modal = true">{{this.$languages.Actions.create[this.language] + this.$languages.Brand[this.language]}}</i-button>
+                    </i-col>
+                </Row>
+                <Row>
+                    <!-- 搜索 -->
+                    <i-col span="6">
+                        <i-button type="info" size="small" @click="actions.create.modal = true">{{this.$languages.Actions.create[this.language] + this.$languages.Brand[this.language]}}</i-button>
+                    </i-col>
+                </Row>
             </div>
             <div class="page">
                 <Page :total="data.total" :current="page + 1" :page-size="perPage" :page-size-opts="[30, 60, 100]" size="small" @on-change="UpdatePage" @on-page-size-change="UpdatePerPage" show-sizer></Page>
@@ -215,16 +226,15 @@
         padding: 0 5px;
     }
     .operate {
-        height: 30px;
+        height: 60px;
+    }
+    .operate > .rows {
+        margin-bottom: 5px;
     }
     .create_brand {
         /*width: 400px;*/
         /*height: 400px;*/
         margin: 5% 0;
-    }
-    .brand {
-        margin: 1%;
-        width: 60%;
     }
     .brand_warp > .page {
         margin: 5px 0;
