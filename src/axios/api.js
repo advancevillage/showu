@@ -9,6 +9,15 @@ const QueryCategories = (params, headers) => {
     })
 };
 
+const CreateCategory = (body, headers) => {
+    return service({
+        url: "/v1/categories",
+        method: "post",
+        headers: headers || {},
+        data: body || {}
+    })
+};
+
 const QueryBrands = (params, headers) => {
     return service({
         url: "/v1/brands",
@@ -43,15 +52,17 @@ const UpdateBrand = (pathId, body, headers) => {
     })
 };
 
-const DeleteBrand = (pathId) => {
+const DeleteBrand = (pathId, headers) => {
     return service({
         url: "/v1/brands/" + pathId,
         method: "delete",
+        headers: headers || {}
     })
 };
 
 export default  {
     QueryCategories,
+    CreateCategory,
     QueryBrands,
     QueryBrand,
     CreateBrand,

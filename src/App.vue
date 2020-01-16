@@ -24,11 +24,4 @@
     width: 100%;
     height: 100%;
   }
-  #container {
-    min-height: 720px;
-    min-width: 1024px;
-    width: 100%;
-    height: 100%;
-    z-index: 5;
-  }
 </style>

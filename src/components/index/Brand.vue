@@ -1,15 +1,9 @@
 <template>
     <div>
-        <div class="brand_warp">
+        <div class="warp">
             <div class="operate">
                 <Row class="rows">
                     <!-- 新增品牌 -->
-                    <i-col span="6">
-                        <i-button type="info" size="small" @click="actions.create.modal = true">{{this.$languages.Actions.create[this.language] + this.$languages.Brand[this.language]}}</i-button>
-                    </i-col>
-                </Row>
-                <Row>
-                    <!-- 搜索 -->
                     <i-col span="6">
                         <i-button type="info" size="small" @click="actions.create.modal = true">{{this.$languages.Actions.create[this.language] + this.$languages.Brand[this.language]}}</i-button>
                     </i-col>
@@ -208,9 +202,8 @@
                                     },
                                     on: {
                                         click: () => {
-                                            let row = params.row;
                                             this.actions.delete.index = params.index;
-                                            this.actions.delete.brandId = row.brandId;
+                                            this.actions.delete.id    = params.row.id;
                                             this.DeleteBrand();
                                         }
                                     }
@@ -246,7 +239,7 @@
                         deleteTime: 0
                     },
                     delete: {
-                        brandId: "",
+                        id: "",
                         index: -1,
                     },
                     status: [
@@ -300,7 +293,10 @@
                 this.data.items[this.actions.update.index].deleteTime = data.deleteTime;
             },
             DeleteBrand: async function() {
-                let data = await  api.DeleteBrand(this.actions.delete.brandId);
+                const headers = {
+                    "x-language": this.language
+                };
+                let data = await  api.DeleteBrand(this.actions.delete.id, headers);
                 this.interceptor(data);
                 this.data.items.splice(this.actions.delete.index, 1);
             },
@@ -329,7 +325,7 @@
 </script>
 
 <style scoped>
-    .brand_warp, .operate, .show {
+    .warp, .operate, .show {
         width: 100%;
         padding: 0 5px;
         margin-bottom: 5px;
@@ -343,7 +339,7 @@
     .create_brand, .update_brand {
         margin: 5% 0;
     }
-    .brand_warp > .page {
+    .warp > .page {
         margin: 5px 0;
         text-align: right;
     }

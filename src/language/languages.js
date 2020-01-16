@@ -15,14 +15,39 @@ const Brand = {
     chinese: "品牌"
 };
 
+const Category = {
+    name: {
+        english: "Name",
+        chinese: "分类名称"
+    },
+    id: {
+        english: "ID",
+        chinese: "分类标识"
+    },
+    status: {
+        english: "Status",
+        chinese: "分类状态"
+    },
+    parent: {
+        english: "Parent",
+        chinese: "父分类"
+    },
+    child: {
+        english: "Child",
+        chinese: "子分类"
+    },
+    english: "Category",
+    chinese: "分类"
+};
+
 const Status = {
     normal: {
         english: "normal",
-        chinese: "正常"
+        chinese: "生效中"
     },
     deleted: {
         english: "deleted",
-        chinese: "被删除"
+        chinese: "已废弃"
     },
     invalid: {
         english: "invalid",
@@ -56,7 +81,7 @@ const Times = {
 const Actions = {
     create: {
         english: "Create",
-        chinese: "创建"
+        chinese: "新增"
     },
     update: {
         english: "Update",
@@ -64,7 +89,7 @@ const Actions = {
     },
     delete: {
         english: "Delete",
-        chinese: "删除"
+        chinese: "废弃"
     },
     export: {
         english: "Export",
@@ -79,6 +104,7 @@ const Actions = {
 export default  {
     Actions,
     Brand,
+    Category,
     Status,
     Times
 }

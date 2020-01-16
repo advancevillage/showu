@@ -11,6 +11,7 @@
                     <Tabs v-model="pos" type="card" closable size="small" @on-tab-remove="handleDeleteTab">
                         <TabPane v-for="(tab, index) in tabs" :key="index" :label="tab.value">
                             <Brand v-if="tab.key === 0x107"/>
+                            <Category v-if="tab.key === 0x102"/>
                         </TabPane>
                     </Tabs>
                 </div>
@@ -26,7 +27,7 @@
     // import Brand  from './Brand'    //品牌管理
     // import Color  from './Color'    //颜色管理
     // import Size   from './Size'     //尺码管理
-    // import Category from './Category' //分类管理
+    import Category from './Category' //分类管理
     // import Goods  from './Goods'
     // import Images from './Image'    //商品管理
     // import Tag    from './Tag'      //标签管理
@@ -63,7 +64,7 @@
             // Brand,
             // Color,
             // Size,
-            // Category,
+            Category,
             // Goods,
             // Tag,
             // Style
