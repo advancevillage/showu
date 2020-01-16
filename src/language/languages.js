@@ -1,13 +1,13 @@
 const Brand = {
-    brandName: {
+    name: {
         english: "Name",
         chinese: "品牌名称"
     },
-    brandId: {
+    id: {
         english: "ID",
         chinese: "品牌标识"
     },
-    brandStatus: {
+    status: {
         english: "Status",
         chinese: "品牌状态"
     },

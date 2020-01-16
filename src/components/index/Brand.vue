@@ -30,12 +30,7 @@
                             <Form-item :label="languages.Brand[language]">
                                 <Row>
                                     <i-col span="12">
-                                        <i-input v-model="actions.create.brandName.chinese" placeholder="chinese"></i-input>
-                                    </i-col>
-                                </Row>
-                                <Row>
-                                    <i-col span="12">
-                                        <i-input v-model="actions.create.brandName.english" placeholder="english"></i-input>
+                                        <i-input v-model="actions.create.name[language]" :placeholder="language"></i-input>
                                     </i-col>
                                 </Row>
                             </Form-item>
@@ -43,7 +38,7 @@
                             <Form-item :label="languages.Status[language]">
                                 <Row>
                                     <i-col span="8">
-                                        <Select v-model="actions.create.brandStatus" size="small">
+                                        <Select v-model="actions.create.status" size="small">
                                             <Option v-for="item in actions.status" :value="item.value" :key="item.value">{{ languages.Status[item.label][language] }}</Option>
                                         </Select>
                                     </i-col>
@@ -62,12 +57,7 @@
                             <Form-item :label="languages.Brand[language]">
                                 <Row>
                                     <i-col span="12">
-                                        <i-input v-model="actions.update.brandName.chinese" placeholder="chinese"></i-input>
-                                    </i-col>
-                                </Row>
-                                <Row>
-                                    <i-col span="12">
-                                        <i-input v-model="actions.update.brandName.english" placeholder="english"></i-input>
+                                        <i-input v-model="actions.update.name[language]" :placeholder="language"></i-input>
                                     </i-col>
                                 </Row>
                             </Form-item>
@@ -75,7 +65,7 @@
                             <Form-item :label="languages.Status[language]">
                                 <Row>
                                     <i-col span="8">
-                                        <Select v-model="actions.update.brandStatus" size="small">
+                                        <Select v-model="actions.update.status" size="small">
                                             <Option v-for="item in actions.status" :value="item.value" :key="item.value">{{ languages.Status[item.label][language] }}</Option>
                                         </Select>
                                     </i-col>
@@ -109,26 +99,26 @@
                 status: 0x701,
                 columns: [
                     {
-                        key: "brandName", fixed: 'left',
+                        key: "name", fixed: 'left',
                         render: (h, params) => {
                             let key = params.column.key;
                             let value = params.row[key];
                             return h("span", value[this.language]);
                         },
                         renderHeader: (h, params) => {
-                            params.column.title = this.$languages.Brand.brandName[this.language];
-                            return h("span", this.$languages.Brand.brandName[this.language])
+                            params.column.title = this.$languages.Brand.name[this.language];
+                            return h("span", this.$languages.Brand.name[this.language])
                         }
                     },
                     {
-                        key: "brandId",
+                        key: "id",
                         renderHeader: (h, params) => {
-                            params.column.title = this.$languages.Brand.brandId[this.language];
-                            return h("span", this.$languages.Brand.brandId[this.language])
+                            params.column.title = this.$languages.Brand.id[this.language];
+                            return h("span", this.$languages.Brand.id[this.language])
                         }
                     },
                     {
-                        key: "brandStatus",
+                        key: "status",
                         render: (h, params) => {
                             let key = params.column.key;
                             let value = params.row[key];
@@ -146,12 +136,12 @@
                             return h("span", str)
                         },
                         renderHeader: (h, params) => {
-                            params.column.title = this.$languages.Brand.brandStatus[this.language];
-                            return h("span", this.$languages.Brand.brandStatus[this.language])
+                            params.column.title = this.$languages.Brand.status[this.language];
+                            return h("span", this.$languages.Brand.status[this.language])
                         }
                     },
                     {
-                        key: "brandCreateTime", sortable: true,
+                        key: "createTime", sortable: true,
                         render: (h, params) => {
                             let key = params.column.key;
                             let value = params.row[key];
@@ -163,7 +153,7 @@
                         }
                     },
                     {
-                        key: "brandUpdateTime", sortable: true,
+                        key: "updateTime", sortable: true,
                         render: (h, params) => {
                             let key = params.column.key;
                             let value = params.row[key];
@@ -175,7 +165,7 @@
                         }
                     },
                     {
-                        key: "brandDeleteTime", sortable: true,
+                        key: "deleteTime", sortable: true,
                         render: (h, params) => {
                             let key = params.column.key;
                             let value = params.row[key];
@@ -203,11 +193,11 @@
                                     on: {
                                         click: () => {
                                             this.actions.update.index =  params.index;
-                                            this.actions.update.brandId = params.row.brandId;
-                                            this.actions.update.brandName.chinese = params.row.brandName.chinese;
-                                            this.actions.update.brandName.english = params.row.brandName.english;
-                                            this.actions.update.brandStatus = params.row.brandStatus;
-                                            this.actions.update.modal = true;
+                                            this.actions.update.id    =  params.row.id;
+                                            this.actions.update.name.chinese = params.row.name.chinese;
+                                            this.actions.update.name.english = params.row.name.english;
+                                            this.actions.update.status = params.row.status;
+                                            this.actions.update.modal  = true;
                                         }
                                     }
                                 }, this.$languages.Actions.update[this.language]),
@@ -236,24 +226,24 @@
                 actions: {
                     create: {
                         modal: false,
-                        brandName: {
+                        name: {
                             english: "",
                             chinese: ""
                         },
-                        brandStatus: 0x701,
+                        status: 0x701,
                     },
                     update: {
                         modal: false,
                         index: -1,
-                        brandId: "",
-                        brandName: {
+                        id: "",
+                        name: {
                             english: "",
                             chinese: ""
                         },
-                        brandStatus: 0,
-                        brandCreateTime: 0,
-                        brandUpdateTime: 0,
-                        brandDeleteTime: 0
+                        status: 0,
+                        createTime: 0,
+                        updateTime: 0,
+                        deleteTime: 0
                     },
                     delete: {
                         brandId: "",
@@ -276,29 +266,38 @@
                     page: this.page,
                     perPage: this.perPage
                 };
-                this.data = await api.QueryBrands(params) || { total: 0, items: []};
+                const headers = {
+                    "x-language": this.language
+                };
+                this.data = await api.QueryBrands(params, headers) || { total: 0, items: []};
             },
             CreateBrand: async function() {
+                const headers = {
+                    "x-language": this.language
+                };
                 let body = {};
-                body.brandName = this.actions.create.brandName;
-                body.brandStatus = this.actions.create.brandStatus;
-                let data = await api.CreateBrand(body);
+                body.name = this.actions.create.name;
+                body.status = this.actions.create.status;
+                let data = await api.CreateBrand(body, headers);
                 this.interceptor(data);
                 this.refresh()
             },
             UpdateBrand: async function() {
+                const headers = {
+                    "x-language": this.language
+                };
                 let body = {};
-                body.brandName = this.actions.update.brandName;
-                body.brandStatus = this.actions.update.brandStatus;
-                let data = await  api.UpdateBrand(this.actions.update.brandId, body);
+                body.name = this.actions.update.name;
+                body.status = this.actions.update.status;
+                let data = await  api.UpdateBrand(this.actions.update.id, body, headers);
                 this.interceptor(data);
-                data = await api.QueryBrand(this.actions.update.brandId);
-                this.data.items[this.actions.update.index].brandId = data.brandId;
-                this.data.items[this.actions.update.index].brandName = data.brandName;
-                this.data.items[this.actions.update.index].brandStatus = data.brandStatus;
-                this.data.items[this.actions.update.index].brandCreateTime = data.brandCreateTime;
-                this.data.items[this.actions.update.index].brandUpdateTime = data.brandUpdateTime;
-                this.data.items[this.actions.update.index].brandDeleteTime = data.brandDeleteTime;
+                data = await api.QueryBrand(this.actions.update.id);
+                this.data.items[this.actions.update.index].id = data.id;
+                this.data.items[this.actions.update.index].name = data.name;
+                this.data.items[this.actions.update.index].status = data.status;
+                this.data.items[this.actions.update.index].createTime = data.createTime;
+                this.data.items[this.actions.update.index].updateTime = data.updateTime;
+                this.data.items[this.actions.update.index].deleteTime = data.deleteTime;
             },
             DeleteBrand: async function() {
                 let data = await  api.DeleteBrand(this.actions.delete.brandId);

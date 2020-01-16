@@ -25,18 +25,20 @@ const QueryBrand = (pathId) => {
     })
 };
 
-const CreateBrand = (body) => {
+const CreateBrand = (body, headers) => {
     return service({
         url: "/v1/brands",
         method: "post",
+        headers: headers || {},
         data: body || {}
     })
 };
 
-const UpdateBrand = (pathId, body) => {
+const UpdateBrand = (pathId, body, headers) => {
     return service({
         url: "/v1/brands/" + pathId,
         method: "put",
+        headers: headers || {},
         data: body || {}
     })
 };
