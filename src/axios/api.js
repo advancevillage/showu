@@ -9,6 +9,15 @@ const QueryCategories = (params, headers) => {
     })
 };
 
+const QueryChildCategories = (pathId, params, headers) => {
+    return service({
+        url: "/v1/categories/" + pathId + "/categories",
+        method: "get",
+        params: params || {},
+        headers: headers || {}
+    })
+};
+
 const CreateCategory = (body, headers) => {
     return service({
         url: "/v1/categories",
@@ -62,6 +71,7 @@ const DeleteBrand = (pathId, headers) => {
 
 export default  {
     QueryCategories,
+    QueryChildCategories,
     CreateCategory,
     QueryBrands,
     QueryBrand,

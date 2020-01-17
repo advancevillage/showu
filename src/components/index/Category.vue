@@ -13,7 +13,7 @@
 
             </div>
             <div class="show">
-                <Tree :data="data.items" :render="renderTree" show-checkbox></Tree>
+                <Tree  class="tree" :data="data.items" ref="tree" :render="renderTree"></Tree>
             </div>
             <!-- 新增分类 -->
             <div>
@@ -58,8 +58,8 @@
                 actions: {
                     create: {
                         modal: false,
-                        parent: [],
-                        child: [],
+                        parent: "",
+                        child: "",
                         name: {
                             chinese: "",
                             english: ""
@@ -86,9 +86,33 @@
                 };
                 this.data = await this.$api.QueryCategories(params, headers) || { total: 0, items: []};
                 for(let i in this.data.items) {
+                    this.data.items[i].expand = true;
                     this.data.items[i].value = this.data.items[i].id;
+                    this.data.items[i].children = [];
                     this.data.items[i].label = this.data.items[i].name[this.language];
-                    this.data.items[i].children = this.data.items[i].child || []    ;
+                    this.data.items[i].title = this.data.items[i].name[this.language];
+                }
+                this.handleChildCategory(this.data.items);
+            },
+            QueryChildCategories: async function() {
+                let node = this.$refs.tree.getSelectedNodes();
+                let i = 0;
+                if (node.length < i + 1) {
+                    return
+                }
+                let category = node[i];
+                const headers = {
+                    "x-language": this.language
+                };
+                let data = await this.$api.QueryChildCategories(category.id, {}, headers) || [];
+                category.children.length = 0;
+                for (let i in data) {
+                    data[i].children = [];
+                    data[i].expand = true;
+                    data[i].value = data[i].id;
+                    data[i].label = data[i].name[this.language];
+                    data[i].title = data[i].name[this.language];
+                    category.children.push(data[i]);
                 }
             },
             CreateCategory: async function() {
@@ -101,8 +125,68 @@
                 body.child  = this.actions.create.child;
                 body.level  = this.actions.create.level;
                 let data = await this.$api.CreateCategory(body, headers);
-                this.interceptor(data)
-
+                this.interceptor(data);
+                this.refresh();
+            },
+            handleCategory(value, selectedData) {
+                if (selectedData.length <= 0) {
+                    return
+                }
+                let index = selectedData.length - 1;
+                let data = selectedData[index];
+                this.actions.create.parent = data.id;
+                this.actions.create.level  = data.level + 1;
+            },
+            handleChildCategory: async function(items) {
+                const headers = {
+                    "x-language": this.language
+                };
+                items = items || [];
+                if (items.length === 0) {
+                    return
+                }
+                for (let i = 0; i < items.length; i++) {
+                    let item = items[i];
+                    let data = await this.$api.QueryChildCategories(item.id, {}, headers) || [];
+                    for (let j in data) {
+                        data[j].children = [];
+                        data[j].expand = false;
+                        data[j].value = data[j].id;
+                        data[j].label = data[j].name[this.language];
+                        data[j].title = data[j].name[this.language];
+                    }
+                    item.children = data;
+                    this.handleChildCategory(item.children);
+                }
+            },
+            renderTree(h, params) {
+                return h("span", {
+                    style: {
+                        display: 'inline-block',
+                        width: '100%'
+                    },
+                },[
+                    h("span", params.data.title),
+                    h("Button", {
+                        props: Object.assign({}, this.buttonProps, {
+                            icon: "ios-open-outline",
+                        }),
+                        style: {
+                            width: "20px",
+                            height: "20px",
+                            border: 0,
+                            backgroundColor: "unset",
+                            marginTop: "-10px",
+                            marginLeft: "20px",
+                            padding: 0,
+                        },
+                        on: {
+                            click: () => {
+                                console.log(params.data);
+                            }
+                        }
+                    }),
+                ]);
             },
             interceptor(data) {
                 switch (data.code) {
@@ -113,18 +197,8 @@
                         this.$Message.error(data.message);
                 }
             },
-            renderTree(h, params) {
-                return h("span", [
-                    h("span", params.data.name[this.language]),
-                ])
-            },
-            handleCategory(value, selectedData) {
-                if (selectedData.length <= 0) {
-                    return
-                }
-                let data = selectedData[0];
-                this.actions.create.parent.push(data.id);
-                this.actions.create.level = data.level + 1;
+            refresh() {
+                this.QueryCategories();
             }
         }
     }
@@ -134,12 +208,14 @@
     .warp, .operate, .show {
         width: 100%;
         padding: 0 5px;
-        margin-bottom: 5px;
     }
     .operate {
         height: 60px;
     }
     .create_category {
         margin: 5% 0;
+    }
+    .tree {
+        margin-left: 10px;
     }
 </style>
