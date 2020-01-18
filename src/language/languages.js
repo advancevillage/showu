@@ -45,6 +45,18 @@ const Merchandise = {
         english: "Name",
         chinese: "商品名称"
     },
+    title: {
+        english: "Title",
+        chinese: "商品标题"
+    },
+    description: {
+        english: "Detail",
+        chinese: "商品细节"
+    },
+    keyword: {
+        english: "Keyword",
+        chinese: "商品关键字"
+    },
     id: {
         english: "ID",
         chinese: "商品标识"

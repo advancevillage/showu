@@ -8,8 +8,8 @@
                     </Tree>
                 </div>
                 <div class="tabs">
-                    <Tabs v-model="pos" type="card" closable size="small" @on-tab-remove="handleDeleteTab">
-                        <TabPane v-for="(tab, index) in tabs" :key="index" :label="tab.value">
+                    <Tabs name="index" v-model="pos" type="card" closable size="small" @on-tab-remove="handleDeleteTab">
+                        <TabPane v-for="(tab, index) in tabs" :key="index" :label="tab.value" tab="index">
                             <Brand v-if="tab.key === 0x107"/>
                             <Category v-if="tab.key === 0x102"/>
                             <Goods v-if="tab.key === 0x101"/>
