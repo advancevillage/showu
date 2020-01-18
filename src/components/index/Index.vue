@@ -12,6 +12,7 @@
                         <TabPane v-for="(tab, index) in tabs" :key="index" :label="tab.value">
                             <Brand v-if="tab.key === 0x107"/>
                             <Category v-if="tab.key === 0x102"/>
+                            <Goods v-if="tab.key === 0x101"/>
                         </TabPane>
                     </Tabs>
                 </div>
@@ -27,8 +28,8 @@
     // import Brand  from './Brand'    //品牌管理
     // import Color  from './Color'    //颜色管理
     // import Size   from './Size'     //尺码管理
-    import Category from './Category' //分类管理
-    // import Goods  from './Goods'
+    import Category from './Category'  //分类管理
+    import Goods  from './Goods'       //商品管理
     // import Images from './Image'    //商品管理
     // import Tag    from './Tag'      //标签管理
     // import Style  from './Style'    //款式管理
@@ -38,7 +39,7 @@
         data() {
             return {
                 tree: [
-                    {key: 0x100, title: "商品管理", expand: true, children: [
+                    {key: 0x100, title: "商品中心", expand: true, children: [
                             {key: 0x101, title: "商品"},
                             {key: 0x102, title: "分类"},
                             {key: 0x103, title: "颜色"},
@@ -51,7 +52,7 @@
                         ]},
                 ],
                 tabs: [
-                    {key: 0x100, value: "商品管理"}
+                    {key: 0x100, value: "商品中心"}
                 ],
                 pos: 0
             }
@@ -65,7 +66,7 @@
             // Color,
             // Size,
             Category,
-            // Goods,
+            Goods,
             // Tag,
             // Style
         },

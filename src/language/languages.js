@@ -40,6 +40,43 @@ const Category = {
     chinese: "分类"
 };
 
+const Merchandise = {
+    name: {
+        english: "Name",
+        chinese: "商品名称"
+    },
+    id: {
+        english: "ID",
+        chinese: "商品标识"
+    },
+    status: {
+        english: "Status",
+        chinese: "商品状态"
+    },
+    basic: {
+        english: "Basic",
+        chinese: "基础信息"
+    },
+    category: {
+        english: "Category",
+        chinese: "商品分类"
+    },
+    color_size: {
+        english: "Size&Color",
+        chinese: "尺码颜色"
+    },
+    material: {
+        english: "Material",
+        chinese: "商品产地和材质"
+    },
+    price: {
+        english: "Price",
+        chinese: "商品价格"
+    },
+    english: "Goods",
+    chinese: "商品"
+};
+
 const Status = {
     normal: {
         english: "normal",
@@ -105,6 +142,7 @@ export default  {
     Actions,
     Brand,
     Category,
+    Merchandise,
     Status,
     Times
 }
