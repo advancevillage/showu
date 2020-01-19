@@ -57,6 +57,22 @@ const Merchandise = {
         english: "Keyword",
         chinese: "商品关键字"
     },
+    tag: {
+        english: "Keyword",
+        chinese: "商品标签"
+    },
+    color: {
+        english: "Color",
+        chinese: "商品颜色"
+    },
+    size: {
+        english: "Size",
+        chinese: "商品尺码"
+    },
+    rank: {
+        english: "Rank",
+        chinese: "商品排名"
+    },
     id: {
         english: "ID",
         chinese: "商品标识"
@@ -110,6 +126,19 @@ const Status = {
     chinese: "状态"
 };
 
+const Color = {
+    name: {
+        english: "Name",
+        chinese: "颜色名称"
+    },
+    rgba: {
+        english: "RgbA",
+        chinese: "颜色色值"
+    },
+    english: "Color",
+    chinese: "颜色"
+};
+
 const Times = {
     create: {
         english: "createTime",
@@ -144,6 +173,22 @@ const Actions = {
         english: "Export",
         chinese: "导出"
     },
+    next: {
+        english: "Next",
+        chinese: "下一步"
+    },
+    previous: {
+        english: "Prev",
+        chinese: "上一步"
+    },
+    cancel: {
+        english: "Cancel",
+        chinese: "取消"
+    },
+    confirm: {
+        english: "Confirm",
+        chinese: "确认"
+    },
     english: "Actions",
     chinese: "操作"
 };
@@ -154,6 +199,7 @@ export default  {
     Actions,
     Brand,
     Category,
+    Color,
     Merchandise,
     Status,
     Times
