@@ -69,6 +69,33 @@ const DeleteBrand = (pathId, headers) => {
     })
 };
 
+const QueryColors = (params, headers) => {
+    return service({
+        url: "/v1/colors",
+        method: "get",
+        params: params || {},
+        headers: headers || {}
+    })
+};
+
+const QuerySizes = (params, headers) => {
+    return service({
+        url: "/v1/sizes",
+        method: "get",
+        params: params || {},
+        headers: headers || {}
+    })
+};
+
+const QueryManufacturers = (params, headers) => {
+    return service({
+        url: "/v1/manufacturers",
+        method: "get",
+        params: params || {},
+        headers: headers || {}
+    })
+};
+
 export default  {
     QueryCategories,
     QueryChildCategories,
@@ -78,4 +105,7 @@ export default  {
     CreateBrand,
     UpdateBrand,
     DeleteBrand,
+    QueryColors,
+    QuerySizes,
+    QueryManufacturers,
 }

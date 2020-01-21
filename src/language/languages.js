@@ -58,7 +58,7 @@ const Merchandise = {
         chinese: "商品关键字"
     },
     tag: {
-        english: "Keyword",
+        english: "Tag",
         chinese: "商品标签"
     },
     color: {
@@ -68,6 +68,10 @@ const Merchandise = {
     size: {
         english: "Size",
         chinese: "商品尺码"
+    },
+    stock: {
+        english: "Stock",
+        chinese: "商品库存"
     },
     rank: {
         english: "Rank",
@@ -93,13 +97,29 @@ const Merchandise = {
         english: "Size&Color",
         chinese: "尺码颜色"
     },
+    images: {
+        english: "Images",
+        chinese: "商品图片"
+    },
     material: {
         english: "Material",
-        chinese: "商品产地和材质"
+        chinese: "商品材质"
     },
     price: {
         english: "Price",
         chinese: "商品价格"
+    },
+    brand: {
+        english: "Brand",
+        chinese: "商品品牌"
+    },
+    manufacturer: {
+        english: "Manufacturer",
+        chinese: "商品供货商"
+    },
+    origin: {
+        english: "origin",
+        chinese: "商品产地"
     },
     english: "Goods",
     chinese: "商品"
@@ -137,6 +157,66 @@ const Color = {
     },
     english: "Color",
     chinese: "颜色"
+};
+
+const Manufacturer = {
+    name: {
+        english: "Name",
+        chinese: "名称"
+    },
+    address: {
+        english: "Address",
+        chinese: "地址"
+    },
+    email: {
+        english: "Email",
+        chinese: "邮箱"
+    },
+    phone: {
+        english: "Phone",
+        chinese: "手机号码"
+    },
+    contact: {
+        english: "Contact",
+        chinese: "联系人"
+    },
+    english: "Manufacturer",
+    chinese: "供货商"
+};
+
+const Images = {
+    main_front: {
+        english: "Front",
+        chinese: "正面主图"
+    },
+    main_back: {
+        english: "Back",
+        chinese: "背面主图"
+    },
+    minor: {
+        english: "Minor",
+        chinese: "附图"
+    },
+    english: "Image",
+    chinese: "图片"
+};
+
+const Size = {
+    digital_size: {
+        english: "Digital size",
+        chinese: "数字尺码"
+    },
+    letter_size: {
+        english: "Letter size",
+        chinese: "字母尺码"
+    },
+    english: "Size",
+    chinese: "尺码"
+};
+
+const Stock = {
+    english: "Stock",
+    chinese: "库存"
 };
 
 const Times = {
@@ -193,14 +273,16 @@ const Actions = {
     chinese: "操作"
 };
 
-
-
 export default  {
     Actions,
     Brand,
     Category,
     Color,
+    Images,
     Merchandise,
+    Manufacturer,
+    Size,
     Status,
+    Stock,
     Times
 }
