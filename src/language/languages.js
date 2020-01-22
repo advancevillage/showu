@@ -236,6 +236,31 @@ const Times = {
     chinese: "时间"
 };
 
+const Price = {
+    newIn: {
+        english: "NewIn Price",
+        chinese: "上新价"
+    },
+    price: {
+        english: "Price",
+        chinese: "售价"
+    },
+    sale: {
+        english: "Sale Price",
+        chinese: "促销价"
+    },
+    clearance: {
+        english: "Clearance Price",
+        chinese: "清仓价"
+    },
+    purchase: {
+        english: "Purchase Price",
+        chinese: "进价"
+    },
+    english: "Price",
+    chinese: "价格"
+};
+
 const Actions = {
     create: {
         english: "Create",
@@ -281,6 +306,7 @@ export default  {
     Images,
     Merchandise,
     Manufacturer,
+    Price,
     Size,
     Status,
     Stock,

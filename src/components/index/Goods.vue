@@ -35,6 +35,9 @@
                                 <div v-if="item.key === 0x1015" class="images">
                                     <Images/>
                                 </div>
+                                <div v-if="item.key === 0x1016" class="price">
+                                    <Price/>
+                                </div>
                             </TabPane>
                         </Tabs>
                     </div>
@@ -64,7 +67,7 @@
     import Category  from '../goods/Category'
     import ColorSize from '../goods/ColorSize'
     import Images    from '../goods/Images'
-
+    import Price     from '../goods/Price'
     export default {
         name: "Goods",
         components: {
@@ -72,7 +75,8 @@
             Category,
             ColorSize,
             Brand,
-            Images
+            Images,
+            Price
         },
         data() {
             return {
