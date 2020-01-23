@@ -15,10 +15,15 @@
 <script>
     export default {
         name: "Category",
+        props: {
+            language: {
+                type: String,
+                required: true,
+            },
+        },
         data() {
             return {
                 languages: this.$languages,
-                language: "chinese",
                 categories: {
                     items: [],
                     total: 0

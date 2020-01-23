@@ -108,10 +108,15 @@
 <script>
     export default {
         name: "Images",
+        props: {
+            language: {
+                type: String,
+                required: true,
+            },
+        },
         data() {
             return {
                 languages: this.$languages,
-                language: "chinese",
                 uploads: {
                     items: [],
                 }

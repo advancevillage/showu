@@ -21,22 +21,22 @@
                         <Tabs name="goods" type="card" class="create_warp" v-model="actions.create.pos">
                             <TabPane v-for="(item, index) in actions.process" :key="index" :label="languages.Merchandise[item.value][language]" tab="goods">
                                 <div v-if="item.key === 0x1011" class="basic">
-                                    <Basic/>
+                                    <Basic :language="language" v-on:basicInfo="basicInfo"/>
                                 </div>
                                 <div v-if="item.key === 0x1012" class="category">
-                                    <Category/>
+                                    <Category :language="language"/>
                                 </div>
                                 <div v-if="item.key === 0x1013" class="color_size">
-                                    <ColorSize/>
+                                    <ColorSize :language="language"/>
                                 </div>
                                 <div v-if="item.key === 0x1014" class="brand">
-                                    <Brand/>
+                                    <Brand :language="language"/>
                                 </div>
                                 <div v-if="item.key === 0x1015" class="images">
-                                    <Images/>
+                                    <Images :language="language"/>
                                 </div>
                                 <div v-if="item.key === 0x1016" class="price">
-                                    <Price/>
+                                    <Price :language="language"/>
                                 </div>
                             </TabPane>
                         </Tabs>
@@ -68,6 +68,7 @@
     import ColorSize from '../goods/ColorSize'
     import Images    from '../goods/Images'
     import Price     from '../goods/Price'
+
     export default {
         name: "Goods",
         components: {
@@ -95,14 +96,23 @@
                         {key: 0x1015, value: "images"},
                         {key: 0x1016, value: "price"}
                     ],
-                }
+                },
+                data: {}
             }
         },
         methods: {
             //商品
             CreateGoods: async function() {
-
+                console.log(this.data);
             },
+            basicInfo: function (basicInfo) {
+                this.data.name  = basicInfo.name;
+                this.data.title = basicInfo.title;
+                this.data.rank  = basicInfo.rank;
+                this.data.tags  = basicInfo.tags;
+                this.data.keywords  = basicInfo.keywords;
+                this.data.description = basicInfo.description;
+            }
         }
     }
 </script>

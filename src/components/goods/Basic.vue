@@ -5,7 +5,7 @@
             <FormItem :label="languages.Merchandise.name[language]">
                 <Row>
                     <i-col span="20">
-                        <i-input v-model="name[language]" :placeholder="language" maxlength="50" show-word-limit></i-input>
+                        <i-input v-model="name[language]" :placeholder="language" maxlength="50" show-word-limit @on-blur="Emit"></i-input>
                     </i-col>
                 </Row>
             </FormItem>
@@ -13,7 +13,7 @@
             <FormItem :label="languages.Merchandise.title[language]">
                 <Row>
                     <i-col span="20">
-                        <i-input v-model="title[language]" :placeholder="language" maxlength="100" show-word-limit type="textarea"></i-input>
+                        <i-input v-model="title[language]" :placeholder="language" maxlength="100" show-word-limit type="textarea" @on-blur="Emit"></i-input>
                     </i-col>
                 </Row>
             </FormItem>
@@ -21,7 +21,7 @@
             <FormItem :label="languages.Merchandise.description[language]">
                 <Row>
                     <i-col span="20">
-                        <i-input v-model="description[language]" :placeholder="language" maxlength="300" show-word-limit type="textarea"></i-input>
+                        <i-input v-model="description[language]" :placeholder="language" maxlength="300" show-word-limit type="textarea" @on-blur="Emit"></i-input>
                     </i-col>
                 </Row>
             </FormItem>
@@ -51,7 +51,7 @@
             <FormItem :label="languages.Merchandise.rank[language]">
                 <Row>
                     <i-col span="20">
-                        <i-select v-model="rank">
+                        <i-select v-model="rank" @on-change="Emit">
                             <i-option v-for="index in rank" :value="index" :key="index">{{index}}</i-option>
                         </i-select>
                     </i-col>
@@ -64,10 +64,15 @@
 <script>
     export default {
         name: "Basic",
+        props: {
+            language: {
+                type: String,
+                required: true,
+            },
+        },
         data() {
             return {
                 languages: this.$languages,
-                language: "chinese",
                 name: {
                     english: "",
                     chinese: ""
@@ -90,7 +95,8 @@
                     chinese: ""
                 },
                 tags: [],
-                rank: 10
+                rank: 10,
+                basicInfo: {}
             }
         },
         methods: {
@@ -156,6 +162,15 @@
                 this.tag[this.language] = "";
                 this.tag[this.language] = this.tag[this.language].padStart(len)
             },
+            Emit: function () {
+                this.basicInfo.name  = this.name;
+                this.basicInfo.title = this.title;
+                this.basicInfo.rank  = this.rank;
+                this.basicInfo.tags  = this.tags;
+                this.basicInfo.keywords  = this.keywords;
+                this.basicInfo.description = this.description;
+                this.$emit("basicInfo", this.basicInfo);
+            }
         }
     }
 </script>

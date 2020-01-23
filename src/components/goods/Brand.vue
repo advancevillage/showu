@@ -87,10 +87,15 @@
 <script>
     export default {
         name: "Brand",
+        props: {
+            language: {
+                type: String,
+                required: true,
+            },
+        },
         data() {
             return {
                 languages: this.$languages,
-                language: "chinese",
                 brands: {
                     total: 0,
                     items: [],

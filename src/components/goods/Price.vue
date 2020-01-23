@@ -36,10 +36,16 @@
 <script>
     export default {
         name: "Price",
+        props: {
+            language: {
+                type: String,
+                required: true,
+            },
+        },
         data() {
             return {
                 languages: this.$languages,
-                language: "chinese",
+                // language: "chinese",
                 purchase: 1,            // 进价
                 price: 1,               // 售价
                 newIn: 1,               // 上新价

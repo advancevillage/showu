@@ -71,10 +71,15 @@
 <script>
     export default {
         name: "ColorSize",
+        props: {
+            language: {
+                type: String,
+                required: true,
+            },
+        },
         data() {
             return {
                 languages: this.$languages,
-                language: "chinese",
                 colors: {
                     total: 0,
                     items: [],
