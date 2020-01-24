@@ -24,10 +24,10 @@
                                     <Basic :language="language" v-on:basicInfo="basicInfo"/>
                                 </div>
                                 <div v-if="item.key === 0x1012" class="category">
-                                    <Category :language="language"/>
+                                    <Category :language="language" v-on:categoryInfo="categoryInfo"/>
                                 </div>
                                 <div v-if="item.key === 0x1013" class="color_size">
-                                    <ColorSize :language="language"/>
+                                    <ColorSize :language="language" v-on:colorSizeInfo="colorSizeInfo"/>
                                 </div>
                                 <div v-if="item.key === 0x1014" class="brand">
                                     <Brand :language="language"/>
@@ -112,6 +112,15 @@
                 this.data.tags  = basicInfo.tags;
                 this.data.keywords  = basicInfo.keywords;
                 this.data.description = basicInfo.description;
+            },
+            categoryInfo: function (categoryInfo) {
+                this.data.category = categoryInfo;
+            },
+            colorSizeInfo: function (colorSizeInfo) {
+                this.data.colors = colorSizeInfo.colors;
+                this.data.sizes  = colorSizeInfo.sizes;
+                this.data.stock  = colorSizeInfo.stock;
+                console.log(this.data);
             }
         }
     }

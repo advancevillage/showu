@@ -122,12 +122,26 @@
                         {
                             key: "stock",
                             render: (h, params) => {
-                                let key = params.column.key;
-                                let value = params.row[key];
                                 return h("div", [
                                     h("InputNumber", {
-                                        props: { min: 0, max: 200, size: 'small', value: value},
-                                    }, value)
+                                        props: { min: 0, max: 200, size: 'small', value: params.row.stock},
+                                        on: {
+                                            "on-blur": () => {
+                                                let i = parseInt(params.row.id[1]);
+                                                let j = parseInt(params.row.id[2]);
+                                                //依据handleStock的处理方式
+                                                if (j > 0) {
+                                                    this.stock.data[i].children[j-1].stock = params.row.stock;
+                                                } else {
+                                                    this.stock.data[i].stock = params.row.stock;
+                                                }
+                                                this.Emit();
+                                            },
+                                            "on-change": (value) => {
+                                                params.row.stock = value;
+                                            }
+                                        }
+                                    }, params.row.stock)
                                 ])
                             },
                             renderHeader: (h, params) => {
@@ -138,6 +152,7 @@
                     ],
                     data: []
                 },
+                data: {}
             }
         },
         mounted: function() {
@@ -201,6 +216,8 @@
                             item.size  = this.sizes.items[s].value;
                             item.stock = 0;
                             item.id    = id;
+                            item.colorId = this.colors.items[c].id;
+                            item.sizeId  = this.sizes.items[s].id;
                             item.children = [];
                         } else {
                             let value = {};
@@ -208,12 +225,43 @@
                             value.size  = this.sizes.items[s].value;
                             value.id    = id;
                             value.stock = 0;
+                            value.colorId = this.colors.items[c].id;
+                            value.sizeId  = this.sizes.items[s].id;
                             item.children.push(value);
                         }
                     }
                     this.stock.data.push(item);
                 }
             },
+            Emit: function () {
+                let colors = [];
+                for (let i = 0; i < this.colors.selected.length; i++) {
+                    colors.push(this.colors.items[this.colors.selected[i]]);
+                }
+                this.data.colors = colors;
+                let sizes = [];
+                for (let j = 0; j < this.sizes.selected.length; j++) {
+                    sizes.push(this.sizes.items[this.sizes.selected[j]]);
+                }
+                this.data.sizes  = sizes;
+                let stock = [];
+                for (let i = 0; i < this.stock.data.length; i++) {
+                    let value = {};
+                    value.colorId = this.stock.data[i].colorId;
+                    value.sizeId  = this.stock.data[i].sizeId;
+                    value.stock   = this.stock.data[i].stock;
+                    stock.push(value);
+                    for (let j = 0; j < this.stock.data[i].children.length; j++) {
+                        let value = {};
+                        value.colorId = this.stock.data[i].children[j].colorId;
+                        value.sizeId  = this.stock.data[i].children[j].sizeId;
+                        value.stock   = this.stock.data[i].children[j].stock;
+                        stock.push(value);
+                    }
+                }
+                this.data.stock = stock;
+                this.$emit("colorSizeInfo", this.data);
+            }
         }
     }
 </script>

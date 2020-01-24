@@ -28,6 +28,9 @@
                     items: [],
                     total: 0
                 },
+                category: {
+
+                },
                 status: 0x201,
             }
         },
@@ -72,7 +75,14 @@
                 }
             },
             handleCategory(value, selectedData) {
-                console.log(selectedData, value);
+                let i = value.length - 1;
+                if (i >= 0 && i < value.length) {
+                    this.category.name = selectedData[i].name;
+                    this.category.id   = selectedData[i].id;
+                    this.category.status = selectedData[i].status;
+                    this.category.level  = selectedData[i].level;
+                }
+                this.$emit("categoryInfo", this.category);
             },
         }
     }
