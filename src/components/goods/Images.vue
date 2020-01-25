@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div v-bind:style="{'float': 'left', 'width': '40%'}">
+        <div v-bind:style="{'float': 'left', 'width': '50%'}">
             <Row v-bind:style="{marginBottom: '10px'}">
                 <i-col span="6">
                     <span>{{languages.Images.main_front[language]}}</span>
                 </i-col>
             </Row>
-            <div class="upload_list" v-for="item in uploads.items" :key="item.uid">
+            <div class="upload_list front" v-for="item in front.items" :key="item.uid">
                 <template v-if="item.status === 'finished'">
                     <img :src="item.url">
                     <div class="upload_list_cover">
@@ -19,28 +19,28 @@
                 </template>
             </div>
             <Upload
-                    ref="upload"
+                    v-if="front.items.length < front.max"
                     :show-upload-list="false"
                     :format="['jpg','jpeg','png']"
-                    :max-size="2048"
-                    :on-progress="handleUpload"
-                    :on-success="uploadSuccess"
+                    :max-size="maxSize"
+                    :on-progress="handleFrontUpload"
+                    :on-success="uploadFrontSuccess"
                     multiple
                     type="drag"
-                    action="//jsonplaceholder.typicode.com/posts/"
+                    :action="uri"
                     style="display: inline-block;width:128px;">
                 <div style="width: 128px;height:128px;line-height: 128px;">
                     <Icon type="ios-camera" size="128"></Icon>
                 </div>
             </Upload>
         </div>
-        <div v-bind:style="{'float': 'left', 'width': '40%'}">
+        <div v-bind:style="{'float': 'left', 'width': '50%'}">
             <Row v-bind:style="{marginBottom: '10px'}">
                 <i-col span="6">
                     <span>{{languages.Images.main_back[language]}}</span>
                 </i-col>
             </Row>
-            <div class="upload_list" v-for="item in uploads.items" :key="item.uid">
+            <div class="upload_list back" v-for="item in back.items" :key="item.uid">
                 <template v-if="item.status === 'finished'">
                     <img :src="item.url">
                     <div class="upload_list_cover">
@@ -53,15 +53,15 @@
                 </template>
             </div>
             <Upload
-                    ref="upload"
+                    v-if="back.items.length < back.max"
                     :show-upload-list="false"
                     :format="['jpg','jpeg','png']"
-                    :max-size="2048"
-                    :on-progress="handleUpload"
-                    :on-success="uploadSuccess"
+                    :max-size="maxSize"
+                    :on-progress="handleBackUpload"
+                    :on-success="uploadBackSuccess"
                     multiple
                     type="drag"
-                    action="//jsonplaceholder.typicode.com/posts/"
+                    :action="uri"
                     style="display: inline-block;width:128px;">
                 <div style="width: 128px;height:128px;line-height: 128px;">
                     <Icon type="ios-camera" size="128"></Icon>
@@ -74,7 +74,7 @@
                     <span>{{languages.Images.minor[language]}}</span>
                 </i-col>
             </Row>
-            <div class="upload_list" v-for="item in uploads.items" :key="item.uid">
+            <div class="upload_list slide" v-for="item in slide.items" :key="item.uid">
                 <template v-if="item.status === 'finished'">
                     <img :src="item.url">
                     <div class="upload_list_cover">
@@ -87,15 +87,15 @@
                 </template>
             </div>
             <Upload
-                    ref="upload"
+                    v-if="slide.items.length < slide.max"
                     :show-upload-list="false"
                     :format="['jpg','jpeg','png']"
-                    :max-size="2048"
-                    :on-progress="handleUpload"
-                    :on-success="uploadSuccess"
+                    :max-size="maxSize"
+                    :on-progress="handleSlideUpload"
+                    :on-success="uploadSlideSuccess"
                     multiple
                     type="drag"
-                    :action=uri
+                    :action="uri"
                     style="display: inline-block;width:96px;">
                 <div style="width: 96px;height:96px;line-height: 96px;">
                     <Icon type="ios-camera" size="96"></Icon>
@@ -117,20 +117,45 @@
         data() {
             return {
                 languages: this.$languages,
-                uri: "//jsonplaceholder.typicode.com/posts/",
-                uploads: {
+                uri: "//localhost:13147/v1/images",
+                domain: "//localhost:13147/",
+                maxSize: 2048,
+                slide: {
                     items: [],
-                }
+                    max: 6,
+                },
+                front: {
+                    items: [],
+                    max: 1,
+                },
+                back: {
+                    items: [],
+                    max: 1
+                },
             }
         },
         methods: {
-            handleUpload: function(event, file, fileList) {
-                this.uploads.items = fileList;
+            handleFrontUpload: function(event, file, fileList) {
+                this.front.items = fileList;
             },
-            uploadSuccess (res, file) {
-                console.log(res, file);
-                file.url = 'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar';
-                file.name = '7eb99afb9d5f317c912f08b5212fd69a';
+            uploadFrontSuccess (res, file) {
+                file.url =  this.domain + res.uri;
+                file.name = res.name;
+                console.log(this.front.items, res, file);
+            },
+            handleBackUpload: function(event, file, fileList) {
+                this.back.items = fileList;
+            },
+            uploadBackSuccess (res, file) {
+                file.url =  this.domain + res.uri;
+                file.name = res.name;
+            },
+            handleSlideUpload: function(event, file, fileList) {
+                this.slide.items = fileList;
+            },
+            uploadSlideSuccess (res, file) {
+                file.url =  this.domain + res.uri;
+                file.name = res.name;
             },
         }
     }
@@ -139,10 +164,7 @@
 <style scoped>
     .upload_list {
         display: inline-block;
-        width: 130px;
-        height: 130px;
         text-align: center;
-        line-height: 130px;
         border: 1px solid transparent;
         border-radius: 4px;
         overflow: hidden;
@@ -151,11 +173,21 @@
         box-shadow: 0 1px 1px rgba(0,0,0,.2);
         margin-right: 4px;
     }
+    .front, .back {
+        width: 130px;
+        height: 130px;
+        line-height: 130px;
+    }
+    .slide {
+        width: 96px;
+        height: 96px;
+        line-height: 96px;
+    }
     .upload_list img{
         width: 100%;
         height: 100%;
     }
-    .upload_list_cover{
+    .upload_list_cover {
         display: none;
         position: absolute;
         top: 0;
@@ -164,10 +196,10 @@
         right: 0;
         background: rgba(0,0,0,.6);
     }
-    .demo-upload-list:hover .upload_list_cover{
+    .upload_list:hover .upload_list_cover{
         display: block;
     }
-    .upload_list_cover i{
+    .upload_list_cover i {
         color: #fff;
         font-size: 20px;
         cursor: pointer;
