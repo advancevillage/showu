@@ -95,7 +95,7 @@
                     :on-success="uploadSuccess"
                     multiple
                     type="drag"
-                    action="//jsonplaceholder.typicode.com/posts/"
+                    :action=uri
                     style="display: inline-block;width:96px;">
                 <div style="width: 96px;height:96px;line-height: 96px;">
                     <Icon type="ios-camera" size="96"></Icon>
@@ -117,6 +117,7 @@
         data() {
             return {
                 languages: this.$languages,
+                uri: "//jsonplaceholder.typicode.com/posts/",
                 uploads: {
                     items: [],
                 }

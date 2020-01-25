@@ -5,7 +5,7 @@
                 <span>{{languages.Merchandise.brand[language]}}</span>
             </i-col>
             <i-col span="8">
-                <i-select size="small" v-model="brands.selected">
+                <i-select size="small" v-model="brands.selected" @on-change="Emit">
                     <i-option v-for="(item, index) in brands.items" :value="index" :key="index" :label="item.name[language]"></i-option>
                 </i-select>
             </i-col>
@@ -15,7 +15,7 @@
                 <span>{{languages.Merchandise.manufacturer[language]}}</span>
             </i-col>
             <i-col span="8">
-                <i-select size="small" v-model="manufacturers.selected" @on-change="manufacturers.current = manufacturers.items[manufacturers.selected]">
+                <i-select size="small" v-model="manufacturers.selected" @on-change="Emit">
                     <i-option v-for="(item, index) in manufacturers.items" :value="index" :key="index" :label="item.name[language]"></i-option>
                 </i-select>
             </i-col>
@@ -75,7 +75,7 @@
         <Row v-bind:style="{marginBottom: '10px'}">
             <i-col span="3">{{languages.Merchandise.material[language]}}</i-col>
             <i-col span="8">
-                <i-input size="small" v-model="material[language]" :placeholder="language" prefix="md-pricetag" @on-enter="CreateMaterial"></i-input>
+                <i-input size="small" v-model="material[language]" :placeholder="language" prefix="md-pricetag" @on-enter="CreateMaterial" @on-blur="Emit"></i-input>
             </i-col>
             <i-col span="4" class="material">
                 <Tag v-for="(item,index) in materials" :key="index">{{item[language]}}<Icon type="ios-close" @click="DeleteMaterial(index)"/></Tag>
@@ -126,6 +126,7 @@
                     english: "",
                     chinese: "",
                 },
+                brandInfo: {}
             }
         },
         mounted: function() {
@@ -189,6 +190,14 @@
                 this.material[this.language] = "";
                 this.material[this.language] = this.material[this.language].padStart(len)
             },
+            Emit: function () {
+                this.manufacturers.current = this.manufacturers.items[this.manufacturers.selected];
+                this.brandInfo.brand  = this.brands.items[this.brands.selected];
+                this.brandInfo.origin = this.manufacturers.items[this.manufacturers.selected].address;
+                this.brandInfo.manufacturer = this.manufacturers.items[this.manufacturers.selected];
+                this.brandInfo.materials = this.materials;
+                this.$emit("brandInfo", this.brandInfo);
+            }
         }
     }
 </script>

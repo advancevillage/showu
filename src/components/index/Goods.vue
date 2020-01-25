@@ -30,10 +30,10 @@
                                     <ColorSize :language="language" v-on:colorSizeInfo="colorSizeInfo"/>
                                 </div>
                                 <div v-if="item.key === 0x1014" class="brand">
-                                    <Brand :language="language"/>
+                                    <Brand :language="language" v-on:brandInfo="brandInfo"/>
                                 </div>
                                 <div v-if="item.key === 0x1015" class="images">
-                                    <Images :language="language"/>
+                                    <Images :language="language" v-on:imagesInfo="imagesInfo"/>
                                 </div>
                                 <div v-if="item.key === 0x1016" class="price">
                                     <Price :language="language"/>
@@ -120,8 +120,17 @@
                 this.data.colors = colorSizeInfo.colors;
                 this.data.sizes  = colorSizeInfo.sizes;
                 this.data.stock  = colorSizeInfo.stock;
-                console.log(this.data);
+            },
+            brandInfo: function (brandInfo) {
+                this.data.brand = brandInfo.brand;
+                this.data.origin = brandInfo.origin;
+                this.data.materials = brandInfo.materials;
+                this.data.manufacturer = brandInfo.manufacturer;
+            },
+            imagesInfo: function (imagesInfo) {
+                console.log(imagesInfo);
             }
+
         }
     }
 </script>
