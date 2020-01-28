@@ -174,7 +174,7 @@ const Manufacturer = {
     },
     phone: {
         english: "Phone",
-        chinese: "手机号码"
+        chinese: "手机"
     },
     contact: {
         english: "Contact",
@@ -203,12 +203,20 @@ const Images = {
 
 const Size = {
     digital_size: {
-        english: "Digital size",
+        english: "Digital",
         chinese: "数字尺码"
     },
     letter_size: {
-        english: "Letter size",
+        english: "Letter",
         chinese: "字母尺码"
+    },
+    value: {
+        english: "Size",
+        chinese: "尺码数值"
+    },
+    template: {
+        english: "Template",
+        chinese: "尺码模版"
     },
     english: "Size",
     chinese: "尺码"
@@ -261,6 +269,27 @@ const Price = {
     chinese: "价格"
 };
 
+const Cycle = {
+    newIn: {
+        english: "newIn",
+        chinese: "新品"
+    },
+    sale: {
+        english: "Sale",
+        chinese: "促销品"
+    },
+    clearance: {
+        english: "Clearance",
+        chinese: "清仓品"
+    },
+    sell: {
+        english: "sell",
+        chinese: "售卖品"
+    },
+    english: "Cycle",
+    chinese: "周期"
+};
+
 const Actions = {
     create: {
         english: "Create",
@@ -294,6 +323,10 @@ const Actions = {
         english: "Confirm",
         chinese: "确认"
     },
+    reset: {
+        english: "Reset",
+        chinese: "重置"
+    },
     english: "Actions",
     chinese: "操作"
 };
@@ -303,6 +336,7 @@ export default  {
     Brand,
     Category,
     Color,
+    Cycle,
     Images,
     Merchandise,
     Manufacturer,

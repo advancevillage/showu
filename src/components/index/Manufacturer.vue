@@ -4,7 +4,7 @@
             <div class="operate">
                 <Row class="rows">
                     <i-col span="6">
-                        <i-button type="info" size="small" @click="actions.create.modal = true">{{this.$languages.Actions.create[this.language] + this.$languages.Color[this.language]}}</i-button>
+                        <i-button type="info" size="small" @click="actions.create.modal = true">{{this.$languages.Actions.create[this.language] + this.$languages.Manufacturer[this.language]}}</i-button>
                     </i-col>
                 </Row>
             </div>
@@ -16,7 +16,7 @@
             </div>
             <!-- 新增 -->
             <div>
-                <Modal v-model="actions.create.modal" :title="languages.Actions.create[language] + languages.Color[language]">
+                <Modal v-model="actions.create.modal" :title="languages.Actions.create[language] + languages.Manufacturer[language]">
                     <Create :language="language"/>
                     <div slot="footer"></div>
                 </Modal>
@@ -26,10 +26,10 @@
 </template>
 
 <script>
-    import Create  from '../color/Create'
+    import Create  from '../manufacturer/Create'
 
     export default {
-        name: "Color",
+        name: "Manufacturer",
         components: {
             Create,
         },

@@ -17,29 +17,9 @@
             </div>
             <!-- 新增品牌 -->
             <div>
-                <Modal v-model="actions.create.modal" :title="languages.Actions.create[language] + languages.Brand[language]" @on-ok="CreateBrand">
-                    <div class="create_brand">
-                        <i-form :model="actions.create" :label-width="80">
-                            <!-- 品牌名称-->
-                            <Form-item :label="languages.Brand[language]">
-                                <Row>
-                                    <i-col span="12">
-                                        <i-input v-model="actions.create.name[language]" :placeholder="language"></i-input>
-                                    </i-col>
-                                </Row>
-                            </Form-item>
-                            <!-- 品牌状态-->
-                            <Form-item :label="languages.Status[language]">
-                                <Row>
-                                    <i-col span="8">
-                                        <Select v-model="actions.create.status" size="small">
-                                            <Option v-for="item in actions.status" :value="item.value" :key="item.value">{{ languages.Status[item.label][language] }}</Option>
-                                        </Select>
-                                    </i-col>
-                                </Row>
-                            </Form-item>
-                        </i-form>
-                    </div>
+                <Modal v-model="actions.create.modal" :title="languages.Actions.create[language] + languages.Brand[language]">
+                    <Create :language="language"/>
+                    <div slot="footer"></div>
                 </Modal>
             </div>
             <!-- 编辑品牌 -->
@@ -74,10 +54,14 @@
 </template>
 
 <script>
-    import api from '../../axios/api'
+    import api    from '../../axios/api'
+    import Create from '../brand/Create'
 
     export default {
         name: "Brand",
+        components: {
+            Create,
+        },
         data: function () {
             return {
                 self: this,
@@ -109,29 +93,6 @@
                         renderHeader: (h, params) => {
                             params.column.title = this.$languages.Brand.id[this.language];
                             return h("span", this.$languages.Brand.id[this.language])
-                        }
-                    },
-                    {
-                        key: "status",
-                        render: (h, params) => {
-                            let key = params.column.key;
-                            let value = params.row[key];
-                            let str = this.$languages.Status.unknown[this.language];
-                            switch (value) {
-                                case 0x701:
-                                    str = this.$languages.Status.normal[this.language];
-                                    break;
-                                case 0x702:
-                                    str = this.$languages.Status.deleted[this.language];
-                                    break;
-                                default:
-                                    str = this.$languages.Status.unknown[this.language];
-                            }
-                            return h("span", str)
-                        },
-                        renderHeader: (h, params) => {
-                            params.column.title = this.$languages.Brand.status[this.language];
-                            return h("span", this.$languages.Brand.status[this.language])
                         }
                     },
                     {
@@ -264,17 +225,6 @@
                 };
                 this.data = await api.QueryBrands(params, headers) || { total: 0, items: []};
             },
-            CreateBrand: async function() {
-                const headers = {
-                    "x-language": this.language
-                };
-                let body = {};
-                body.name = this.actions.create.name;
-                body.status = this.actions.create.status;
-                let data = await api.CreateBrand(body, headers);
-                this.interceptor(data);
-                this.refresh()
-            },
             UpdateBrand: async function() {
                 const headers = {
                     "x-language": this.language
@@ -333,14 +283,16 @@
     .operate {
         height: 60px;
     }
-    .operate > .rows {
-        margin-bottom: 5px;
-    }
-    .create_brand, .update_brand {
-        margin: 5% 0;
-    }
     .warp > .page {
         margin: 5px 0;
         text-align: right;
     }
+    .operate > .rows {
+        margin-bottom: 5px;
+    }
+
+    .create_brand, .update_brand {
+        margin: 5% 0;
+    }
+
 </style>

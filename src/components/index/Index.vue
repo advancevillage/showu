@@ -13,6 +13,9 @@
                             <Brand v-if="tab.key === 0x107"/>
                             <Category v-if="tab.key === 0x102"/>
                             <Goods v-if="tab.key === 0x101"/>
+                            <Color v-if="tab.key === 0x103"/>
+                            <Size  v-if="tab.key === 0x105"/>
+                            <Manufacturer  v-if="tab.key === 0x108"/>
                         </TabPane>
                     </Tabs>
                 </div>
@@ -23,16 +26,13 @@
 </template>
 
 <script>
-    import Footer from '../common/Footer'
-    import Brand from "./Brand";
-    // import Brand  from './Brand'    //品牌管理
-    // import Color  from './Color'    //颜色管理
-    // import Size   from './Size'     //尺码管理
-    import Category from './Category'  //分类管理
-    import Goods  from './Goods'       //商品管理
-    // import Images from './Image'    //商品管理
-    // import Tag    from './Tag'      //标签管理
-    // import Style  from './Style'    //款式管理
+    import Footer   from '../common/Footer'
+    import Brand    from "./Brand";
+    import Color    from './Color'      //颜色管理
+    import Size     from './Size'       //尺码管理
+    import Category from './Category'    //分类管理
+    import Goods    from './Goods'       //商品管理
+    import Manufacturer  from './Manufacturer'       //商品管理
 
 
     export default {
@@ -43,12 +43,9 @@
                             {key: 0x101, title: "商品"},
                             {key: 0x102, title: "分类"},
                             {key: 0x103, title: "颜色"},
-                            {key: 0x104, title: "图片"},
                             {key: 0x105, title: "尺码"},
-                            {key: 0x106, title: "标签"},
                             {key: 0x107, title: "品牌"},
                             {key: 0x108, title: "生产商"},
-                            {key: 0x109, title: "款式"}
                         ]},
                 ],
                 tabs: [
@@ -61,14 +58,11 @@
         components: {
             Brand,
             Footer,
-            // Images,
-            // Brand,
-            // Color,
-            // Size,
+            Color,
             Category,
             Goods,
-            // Tag,
-            // Style
+            Size,
+            Manufacturer,
         },
         methods: {
             handleDeleteTab(index) {

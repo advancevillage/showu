@@ -43,7 +43,7 @@
                 <i-col span="8">
                     <Tag>
                         {{languages.Manufacturer.email[language]}}:
-                        {{manufacturers.current.contactEmail}}
+                        {{manufacturers.current.contact}}
                     </Tag>
                 </i-col>
             </Row>
@@ -51,7 +51,7 @@
                 <i-col span="8">
                     <Tag>
                         {{languages.Manufacturer.phone[language]}}:
-                        {{manufacturers.current.contactPhone}}
+                        {{manufacturers.current.phone}}
                     </Tag>
                 </i-col>
             </Row>

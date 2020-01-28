@@ -36,7 +36,7 @@
                                     <Images :language="language" v-on:imagesInfo="imagesInfo"/>
                                 </div>
                                 <div v-if="item.key === 0x1016" class="price">
-                                    <Price :language="language"/>
+                                    <Price :language="language" v-on:priceInfo="priceInfo"/>
                                 </div>
                             </TabPane>
                         </Tabs>
@@ -128,9 +128,16 @@
                 this.data.manufacturer = brandInfo.manufacturer;
             },
             imagesInfo: function (imagesInfo) {
-                console.log(imagesInfo);
+                this.data.images = imagesInfo;
+            },
+            priceInfo: function (priceInfo) {
+                this.data.purchase  = priceInfo.purchase;
+                this.data.price     = priceInfo.price;
+                this.data.newIn     = priceInfo.newIn;
+                this.data.sale      = priceInfo.sale;
+                this.data.clearance = priceInfo.clearance;
+                this.data.status    = priceInfo.status;
             }
-
         }
     }
 </script>

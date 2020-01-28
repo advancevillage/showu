@@ -54,7 +54,6 @@
                 },
                 languages: this.$languages,
                 language: "chinese",
-                status: 0x201,
                 actions: {
                     create: {
                         modal: false,
@@ -64,12 +63,8 @@
                             chinese: "",
                             english: ""
                         },
-                        status: 0,
                         level: 1,
                     },
-                    level: {
-
-                    }
                 }
             }
         },
@@ -79,7 +74,8 @@
         methods: {
             QueryCategories: async function() {
                 const params = {
-                    status: this.status,
+                    page: 0,
+                    perPage: 30
                 };
                 const headers = {
                     "x-language": this.language
@@ -121,9 +117,18 @@
                 };
                 let body = {};
                 body.name   = this.actions.create.name;
-                body.parent = this.actions.create.parent;
-                body.child  = this.actions.create.child;
                 body.level  = this.actions.create.level;
+                body.parent = [];
+                if (this.actions.create.parent.length > 0 ) {
+                    body.parent.push(this.actions.create.parent);
+                } else {
+                    body.parent = [];
+                }
+                if (this.actions.create.child.length > 0) {
+                    body.child.push(this.actions.create.child)
+                } else {
+                    body.child = [];
+                }
                 let data = await this.$api.CreateCategory(body, headers);
                 this.interceptor(data);
                 this.refresh();

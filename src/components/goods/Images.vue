@@ -11,7 +11,7 @@
                     <img :src="item.url">
                     <div class="upload_list_cover">
                         <Icon type="ios-eye-outline"></Icon>
-                        <Icon type="ios-trash-outline"></Icon>
+                        <Icon type="ios-trash-outline" @click="handleFrontDelete(item)"></Icon>
                     </div>
                 </template>
                 <template v-else>
@@ -45,7 +45,7 @@
                     <img :src="item.url">
                     <div class="upload_list_cover">
                         <Icon type="ios-eye-outline"></Icon>
-                        <Icon type="ios-trash-outline"></Icon>
+                        <Icon type="ios-trash-outline" @click="handleBackDelete(item)"></Icon>
                     </div>
                 </template>
                 <template v-else>
@@ -79,7 +79,7 @@
                     <img :src="item.url">
                     <div class="upload_list_cover">
                         <Icon type="ios-eye-outline"></Icon>
-                        <Icon type="ios-trash-outline"></Icon>
+                        <Icon type="ios-trash-outline" @click="handleSlideDelete(item)"></Icon>
                     </div>
                 </template>
                 <template v-else>
@@ -123,40 +123,84 @@
                 slide: {
                     items: [],
                     max: 6,
+                    direction: 2,
                 },
                 front: {
                     items: [],
                     max: 1,
+                    direction: 1,
                 },
                 back: {
                     items: [],
-                    max: 1
+                    max: 1,
+                    direction: -1,
                 },
+                data: []
             }
         },
         methods: {
             handleFrontUpload: function(event, file, fileList) {
                 this.front.items = fileList;
             },
+            handleFrontDelete: function(file) {
+                this.front.items.splice(this.front.items.indexOf(file), 1);
+                this.Emit();
+            },
             uploadFrontSuccess (res, file) {
                 file.url =  this.domain + res.uri;
                 file.name = res.name;
-                console.log(this.front.items, res, file);
+                this.Emit();
             },
             handleBackUpload: function(event, file, fileList) {
                 this.back.items = fileList;
             },
+            handleBackDelete: function(file) {
+                this.back.items.splice(this.back.items.indexOf(file), 1);
+                this.Emit();
+            },
             uploadBackSuccess (res, file) {
                 file.url =  this.domain + res.uri;
                 file.name = res.name;
+                this.Emit();
             },
             handleSlideUpload: function(event, file, fileList) {
                 this.slide.items = fileList;
             },
+            handleSlideDelete: function(file) {
+                this.slide.items.splice(this.slide.items.indexOf(file), 1);
+                this.Emit();
+            },
             uploadSlideSuccess (res, file) {
                 file.url =  this.domain + res.uri;
                 file.name = res.name;
+                this.Emit();
             },
+            Emit: function () {
+                this.data = [];
+                const len = this.domain.length;
+                for (let i = 0; i < this.front.items.length; i++) {
+                    let value = {};
+                    value.url = this.front.items[i].url.substr(len);
+                    value.direction = this.front.direction;
+                    value.sequence  = i;
+                    this.data.push(value);
+                }
+                for (let i = 0; i < this.back.items.length; i++) {
+                    let value = {};
+                    value.url = this.back.items[i].url.substr(len);
+                    value.direction = this.back.direction;
+                    value.sequence  = i;
+                    this.data.push(value);
+                }
+                for (let i = 0; i < this.slide.items.length; i++) {
+                    let value = {};
+                    value.url = this.slide.items[i].url.substr(len);
+                    value.direction = this.slide.direction;
+                    value.sequence  = i;
+                    this.data.push(value);
+                }
+                this.$emit("imagesInfo", this.data);
+            }
         }
     }
 </script>

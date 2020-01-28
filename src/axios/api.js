@@ -78,6 +78,15 @@ const QueryColors = (params, headers) => {
     })
 };
 
+const CreateSize = (body, headers) => {
+    return service({
+        url: "/v1/sizes",
+        method: "post",
+        headers: headers || {},
+        data: body || {}
+    })
+};
+
 const QuerySizes = (params, headers) => {
     return service({
         url: "/v1/sizes",
@@ -96,6 +105,24 @@ const QueryManufacturers = (params, headers) => {
     })
 };
 
+const CreateManufacturer = (body, headers) => {
+    return service({
+        url: "/v1/manufacturers",
+        method: "post",
+        headers: headers || {},
+        data: body || {}
+    })
+};
+
+const CreateColor = (body, headers) => {
+    return service({
+        url: "/v1/colors",
+        method: "post",
+        headers: headers || {},
+        data: body || {}
+    })
+};
+
 export default  {
     QueryCategories,
     QueryChildCategories,
@@ -107,5 +134,8 @@ export default  {
     DeleteBrand,
     QueryColors,
     QuerySizes,
+    CreateSize,
     QueryManufacturers,
+    CreateManufacturer,
+    CreateColor,
 }

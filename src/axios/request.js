@@ -2,8 +2,8 @@ import axios from 'axios';
 
 // 请求的默认域名
 const service = axios.create({
-    baseURL: 'http://localhost:13147',
-    timeout: 15 * 1000,
+    baseURL: 'http://localhost:13171',
+    timeout: 60 * 1000,
     responseType: 'json',
     headers: {
         post: {
@@ -28,7 +28,14 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(response => {
     return response.data
 }, error => {
-    console.log(error);
+    if (!error.response) {
+        let response = {};
+        response.code = 110;
+        response.message = "network error";
+        return response
+    } else {
+        return error.response.data
+    }
 });
 
 
