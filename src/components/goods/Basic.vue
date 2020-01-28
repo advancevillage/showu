@@ -32,7 +32,7 @@
                         <i-input v-model="keyword[language]" :placeholder="language" prefix="md-pricetag" @on-enter="CreateKeyword"></i-input>
                     </i-col>
                     <i-col span="4" class="keyword">
-                        <Tag v-for="(item,index) in keywords" :key="index">{{item[language]}}<Icon type="ios-close" @click="DeleteKeyword(index)"/></Tag>
+                        <Tag v-for="(item,index) in keywords" :key="index">{{item.name[language]}}<Icon type="ios-close" @click="DeleteKeyword(index)"/></Tag>
                     </i-col>
                 </Row>
             </FormItem>
@@ -43,7 +43,7 @@
                     <i-input v-model="tag[language]" :placeholder="language" prefix="md-pricetag" @on-enter="CreateTag"></i-input>
                 </i-col>
                 <i-col span="4" class="tag">
-                    <Tag v-for="(item,index) in tags" :key="index">{{item[language]}}<Icon type="ios-close" @click="DeleteTag(index)"/></Tag>
+                    <Tag v-for="(item,index) in tags" :key="index">{{item.name[language]}}<Icon type="ios-close" @click="DeleteTag(index)"/></Tag>
                 </i-col>
             </Row>
             </FormItem>
@@ -110,11 +110,11 @@
                     return
                 }
                 if ( this.keywords.length <= 4) {
-                    this.keywords.push(value);
+                    this.keywords.push({name: value});
                 }
                 let len = 0;
                 for (let i = 0; i < this.keywords.length; i++) {
-                    len = len + this.keywords[i][this.language].length + 15;
+                    len = len + this.keywords[i].name[this.language].length + 15;
                 }
                 this.keyword[this.language] = "";
                 this.keyword[this.language] = this.keyword[this.language].padStart(len)
@@ -126,7 +126,7 @@
                 this.keywords.splice(index, 1);
                 let len = 0;
                 for (let i = 0; i < this.keywords.length; i++) {
-                    len = len + this.keywords[i][this.language].length + 15;
+                    len = len + this.keywords[i].name[this.language].length + 15;
                 }
                 this.keyword[this.language] = "";
                 this.keyword[this.language] = this.keyword[this.language].padStart(len)
@@ -141,11 +141,11 @@
                     return
                 }
                 if ( this.tags.length <= 4) {
-                    this.tags.push(value);
+                    this.tags.push({name: value});
                 }
                 let len = 0;
                 for (let i = 0; i < this.tags.length; i++) {
-                    len = len + this.tags[i][this.language].length + 15;
+                    len = len + this.tags[i].name[this.language].length + 15;
                 }
                 this.tag[this.language] = "";
                 this.tag[this.language] = this.tag[this.language].padStart(len)
@@ -157,7 +157,7 @@
                 this.tags.splice(index, 1);
                 let len = 0;
                 for (let i = 0; i < this.tags.length; i++) {
-                    len = len + this.tags[i][this.language].length + 15;
+                    len = len + this.tags[i].name[this.language].length + 15;
                 }
                 this.tag[this.language] = "";
                 this.tag[this.language] = this.tag[this.language].padStart(len)

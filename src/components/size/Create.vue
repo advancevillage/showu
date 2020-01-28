@@ -79,7 +79,6 @@
                 this.interceptor(data);
             },
             interceptor(data) {
-                console.log(data);
                 switch (data.code) {
                     case 200:
                         this.$Message.success(data.message);

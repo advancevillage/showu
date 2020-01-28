@@ -123,6 +123,15 @@ const CreateColor = (body, headers) => {
     })
 };
 
+const CreateGoods = (body, headers) => {
+    return service({
+        url: "/v1/goods",
+        method: "post",
+        headers: headers || {},
+        data: body || {}
+    })
+};
+
 export default  {
     QueryCategories,
     QueryChildCategories,
@@ -138,4 +147,5 @@ export default  {
     QueryManufacturers,
     CreateManufacturer,
     CreateColor,
+    CreateGoods,
 }

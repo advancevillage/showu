@@ -50,8 +50,11 @@
                                           @click="actions.create.pos = actions.create.pos - 1">{{languages.Actions.previous[language]}}</i-button>
                                 <i-button v-if="actions.create.pos < actions.process.length -1 " type="primary"
                                           @click="actions.create.pos = actions.create.pos + 1">{{languages.Actions.next[language]}}</i-button>
-                                <i-button v-if="actions.create.pos === actions.process.length -1" type="primary"
-                                          @click="CreateGoods">{{languages.Actions.confirm[language]}}</i-button>
+                                <i-button v-if="actions.create.pos === actions.process.length -1" type="primary" :class="{disabled: this.actions.create.confirm}"
+                                          @click="CreateGoods">
+                                    <span v-if="!actions.create.confirm">{{languages.Actions.confirm[language]}}</span>
+                                    <span v-else>{{this.actions.create.timeout}}</span>
+                                </i-button>
                             </i-col>
                         </Row>
                     </div>
@@ -86,7 +89,9 @@
                 actions: {
                     create: {
                         modal: false,
-                        pos: 0
+                        pos: 0,
+                        confirm: false,
+                        timeout: 60,
                     },
                     process: [
                         {key: 0x1011, value: "basic"},
@@ -103,7 +108,39 @@
         methods: {
             //商品
             CreateGoods: async function() {
-                console.log(this.data);
+                if (this.actions.create.confirm) {
+                    return
+                }
+                const headers = {
+                    "x-language": this.language
+                };
+                let data = await this.$api.CreateGoods(this.data, headers);
+                this.interceptor(data);
+            },
+            interceptor(data) {
+                switch (data.code) {
+                    case 200:
+                        this.$Message.success(data.message);
+                        this.actions.create.confirm = true;
+                        this.delay();
+                        break;
+                    default:
+                        this.$Message.error(data.message);
+                }
+            },
+            delay() {
+                if (!this.actions.create.confirm) {
+                    return
+                }
+                let clock = window.setInterval( () => {
+                    if (this.actions.create.timeout < 1) {
+                        window.clearInterval(clock);
+                        this.actions.create.timeout = 60;
+                        this.actions.create.confirm = false;
+                    } else {
+                        this.actions.create.timeout--;
+                    }
+                }, 1000)
             },
             basicInfo: function (basicInfo) {
                 this.data.name  = basicInfo.name;

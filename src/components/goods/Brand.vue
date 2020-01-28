@@ -78,7 +78,7 @@
                 <i-input size="small" v-model="material[language]" :placeholder="language" prefix="md-pricetag" @on-enter="CreateMaterial" @on-blur="Emit"></i-input>
             </i-col>
             <i-col span="4" class="material">
-                <Tag v-for="(item,index) in materials" :key="index">{{item[language]}}<Icon type="ios-close" @click="DeleteMaterial(index)"/></Tag>
+                <Tag v-for="(item,index) in materials" :key="index">{{item.name[language]}}<Icon type="ios-close" @click="DeleteMaterial(index)"/></Tag>
             </i-col>
         </Row>
     </div>
@@ -169,11 +169,11 @@
                     return
                 }
                 if ( this.materials.length <= 4) {
-                    this.materials.push(value);
+                    this.materials.push({name: value});
                 }
                 let len = 0;
                 for (let i = 0; i < this.materials.length; i++) {
-                    len = len + this.materials[i][this.language].length + 15;
+                    len = len + this.materials[i].name[this.language].length + 15;
                 }
                 this.material[this.language] = "";
                 this.material[this.language] = this.material[this.language].padStart(len)
@@ -185,7 +185,7 @@
                 this.materials.splice(index, 1);
                 let len = 0;
                 for (let i = 0; i < this.materials.length; i++) {
-                    len = len + this.materials[i][this.language].length + 15;
+                    len = len + this.materials[i].name[this.language].length + 15;
                 }
                 this.material[this.language] = "";
                 this.material[this.language] = this.material[this.language].padStart(len)
