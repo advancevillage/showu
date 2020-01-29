@@ -4,8 +4,11 @@
             <div class="operate">
                 <Row class="rows">
                     <!-- 新增分类 -->
-                    <i-col span="6">
+                    <i-col span="2">
                         <i-button type="info" size="small" @click="actions.create.modal = true">{{this.$languages.Actions.create[this.language] + this.$languages.Category[this.language]}}</i-button>
+                    </i-col>
+                    <i-col span="1">
+                        <i-button style="border: none" size="small" @click="refresh"><Icon type="ios-refresh-circle-outline" /></i-button>
                     </i-col>
                 </Row>
             </div>
@@ -13,30 +16,13 @@
 
             </div>
             <div class="show">
-                <Tree  class="tree" :data="data.items" ref="tree" :render="renderTree"></Tree>
+                <Tree  class="tree" :data="categories.items" ref="tree" :render="renderTree"></Tree>
             </div>
             <!-- 新增分类 -->
             <div>
-                <Modal v-model="actions.create.modal" :title="languages.Actions.create[language] + languages.Category[language]" @on-ok="CreateCategory">
-                    <div class="create_category">
-                        <i-form :model="actions.create" :label-width="80">
-                            <!-- 名称-->
-                            <Form-item :label="languages.Category[language]">
-                                <Row>
-                                    <i-col span="12">
-                                        <i-input v-model="actions.create.name[language]" :placeholder="language"></i-input>
-                                    </i-col>
-                                </Row>
-                            </Form-item>
-                            <Form-item :label="languages.Category.parent[language]">
-                                <Row>
-                                    <i-col span="12">
-                                        <Cascader :data="data.items" change-on-select @on-change="handleCategory"></Cascader>
-                                    </i-col>
-                                </Row>
-                            </Form-item>
-                        </i-form>
-                    </div>
+                <Modal v-model="actions.create.modal" :title="languages.Actions.create[language] + languages.Category[language]">
+                    <Create :language="language" :categories="categories"/>
+                    <div slot="footer"></div>
                 </Modal>
             </div>
         </div>
@@ -44,11 +30,16 @@
 </template>
 
 <script>
+    import Create  from '../category/Create'
+
     export default {
         name: "Category",
+        components: {
+            Create
+        },
         data() {
             return {
-                data: {
+                categories: {
                     total: 0,
                     items: []
                 },
@@ -57,13 +48,6 @@
                 actions: {
                     create: {
                         modal: false,
-                        parent: "",
-                        child: "",
-                        name: {
-                            chinese: "",
-                            english: ""
-                        },
-                        level: 1,
                     },
                 }
             }
@@ -75,20 +59,21 @@
             QueryCategories: async function() {
                 const params = {
                     page: 0,
-                    perPage: 30
+                    perPage: 30,
+                    level: 1,
                 };
                 const headers = {
                     "x-language": this.language
                 };
-                this.data = await this.$api.QueryCategories(params, headers) || { total: 0, items: []};
-                for(let i in this.data.items) {
-                    this.data.items[i].expand = true;
-                    this.data.items[i].value = this.data.items[i].id;
-                    this.data.items[i].children = [];
-                    this.data.items[i].label = this.data.items[i].name[this.language];
-                    this.data.items[i].title = this.data.items[i].name[this.language];
+                this.categories = await this.$api.QueryCategories(params, headers) || { total: 0, items: []};
+                for(let i in this.categories.items) {
+                    this.categories.items[i].expand = true;
+                    this.categories.items[i].value = this.categories.items[i].id;
+                    this.categories.items[i].children = [];
+                    this.categories.items[i].label = this.categories.items[i].name[this.language];
+                    this.categories.items[i].title = this.categories.items[i].name[this.language];
                 }
-                this.handleChildCategory(this.data.items);
+                this.handleChildCategory(this.categories.items);
             },
             QueryChildCategories: async function() {
                 let node = this.$refs.tree.getSelectedNodes();
@@ -110,37 +95,6 @@
                     data[i].title = data[i].name[this.language];
                     category.children.push(data[i]);
                 }
-            },
-            CreateCategory: async function() {
-                const headers = {
-                    "x-language": this.language
-                };
-                let body = {};
-                body.name   = this.actions.create.name;
-                body.level  = this.actions.create.level;
-                body.parent = [];
-                if (this.actions.create.parent.length > 0 ) {
-                    body.parent.push(this.actions.create.parent);
-                } else {
-                    body.parent = [];
-                }
-                if (this.actions.create.child.length > 0) {
-                    body.child.push(this.actions.create.child)
-                } else {
-                    body.child = [];
-                }
-                let data = await this.$api.CreateCategory(body, headers);
-                this.interceptor(data);
-                this.refresh();
-            },
-            handleCategory(value, selectedData) {
-                if (selectedData.length <= 0) {
-                    return
-                }
-                let index = selectedData.length - 1;
-                let data = selectedData[index];
-                this.actions.create.parent = data.id;
-                this.actions.create.level  = data.level + 1;
             },
             handleChildCategory: async function(items) {
                 const headers = {
@@ -193,15 +147,6 @@
                     }),
                 ]);
             },
-            interceptor(data) {
-                switch (data.code) {
-                    case 200:
-                        this.$Message.success(data.message);
-                        break;
-                    default:
-                        this.$Message.error(data.message);
-                }
-            },
             refresh() {
                 this.QueryCategories();
             }
@@ -216,9 +161,6 @@
     }
     .operate {
         height: 60px;
-    }
-    .create_category {
-        margin: 5% 0;
     }
     .tree {
         margin-left: 10px;

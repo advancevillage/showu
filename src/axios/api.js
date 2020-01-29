@@ -1,5 +1,7 @@
 import service from './request'
 
+const ImageDomain = "//localhost:13147/";
+
 const QueryCategories = (params, headers) => {
     return service({
         url: "/v1/categories",
@@ -132,6 +134,15 @@ const CreateGoods = (body, headers) => {
     })
 };
 
+const QueryGoods = (params, headers) => {
+    return service({
+        url: "/v1/goods",
+        method: "get",
+        params: params || {},
+        headers: headers || {}
+    })
+};
+
 export default  {
     QueryCategories,
     QueryChildCategories,
@@ -148,4 +159,6 @@ export default  {
     CreateManufacturer,
     CreateColor,
     CreateGoods,
+    QueryGoods,
+    ImageDomain,
 }

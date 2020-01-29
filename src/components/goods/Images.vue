@@ -118,7 +118,7 @@
             return {
                 languages: this.$languages,
                 uri: "//localhost:13171/v1/images",
-                domain: "//localhost:13171/",
+                domain: "//localhost:13147/",
                 maxSize: 2048,
                 slide: {
                     items: [],
@@ -149,6 +149,7 @@
             uploadFrontSuccess (res, file) {
                 file.url =  this.domain + res.uri;
                 file.name = res.name;
+                file.uri  = res.uri;
                 this.Emit();
             },
             handleBackUpload: function(event, file, fileList) {
@@ -161,6 +162,7 @@
             uploadBackSuccess (res, file) {
                 file.url =  this.domain + res.uri;
                 file.name = res.name;
+                file.uri  = res.uri;
                 this.Emit();
             },
             handleSlideUpload: function(event, file, fileList) {
@@ -173,31 +175,32 @@
             uploadSlideSuccess (res, file) {
                 file.url =  this.domain + res.uri;
                 file.name = res.name;
+                file.uri  = res.uri;
                 this.Emit();
             },
             Emit: function () {
                 this.data = [];
-                const len = this.domain.length;
                 for (let i = 0; i < this.front.items.length; i++) {
                     let value = {};
-                    value.url = this.front.items[i].url.substr(len);
+                    value.url = this.front.items[i].uri;
                     value.direction = this.front.direction;
                     value.sequence  = i;
                     this.data.push(value);
                 }
                 for (let i = 0; i < this.back.items.length; i++) {
                     let value = {};
-                    value.url = this.back.items[i].url.substr(len);
+                    value.url = this.back.items[i].uri;
                     value.direction = this.back.direction;
                     value.sequence  = i;
                     this.data.push(value);
                 }
                 for (let i = 0; i < this.slide.items.length; i++) {
                     let value = {};
-                    value.url = this.slide.items[i].url.substr(len);
+                    value.url = this.slide.items[i].uri;
                     value.direction = this.slide.direction;
                     value.sequence  = i;
                     this.data.push(value);
+
                 }
                 this.$emit("imagesInfo", this.data);
             }

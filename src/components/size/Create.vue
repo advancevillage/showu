@@ -58,7 +58,7 @@
                 template: "digital_size",
                 value: "",
                 confirm: false,
-                timeout: 20,
+                timeout: 5,
             }
         },
         methods: {
@@ -96,7 +96,7 @@
                 let clock = window.setInterval( () => {
                     if (this.timeout < 1) {
                         window.clearInterval(clock);
-                        this.timeout = 20;
+                        this.timeout = 5;
                         this.confirm = false;
                     } else {
                         this.timeout--;

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // 请求的默认域名
 const service = axios.create({
-    baseURL: 'http://localhost:13171',
+    baseURL: '//localhost:13171',
     timeout: 60 * 1000,
     responseType: 'json',
     headers: {

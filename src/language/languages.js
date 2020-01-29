@@ -30,11 +30,11 @@ const Category = {
     },
     parent: {
         english: "Parent",
-        chinese: "父分类"
+        chinese: "上级分类"
     },
     child: {
         english: "Child",
-        chinese: "子分类"
+        chinese: "下级分类"
     },
     english: "Category",
     chinese: "分类"
@@ -99,15 +99,31 @@ const Merchandise = {
     },
     images: {
         english: "Images",
-        chinese: "商品图片"
+        chinese: "商品主图"
     },
     material: {
         english: "Material",
         chinese: "商品材质"
     },
     price: {
-        english: "Price",
-        chinese: "商品价格"
+        english: "Price(¥)",
+        chinese: "商品售价(¥)"
+    },
+    newIn: {
+        english: "NewIn(¥)",
+        chinese: "上新价(¥)"
+    },
+    purchase: {
+        english: "Purchase(¥)",
+        chinese: "商品进价(¥)"
+    },
+    sale: {
+        english: "Sale(¥)",
+        chinese: "促销价(¥)"
+    },
+    clearance: {
+        english: "Clearance(¥)",
+        chinese: "清仓价(¥)"
     },
     brand: {
         english: "Brand",

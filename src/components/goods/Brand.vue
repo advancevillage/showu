@@ -23,7 +23,7 @@
                 <i-button size="small" class="custom_button" icon="ios-add-circle-outline" style="border: none"></i-button>
             </i-col>
         </Row>
-        <div v-bind:style="{marginLeft: '12%'}">
+        <div v-bind:style="{marginLeft: '12%'}" v-if="manufacturers.total > 0">
             <Row>
                 <i-col span="8">
                     <Tag>{{languages.Manufacturer.name[language]}}:
@@ -64,7 +64,7 @@
                 </i-col>
             </Row>
         </div>
-        <Row v-bind:style="{marginBottom: '10px', marginTop: '10px'}">
+        <Row v-bind:style="{marginBottom: '10px', marginTop: '10px'}" v-if="manufacturers.total > 0">
             <i-col span="3">
                 <span>{{languages.Merchandise.origin[language]}}</span>
             </i-col>
@@ -99,7 +99,6 @@
                 brands: {
                     total: 0,
                     items: [],
-                    status: 0x701,
                     selected: 0,
                 },
                 manufacturers: {
@@ -119,7 +118,6 @@
                         contactEmail: "",
                         contactPhone: "",
                     },
-                    status: 0x801
                 },
                 materials: [],
                 material: {
@@ -136,9 +134,7 @@
         methods: {
             //品牌
             QueryBrands: async function() {
-                const params = {
-                    status: this.brands.status,
-                };
+                const params = {};
                 const headers = {
                     "x-language": this.language
                 };
@@ -148,9 +144,7 @@
             },
             //生产商
             QueryManufacturers: async function() {
-                const params = {
-                    status: this.manufacturers.status,
-                };
+                const params = {};
                 const headers = {
                     "x-language": this.language
                 };

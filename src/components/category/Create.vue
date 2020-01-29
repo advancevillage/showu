@@ -1,52 +1,27 @@
 <template>
     <div>
-        <div v-bind:style="{margin: '5% 0'}">
+        <div>
             <Form>
                 <!-- 名称-->
-                <Form-item :label="languages.Manufacturer.name[language]">
+                <Form-item :label="languages.Category.name[language]">
                     <Row>
                         <i-col span="12">
                             <i-input v-model="name[language]" :placeholder="language"></i-input>
                         </i-col>
                     </Row>
                 </Form-item>
-                <!--地址-->
-                <FormItem :label="languages.Manufacturer.address[language]">
+                <Form-item :label="languages.Category.parent[language]">
                     <Row>
                         <i-col span="12">
-                            <i-input v-model="address[language]" :placeholder="language"></i-input>
+                            <Cascader :data="categories.items" change-on-select @on-change="handleCategory"></Cascader>
                         </i-col>
                     </Row>
-                </FormItem>
-                <!--联系人-->
-                <FormItem :label="languages.Manufacturer.contact[language]">
-                    <Row>
-                        <i-col span="12">
-                            <i-input v-model="contact" :placeholder="language"></i-input>
-                        </i-col>
-                    </Row>
-                </FormItem>
-                <!--手机号-->
-                <FormItem :label="languages.Manufacturer.phone[language]">
-                    <Row>
-                        <i-col span="12">
-                            <i-input v-model="phone" :placeholder="language"></i-input>
-                        </i-col>
-                    </Row>
-                </FormItem>
-                <!--邮箱-->
-                <FormItem :label="languages.Manufacturer.email[language]">
-                    <Row>
-                        <i-col span="12">
-                            <i-input v-model="email" :placeholder="language"></i-input>
-                        </i-col>
-                    </Row>
-                </FormItem>
+                </Form-item>
                 <!-- 确定或者重置 -->
                 <FormItem>
                     <Row>
                         <i-col span="3" style="float: right">
-                            <Button size="small" type="primary" @click="CreateManufacturer" :class="{disabled: confirm}">
+                            <Button size="small" type="primary" @click="CreateCategory" :class="{disabled: confirm}">
                                 <span v-if="!confirm">{{this.languages.Actions.confirm[this.language]}}</span>
                                 <span v-else>{{this.timeout}}</span>
                             </Button>
@@ -69,6 +44,10 @@
                 type: String,
                 required: true,
             },
+            categories: {
+                type: Object,
+                required: true,
+            }
         },
         data() {
             return {
@@ -77,41 +56,39 @@
                     english: "",
                     chinese: "",
                 },
-                address: {
-                    english: "",
-                    chinese: ""
-                },
-                contact: "",
-                phone: "",
-                email: "",
+                parent: [],
+                child: [],
+                level: 1,
                 confirm: false,
                 timeout: 5,
             }
         },
         methods: {
-            CreateManufacturer: async function() {
-                if (this.confirm) {
-                    return
+            handleCategory(value, selectedData) {
+                this.parent = [];
+                this.child  = [];
+                if (selectedData.length <= 0) {
+                    this.level  = 1;
+                } else {
+                    let index = selectedData.length - 1;
+                    let data = selectedData[index];
+                    this.parent.push(data.id);
+                    this.level  = data.level + 1;
                 }
-                if (this.name[this.language].length <= 0 ) {
-                    return
-                }
-                if (this.address[this.language].length <= 0 ) {
-                    return
-                }
-                if (this.contact.length <= 0 || this.phone <= 0 || this.email <= 0) {
-                    return
-                }
+            },
+            CreateCategory: async function() {
                 const headers = {
                     "x-language": this.language
                 };
+                if (this.name[this.language].length <= 0 ) {
+                    return
+                }
                 let body = {};
-                body.name     = this.name;
-                body.address  = this.address;
-                body.contact  = this.contact;
-                body.email    = this.email;
-                body.phone    = this.phone;
-                let data = await this.$api.CreateManufacturer(body, headers);
+                body.name   = this.name;
+                body.level  = this.level;
+                body.parent = this.parent;
+                body.child  = this.child;
+                let data = await this.$api.CreateCategory(body, headers);
                 this.interceptor(data);
             },
             interceptor(data) {
@@ -140,11 +117,10 @@
                 }, 1000)
             },
             reset() {
-                this.name[this.language]    = "";
-                this.address[this.language] = "";
-                this.contact = "";
-                this.email   = "";
-                this.phone   = "";
+                this.name[this.language] = "";
+                this.parent = [];
+                this.child  = [];
+                this.level = 1;
             }
         }
     }
