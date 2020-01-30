@@ -6,10 +6,10 @@
              v-on:mouseleave="navBar=-1">
             <!-- 导航栏 -->
             <div class="navbar-menu">
-                <a class="navbar-item category" v-for="(item, index) in categories" :key="index"
+                <a class="navbar-item category" v-for="(item, index) in categories.items" :key="index"
                     v-on:mouseenter="navItem=index; navDetail=index"
                     v-on:mouseleave="navItem=-1">
-                    {{item.categoryName.english}}
+                    {{item.name[language]}}
                     <em v-if="navItem === index"></em>
                 </a>
             </div>
@@ -71,22 +71,25 @@
 
 <script>
     import Login from './Login'
-    import api   from '../../../axios/api'
 
     export default {
         name: "Menu",
         data() {
             return {
+                language: "chinese",
                 navBar: -1,
                 navItem: -1,
                 navDetail: -1,
                 cartDetail: -1,
                 login: false,
-                categories: []
+                categories: {
+                    total: 0,
+                    items: []
+                }
             }
         },
         mounted: function() {
-            this.InitCategory()
+            this.QueryCategories()
         },
         methods: {
             Login() {
@@ -98,11 +101,14 @@
                 });
             },
             /* 初始化 操作*/
-            InitCategory: async function() {
+            QueryCategories: async function() {
                 const params = {
-                    status: 513
+                    level: 1
                 };
-                this.categories = await  api.QueryCategories(params);
+                const headers = {
+                   "x-language": this.language
+                };
+                this.categories = await this.$api.QueryCategories(params, headers) || {total: 0, items:[]}
             }
         }
     }

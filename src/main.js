@@ -5,12 +5,16 @@ import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
+import api   from './axios/api'
+import lang  from './language/languages'
 
 
 //安装插件 vue-router
 Vue.use(VueRouter);
 Vue.use(Buefy);
 Vue.use(VueAwesomeSwiper);
+Vue.prototype.$api       = api;
+Vue.prototype.$languages = lang;
 
 //载入组件
 import App            from './App.vue'
