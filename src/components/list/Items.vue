@@ -5,6 +5,7 @@
         </div>
         <div class="items">
             <div class="card" v-for="(item, index) in goods.items" :key="index" v-on:mouseenter="item.hover = true" v-on:mouseleave="item.hover = false">
+                <a :href= "api.CreateDetailLink(item.brand, item.category, item.name, item.id)">
                 <div class="card-image">
                     <div class="tags">
                         <div class="left"></div>
@@ -13,27 +14,28 @@
                         </div>
                     </div>
                     <div v-for="(image, index) in item.images" :key="index">
-                        <img class="images" v-if="image.direction === 1  && !item.hover" :src="api.QueryImageUrl(image.url)" alt="Placeholder image">
-                        <img class="images" v-if="image.direction === -1 &&  item.hover" :src="api.QueryImageUrl(image.url)" alt="Placeholder image">
+
+                            <img class="images" v-if="image.direction === 1  && !item.hover" :src="api.QueryImageUrl(image.url)" alt="Placeholder image">
+                            <img class="images" v-if="image.direction === -1 &&  item.hover" :src="api.QueryImageUrl(image.url)" alt="Placeholder image">
                     </div>
                 </div>
                 <div class="card-content">
                     <span class="title">{{item.title[language]}}</span>
                     <!-- 价格 -->
                     <span v-if="item.status === 0x111" v-bind:style="{float: 'right'}">
-                        <span v-bind:style="{margin: '0 4px'}">{{languages.Country[language]}}{{item.newIn}}</span>
-                        <span v-bind:style="{margin: '0 4px', textDecoration: 'line-through'}">{{languages.Country[language]}}{{item.price}}</span>
+                        <span v-bind:style="{color: 'black', margin: '0 4px'}">{{languages.Country[language]}}{{item.newIn}}</span>
+                        <span v-bind:style="{color: 'black', margin: '0 4px', textDecoration: 'line-through'}">{{languages.Country[language]}}{{item.price}}</span>
                     </span>
                     <span v-if="item.status === 0x112" v-bind:style="{float: 'right'}">
-                        <span v-bind:style="{margin: '0 4px'}">{{languages.Country[language]}}{{item.price}}</span>
+                        <span v-bind:style="{color: 'black', margin: '0 4px'}">{{languages.Country[language]}}{{item.price}}</span>
                     </span>
                     <span v-if="item.status === 0x113" v-bind:style="{float: 'right'}">
-                        <span v-bind:style="{margin: '0 4px'}">{{languages.Country[language]}}{{item.sale}}</span>
-                        <span v-bind:style="{margin: '0 4px', textDecoration: 'line-through'}">{{languages.Country[language]}}{{item.price}}</span>
+                        <span v-bind:style="{color: 'black', margin: '0 4px'}">{{languages.Country[language]}}{{item.sale}}</span>
+                        <span v-bind:style="{color: 'black', margin: '0 4px', textDecoration: 'line-through'}">{{languages.Country[language]}}{{item.price}}</span>
                     </span>
                     <span v-if="item.status === 0x114" v-bind:style="{float: 'right'}">
-                        <span v-bind:style="{margin: '0 4px'}">{{languages.Country[language]}}{{item.clearance}}</span>
-                        <span v-bind:style="{margin: '0 4px', textDecoration: 'line-through'}">{{languages.Country[language]}}{{item.price}}</span>
+                        <span v-bind:style="{color: 'black', margin: '0 4px'}">{{languages.Country[language]}}{{item.clearance}}</span>
+                        <span v-bind:style="{color: 'black', margin: '0 4px', textDecoration: 'line-through'}">{{languages.Country[language]}}{{item.price}}</span>
                     </span>
                     <!-- 颜色 -->
                     <div v-if="item.hover" class="color">
@@ -43,6 +45,7 @@
                         <span>{{item.colors.length}} colors available</span>
                     </div>
                 </div>
+                </a>
             </div>
         </div>
         <div class="footer">
@@ -82,7 +85,6 @@
                 for (let i = 0; i < this.goods.items.length; i++) {
                     this.$set(this.goods.items[i], 'hover', false);
                 }
-                console.log(this.goods);
             },
         }
 
@@ -123,9 +125,10 @@
         margin-left: 60%;
     }
     /* 描述 */
-    .card-content > .title, .card-content > .price, .card-content > .color {
+    .card-content > .title, .card-content > .color {
         font-size: large;
         text-align: center;
+        color: black;
     }
     .card-content > .color, .card-content > .color_text {
         width: 100%;
@@ -133,6 +136,7 @@
         float: left;
         overflow: hidden;
         cursor: pointer;
+        color: black;
     }
     .card-content > .color > .color_warp {
         width: 15px;

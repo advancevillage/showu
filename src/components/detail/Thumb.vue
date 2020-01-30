@@ -3,7 +3,7 @@
         <section>
             <b-carousel-list
                     v-model="thumb.values"
-                    :data="thumb.items"
+                    :data="thumbs"
                     :arrow="thumb.arrow"
                     :arrow-hover="thumb.arrowHover"
                     :items-to-list="thumb.perList"
@@ -18,6 +18,12 @@
 <script>
     export default {
         name: "Thumb",
+        props: {
+            thumbs: {
+                type: Array,
+                required: true,
+            },
+        },
         data() {
             return {
                 thumb: {
@@ -29,37 +35,6 @@
                     values: 1,
                     perList: 1,
                     repeat: true,
-                    items: [
-                        {
-                            title: 'Slide 1',
-                            image: 'https://picsum.photos/id/0/1230/500'
-                        },
-                        {
-                            title: 'Slide 2',
-                            image: 'https://picsum.photos/id/1/1230/500'
-                        },
-                        {
-                            title: 'Slide 3',
-                            image: 'https://picsum.photos/id/2/1230/500'
-                        },
-                        {
-                            title: 'Slide 4',
-                            image: 'https://picsum.photos/id/3/1230/500'
-                        },
-                        {
-                            title: 'Slide 5',
-                            image: 'https://picsum.photos/id/4/1230/500'
-                        },
-                        {
-                            title: 'Slide 6',
-                            image: 'https://picsum.photos/id/5/1230/500'
-                        },
-                        {
-                            title: 'Slide 7',
-                            image: 'https://picsum.photos/id/6/1230/500'
-                        }
-
-                    ]
                 }
             }
         }
@@ -67,5 +42,8 @@
 </script>
 
 <style scoped>
-
+    .carousel-list > .carousel-slides > .carousel-slide > .image > img {
+        width: 200px;
+        height: 100px;
+    }
 </style>

@@ -2,7 +2,7 @@
     <div>
         <div class="detail_size">
             <section>
-                <b-tag class="size" v-for="(item, index) in context" :key="index">{{item}}</b-tag>
+                <b-tag class="size" v-for="(item, index) in sizes" :key="index">{{item.value}}</b-tag>
             </section>
         </div>
     </div>
@@ -11,9 +11,15 @@
 <script>
     export default {
         name: "Size",
+        props: {
+            sizes: {
+                type: Array,
+                required: true,
+            },
+        },
         data() {
             return {
-                context: ["XS/36", "S/37", "L/42", "M/43", "L"]
+
             }
         }
     }

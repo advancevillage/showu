@@ -2,8 +2,8 @@
     <div>
         <div class="detail_color">
             <section>
-                <div class="color_warp" v-for="(item, index) in context" :key="index" >
-                    <b-tag class="color" v-bind:style="{'background-color': item}"></b-tag>
+                <div class="color_warp" v-for="(item, index) in colors" :key="index" >
+                    <b-tag class="color" v-bind:style="{'background-color': item.rgb}"></b-tag>
                 </div>
             </section>
         </div>
@@ -13,15 +13,15 @@
 <script>
     export default {
         name: "Color",
+        props: {
+            colors: {
+                type: Array,
+                required: true,
+            },
+        },
         data() {
             return {
-                context: [
-                    "rgba(255,0,0,0.8)", "rgba(0,255,0,1)", "rgba(0,0,255,1)", "rgba(255,255,0,1)",
-                    "rgba(255,0,0,0.8)", "rgba(0,255,0,1)", "rgba(0,0,255,1)", "rgba(255,255,0,1)",
-                    "rgba(255,0,0,0.8)", "rgba(0,255,0,1)", "rgba(0,0,255,1)", "rgba(255,255,0,1)",
-                    "rgba(255,0,0,0.8)", "rgba(0,255,0,1)", "rgba(0,0,255,1)", "rgba(255,255,0,1)",
-                    "rgba(255,0,0,0.8)", "rgba(0,255,0,1)", "rgba(0,0,255,1)", "rgba(255,255,0,1)"
-                ]
+
             }
         }
     }

@@ -9,10 +9,10 @@
                 <div class="detail_warp">
                     <div class="left">
                         <div class="color">
-                            <Color/>
+                            <Color :colors="goods.colors"/>
                         </div>
                         <div class="size">
-                            <Size/>
+                            <Size :sizes="goods.sizes"/>
                         </div>
                         <div class="style">
                             <Style/>
@@ -32,7 +32,7 @@
                 </div>
                 <div class="detail_other">
                     <div class="detail_thumb">
-                        <Thumb/>
+                        <Thumb :thumbs="thumbs"/>
                     </div>
                     <div class="detail_desc">
                         <Description/>
@@ -74,6 +74,51 @@
             Description,
             Similar
         },
+        created() {
+            this.gid = this.$route.query.gid || "";
+        },
+        data() {
+            return {
+                language: "chinese",
+                gid: "",
+                goods: {
+                    colors: [],
+                    sizes: [],
+                    images: [],
+                },
+                thumbs: []
+            }
+        },
+        mounted() {
+            if (this.gid.length <= 0) {
+                this.$router.push({path: '/404'})
+                    .then(() => {
+                        this.$router.go(1);
+                    })
+                    .catch(() => {
+                        this.$router.go(-1);
+                    });
+
+            } else {
+                this.QueryOneGoods();
+            }
+        },
+        methods: {
+            QueryOneGoods: async function() {
+                const params = {};
+                const headers = {
+                    "x-language": this.language
+                };
+                this.goods = await this.$api.QueryOneGoods(this.gid, params, headers) || {};
+                let images = this.goods.images || [];
+                this.thumbs = [];
+                for (let i = 0; i < images.length; i++) {
+                    let value = {};
+                    value.image = this.$api.QueryImageUrl(images[i].url);
+                    this.thumbs.push(value);
+                }
+            }
+        }
     }
 </script>
 
