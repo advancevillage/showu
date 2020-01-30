@@ -117,7 +117,7 @@
         data() {
             return {
                 languages: this.$languages,
-                uri: "//localhost:13171/v1/images",
+                uri: "//localhost:13147/v1/images",
                 domain: "//localhost:13147/",
                 maxSize: 2048,
                 slide: {
