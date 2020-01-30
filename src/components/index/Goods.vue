@@ -95,7 +95,7 @@
                         modal: false,
                         pos: 0,
                         confirm: false,
-                        timeout: 60,
+                        timeout: 10,
                     },
                     process: [
                         {key: 0x1011, value: "basic"},
@@ -415,7 +415,7 @@
                 let clock = window.setInterval( () => {
                     if (this.actions.create.timeout < 1) {
                         window.clearInterval(clock);
-                        this.actions.create.timeout = 60;
+                        this.actions.create.timeout = 10;
                         this.actions.create.confirm = false;
                     } else {
                         this.actions.create.timeout--;
