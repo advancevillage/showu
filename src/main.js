@@ -33,7 +33,7 @@ let router = new VueRouter({
     //首页
     { path: '/', component: Index },
     //列表页
-    { path: '/list', component: List },
+    { path: '/list/*', component: List },
     //详情页
     { path: '/detail/*', component: Detail },
     //购物车

@@ -7,9 +7,12 @@
             <p class="level-item has-text-centered"></p>
             <!-- Right side -->
             <div class="level-right">
-                <p v-for="item in selectItems" :key='item.id' >
-                    <a class="header_select_items" :href="item.url">{{item.value}}</a>
-                </p>
+                <select
+                    v-model="lang"
+                    class="country"
+                    v-on:change="ChangeLanguage">
+                    <option v-for="(item, index) in country" :key="index" v-bind:value="item.lang.toLowerCase()">{{item.key.toUpperCase()}}</option>
+                </select>
             </div>
         </nav>
     </div>
@@ -18,13 +21,25 @@
 <script>
     export default {
         name: "Notice",
+        props: {
+            language: {
+                type: String,
+                required: true,
+            },
+        },
         data() {
             return {
+                lang: this.language,
                 noticeText: "Show You! More Confident And Beautiful",
-                selectItems: [
-                    {id: "country", url: "/", value: "CN"},
-                    {id: "themes", url: "/", value: ""},
+                country: [
+                    {key: "cn", lang: "chinese"},
+                    {key: "en", lang: "english"}
                 ],
+            }
+        },
+        methods: {
+            ChangeLanguage() {
+                this.$emit("selectedLanguage", this.lang);
             }
         }
     }
@@ -35,5 +50,11 @@
         color: white;
         text-align: center;
         text-decoration: underline;
+    }
+    .country {
+        border: none;
+        background: black;
+        color: white;
+        height: 22px;
     }
 </style>

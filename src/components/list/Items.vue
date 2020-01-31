@@ -56,11 +56,16 @@
 <script>
     export default {
         name: "Items",
+        props: {
+            language: {
+                type: String,
+                required: true
+            }
+        },
         data() {
             return {
                 languages: this.$languages,
                 api: this.$api,
-                language: "chinese",
                 page: 0,
                 perPage: 30,
                 goods: {

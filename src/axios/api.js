@@ -19,9 +19,23 @@ const CreateDetailLink = (brand, category, name, id) => {
     return ("/detail/" + brand.name[en] + "-" + category.name[en] + "-" + name[en] + "?gid=" + id).toLowerCase().trim().replace(/\s+/g, "");
 };
 
+const CreateListLink = (name, id) => {
+    let en = "english";
+    return ("/list/" + name[en] + "?cid=" + id).toLowerCase().trim().replace(/\s+/g, "");
+};
+
 const QueryCategories = (params, headers) => {
     return service({
         url: "/v1/categories",
+        method: "get",
+        params: params || {},
+        headers: headers || {}
+    })
+};
+
+const QueryChildCategories = (pathId, params, headers) => {
+    return service({
+        url: "/v1/categories/" + pathId + "/categories",
         method: "get",
         params: params || {},
         headers: headers || {}
@@ -48,7 +62,9 @@ const QueryOneGoods = (pathId, params, headers) => {
 
 export default  {
     QueryImageUrl,
+    CreateListLink,
     QueryCategories,
+    QueryChildCategories,
     QueryGoods,
     QueryOneGoods,
     CreateDetailLink,

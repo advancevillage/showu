@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Header/>
+        <Header :language="language" :nav="1" v-on:selectedLanguage="selectedLanguage"/>
         <div id="container">
             <div class="container_warp">
                 <div class="list_banner">
@@ -11,7 +11,7 @@
                         <Filters/>
                     </div>
                     <div class="list_warp_items">
-                        <Items/>
+                        <Items :language="language"/>
                     </div>
                 </div>
             </div>
@@ -37,6 +37,35 @@
             Filters,
             Items
         },
+        created() {
+            this.cid = this.$route.query.cid || "";
+        },
+        mounted() {
+            if (this.cid.length <= 0) {
+                this.$router.push({path: '/404'})
+                    .then(() => {
+                        this.$router.go(1);
+                    })
+                    .catch(() => {
+                        this.$router.go(-1);
+                    });
+
+            } else {
+                //TDO
+                console.log(this.cid);
+            }
+        },
+        data() {
+            return {
+                language: "chinese",
+                cid: ""
+            }
+        },
+        methods: {
+            selectedLanguage(lang) {
+                this.language = lang
+            }
+        }
     }
 </script>
 
