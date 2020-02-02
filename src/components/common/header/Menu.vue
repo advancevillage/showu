@@ -11,12 +11,12 @@
                 {{item.name[language]}}
                 <em v-if="flagCategory === index"></em>
             </div>
-            <!-- 登录状态 -->
+            <!-- login in状态 -->
             <div v-if="login" class="account-info">
                 <div class="button">
-                    Sign up
+                    <b-icon icon="account-card-details" size="is-small"></b-icon>
                 </div>
-                <div class="button" v-bind:style="{'border-color': 'white', 'border-radius': '10%', 'border': '1px solid'}">
+                <div class="button">
                     <svg version="1.1" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 40 40">
                         <g>
                             <path stroke-width="1.5" fill="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M6.588,19.992c0,1.434-1.159,2.594-2.589,2.594"></path>
@@ -29,13 +29,10 @@
             </div>
             <!-- 登出状态 -->
             <div v-else class="account-info">
-                <div class="button" v-on:click="Login">
-                    Login
+                <div class="button" v-on:click="OpenLogin">
+                    <b-icon icon="account" size="is-small"></b-icon>
                 </div>
-                <div class="button">
-                    Sign up
-                </div>
-                <div class="button" v-bind:style="{'border-color': 'white', 'border-radius': '100%', 'width': '40px', 'border': '1px solid', 'padding': '5px'}"
+                <div class="button"
                      v-on:mouseenter="flagCartDetail=1">
                     <svg version="1.1" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 40 40">
                         <g>
@@ -110,7 +107,7 @@
             this.QueryCategories()
         },
         methods: {
-            Login() {
+            OpenLogin() {
                 this.$buefy.modal.open({
                     parent: this,
                     component: Login,
@@ -208,6 +205,15 @@
         padding: 0;
         margin: 1px 5px;
         color: white;
+    }
+    .account-info > .button {
+        float: left;
+        width: 30px;
+        height: 30px;
+        margin: 5px;
+        padding: 5px;
+        border: 1px solid;
+        border-radius: 100%;
     }
     .cart {
         width: 15%;

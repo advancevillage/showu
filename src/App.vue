@@ -31,4 +31,7 @@
     height: 100%;
     z-index: 5;
   }
+  .modal-background {
+    background-color: rgba(10, 10, 10, 0.3);
+  }
 </style>

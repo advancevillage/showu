@@ -7,6 +7,7 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 import api   from './axios/api'
 import lang  from './language/languages'
+import '@mdi/font/css/materialdesignicons.css'
 
 
 //安装插件 vue-router

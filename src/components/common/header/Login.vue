@@ -1,29 +1,34 @@
 <template>
     <div>
         <div class="modal-card">
-            <div class="login_warp">
-                <section>
-                    <b-field label="Email">
-                        <b-input type="email" placeholder="example@gmail.com" maxlength="50"></b-input>
-                    </b-field>
-                    <b-field label="Password">
-                        <b-input type="password" placeholder="password input" password-reveal></b-input>
-                    </b-field>
-                    <b-button class="login" :type="login.type" size="is-medium" expanded :loading="login.loading"
-                        v-on:click="AccountLogin()">
-                        {{login.title}}
-                    </b-button>
-                </section>
+            <div class="login">
+                <p class="login_header" v-html="languages.Login.header[language]"></p>
+                <ul>
+                    <li><div class="account_icon"><b-icon icon="account-box"></b-icon></div><b-input v-model="account" class="account" placeholder="kelly@example.com" type="email" maxlength="30" minlength="7" size="is-small"></b-input></li>
+                    <li><div class="password_icon"><b-icon icon="lock"></b-icon></div><b-input v-model="password" class="password" placeholder="password" type="password" maxlength="30" minlength="8" size="is-small" password-reveal></b-input></li>
+                    <li><b-button class="account_forget" icon-left="alert-circle" type="is-light" size="is-small">{{languages.Login.forget[language]}}</b-button></li>
+                    <li><b-button class="account_login"  type="is-dark" size="is-small">{{languages.Login.login[language]}}</b-button></li>
+                </ul>
+            </div>
+            <div class="sign">
+                <p class="sign_header" v-html="languages.Sign.header[language]"></p>
+                <p><b-button class="account_sign"  type="is-dark" size="is-small">{{languages.Sign.sign[language]}}</b-button></p>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import BIcon from "buefy/src/components/icon/Icon";
     export default {
         name: "Login",
+        components: {BIcon},
         data() {
             return {
+                languages: this.$languages,
+                language: "chinese",
+                account: "",
+                password: "",
                 login: {
                     title: "CONTINUE",
                     type: "is-success",
@@ -47,25 +52,64 @@
 <style scoped>
     .modal-card {
         width: 600px;
-        height: 600px;
-        background: rgb(232, 232, 232);
+        height: 300px;
+        flex-direction: row;
+        background: rgb(192,192,192);
     }
-    .login_warp {
-        padding: 10% 25%;
-        width: 100%;
+    .login, .sign {
+        width: 50%;
         height: 100%;
     }
-    .level-item {
-        width: 100%;
-        height: 20%;
-        border: 1px solid;
+    .sign {
+        margin-top: 5%;
+        margin-left: 1%;
+        border-left: 2px solid;
     }
-    .field > .control {
-        height: 40px;
+    .sign_header {
+        display: block;
+        margin: 10px;
+        text-align: left;
+        font-size: small;
+        font-family: serif;
+        line-height: 2rem;
     }
-    .login {
+    .login_header {
         width: 100%;
-        height: 40px;
+        text-align: center;
+        margin-top: 15%;
+        margin-bottom: 30px;
+        display: block;
+        font-family: serif;
+    }
+    .login_header > b {
+        font-weight: 900;
+    }
+    .account, .password {
+        margin-left: 13%;
+        width: 85%;
         padding: 0;
+    }
+    .account_icon, .password_icon {
+        margin-left: 2%;
+        width: 10%;
+        color: gray;
+        position: absolute;
+    }
+    .account_forget:hover {
+        background: none;
+    }
+    .account_forget {
+        float: right;
+        background-color: rgba(192,192,192,1);
+        text-decoration: underline;
+        border: none;
+    }
+    .account_login {
+        width: 85%;
+        margin-left: 13%;
+    }
+    .account_sign {
+        width: 95%;
+        margin: 2px 10px;
     }
 </style>
