@@ -95,7 +95,7 @@
                         </div>
                         <!-- 继续 -->
                         <nav class="level" v-bind:style="{'padding-left': 0, 'padding-right': 0}">
-                            <b-button type="is-primary" expanded>CONTINUE TO CHECKOUT</b-button>
+                            <b-button type="is-dark" expanded>CONTINUE TO CHECKOUT</b-button>
                         </nav>
                     </div>
                 </div>

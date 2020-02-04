@@ -31,8 +31,20 @@ const Sign = {
     }
 };
 
+const Cart = {
+    checkout: {
+        english: "Continue To Checkout",
+        chinese: "核对订单"
+    },
+    empty: {
+        english: "Your bag is empty",
+        chinese: "空空如也"
+    }
+};
+
 export default  {
     Country,
     Login,
+    Cart,
     Sign
 }

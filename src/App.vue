@@ -34,4 +34,9 @@
   .modal-background {
     background-color: rgba(10, 10, 10, 0.3);
   }
+  input:focus {
+    border: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
 </style>

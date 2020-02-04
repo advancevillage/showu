@@ -104,6 +104,9 @@
         text-decoration: underline;
         border: none;
     }
+    .account_forget:focus, .account_login:focus, .account_sign:focus {
+        border: none;
+    }
     .account_login {
         width: 85%;
         margin-left: 13%;

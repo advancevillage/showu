@@ -33,7 +33,8 @@
                     <b-icon icon="account" size="is-small"></b-icon>
                 </div>
                 <div class="button"
-                     v-on:mouseenter="flagCartDetail=1">
+                     v-on:mouseenter="flagCartDetail=1"
+                     v-on:mouseleave="flagCartDetail=-1">
                     <svg version="1.1" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 40 40">
                         <g>
                             <path stroke-width="1.5" fill="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M6.588,19.992c0,1.434-1.159,2.594-2.589,2.594"></path>
@@ -45,7 +46,6 @@
                 </div>
             </div>
         </nav>
-
         <div class="category-children"
              v-if="flagMenu >= 0 && flagCategory >= 0"
              v-on:mouseleave="flagMenu=nav; flagCategory=-1; flagCategoryDetail=-1"
@@ -66,6 +66,40 @@
              v-if="flagMenu >= 0 && flagCartDetail >= 0"
              v-on:mouseenter="flagMenu=1,  flagCartDetail=1"
              v-on:mouseleave="flagMenu=nav,flagCartDetail=-1">
+            <div v-if="carts.length <= 0" class="cart-header">
+                <b-icon icon="cart-arrow-down"></b-icon>
+                <p>{{languages.Cart.empty[language]}}</p>
+            </div>
+            <div v-else class="cart-context">
+                <div class="cart-items" v-for="(item, index) in carts" :key="index">
+                    <div class="card">
+                        <div class="card-content">
+                        <div class="media">
+                            <div class="media-left">
+                                <figure>
+                                    <img style="width: 96px; height: 96px;" :src="item.frontImage" alt="Placeholder image">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <ul>
+                                    <li style="float: right; line-height: 1rem; color: rgb(192,192,192); cursor: pointer;"><b-icon icon="close" @click.native="RemoveCartItem(index)"></b-icon></li>
+                                    <li>{{item.name}}</li>
+                                    <li>{{item.color}}</li>
+                                    <li>{{item.size}}</li>
+                                    <li>
+                                        <b-numberinput v-model="item.count" style="width: 50%; float: left" type="is-light" min=1 size="is-small" controls-position="compact"></b-numberinput>
+                                        <p style="float: right; line-height: 1.5rem; margin-right: 5%">{{languages.Country[language]}}{{item.count * item.price}}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cart-footer">
+                <b-button class="checkout"  type="is-dark" size="is-small" @click="RedirectCartPage">{{languages.Cart.checkout[language]}}</b-button>
+            </div>
         </div>
     </div>
 </template>
@@ -90,6 +124,7 @@
         },
         data() {
             return {
+                languages: this.$languages,
                 flagMenu: -1,
                 flagCategory: -1,
                 flagCategoryDetail: -1,
@@ -100,7 +135,33 @@
                     items: []
                 },
                 children: [],
-                api: this.$api
+                api: this.$api,
+                carts: [
+                    {
+                        name: "测试",
+                        color: "red",
+                        size: "L",
+                        price: 99,
+                        count: 1,
+                        frontImage: "//localhost:13147/images/12/33/2293660499700654081233.jpg",
+                    },
+                    {
+                        name: "测试",
+                        color: "red",
+                        size: "L",
+                        price: 99,
+                        count: 1,
+                        frontImage: "//localhost:13147/images/12/33/2293660499700654081233.jpg",
+                    },
+                    {
+                        name: "测试",
+                        color: "red",
+                        size: "L",
+                        price: 99,
+                        count: 1,
+                        frontImage: "//localhost:13147/images/12/33/2293660499700654081233.jpg",
+                    },
+                ]
             }
         },
         mounted: function() {
@@ -140,6 +201,21 @@
             EnterChildCategories() {
                 this.flagMenu = 1;
                 this.flagCategory= this.flagCategoryDetail;
+            },
+            RemoveCartItem(index) {
+                if (index < 0 || index >= this.carts.length) {
+                    return
+                }
+                this.carts.splice(index, 1);
+            },
+            RedirectCartPage() {
+                this.$router.push({path: '/cart'})
+                    .then(() => {
+                        this.$router.go(1);
+                    })
+                    .catch(() => {
+                        this.$router.go(-1);
+                    });
             }
         }
     }
@@ -216,11 +292,37 @@
         border-radius: 100%;
     }
     .cart {
-        width: 15%;
-        border: 1px solid red;
+        width: 20%;
         z-index: 30;
         position: absolute;
         right: 0;
         height: auto;
+        border-top: 2px solid white;
+    }
+    .cart-header, .cart-footer, .cart-context, .cart-items {
+        width: 100%;
+        background-color: rgba(192, 192, 192, 0.8);
+        text-align: center;
+    }
+    .cart-context {
+        max-height: 600px;
+        overflow: auto;
+    }
+    .cart-header {
+        color: white;
+        padding: 10% 0;
+        font-family: serif;
+        height: 100px;
+    }
+    .cart-footer, .checkout {
+        width: 100%;
+        height: 2rem;
+    }
+    .card-content {
+        margin: 0;
+        padding: 0;
+    }
+    .media-content li {
+        font-size: smaller;
     }
 </style>
