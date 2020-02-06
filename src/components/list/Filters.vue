@@ -46,7 +46,6 @@
             <header class="card-header">
                 <p class="card-header-title">
                     <span>{{price.header}}</span>
-                    <span>({{price.symbol}})</span>
                 </p>
                 <b-tag class="clear" size="is-small" type="is-text">{{clear.text}}</b-tag>
             </header>

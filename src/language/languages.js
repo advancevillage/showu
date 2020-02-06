@@ -42,9 +42,21 @@ const Cart = {
     }
 };
 
+const List = {
+    color: {
+        english: "colors",
+        chinese: "颜色"
+    },
+    quickAdd: {
+        english: "Quick Add",
+        chinese: "加购"
+    }
+};
+
 export default  {
     Country,
     Login,
+    List,
     Cart,
     Sign
 }

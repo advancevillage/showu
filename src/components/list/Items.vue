@@ -5,7 +5,6 @@
         </div>
         <div class="items">
             <div class="card" v-for="(item, index) in goods.items" :key="index" v-on:mouseenter="item.hover = true" v-on:mouseleave="item.hover = false">
-                <a :href= "api.CreateDetailLink(item.brand, item.category, item.name, item.id)">
                 <div class="card-image">
                     <div class="flags">
                         <div class="left"></div>
@@ -13,9 +12,19 @@
                             <b-icon icon="star-face"></b-icon>
                         </div>
                     </div>
-                    <div v-for="(image, index) in item.images" :key="index">
-                            <img class="images" v-if="image.direction === 1  && !item.hover" :src="api.QueryImageUrl(image.url)" alt="Placeholder image">
-                            <img class="images" v-if="image.direction === -1 &&  item.hover" :src="api.QueryImageUrl(image.url)" alt="Placeholder image">
+                    <a :href= "api.CreateDetailLink(item.brand, item.category, item.name, item.id)">
+                        <div v-for="(image, index) in item.images" :key="index">
+                                <img class="images" v-if="image.direction === 1  && !item.hover" :src="api.QueryImageUrl(image.url)" alt="Placeholder image">
+                                <img class="images" v-if="image.direction === -1 &&  item.hover" :src="api.QueryImageUrl(image.url)" alt="Placeholder image">
+                        </div>
+                    </a>
+                    <div v-if="item.hover" class="sizes" v-on:mouseenter="item.sizeHover = true" v-on:mouseleave="item.sizeHover = false">
+                        <div v-if="item.sizeHover">
+                            <span class="size" v-for="(size, index) in item.sizes" :key="index" v-on:mouseenter="item.selectedSize = index" @click="AddCart(item)">{{size.value}}</span>
+                        </div>
+                        <div v-else>
+                            <span><b-icon icon="cart"></b-icon></span>
+                        </div>
                     </div>
                 </div>
                 <div class="card-content">
@@ -37,14 +46,18 @@
                         <span v-bind:style="{color: 'black', margin: '0 4px', textDecoration: 'line-through'}">{{languages.Country[language]}}{{item.price}}</span>
                     </span>
                     <!-- 颜色 -->
-                    <div v-if="item.hover" class="color">
-                        <b-tag class="color_warp" v-for="(color, index) in item.colors" :key="index" :style="{'background': color.rgb}"></b-tag>
+                    <div v-if="item.colors.length > 0 && item.hover" class="color">
+                        <span class="color_name">{{item.colors[item.selectedColor].name[language]}}</span>
+                        <ul>
+                            <li class="color_warp" v-for="(color, index) in item.colors" :key="index" v-bind:style="[item.selectedColor === index ? {border: '1px solid darkgray'} : {}]" v-on:click="item.selectedColor = index">
+                                <span class="color_item" :style="{'background': color.rgb}"></span>
+                            </li>
+                        </ul>
                     </div>
                     <div v-else class="color_text">
-                        <span>{{item.colors.length}} colors available</span>
+                        <span>{{item.colors.length}} {{languages.List.color[language]}}</span>
                     </div>
                 </div>
-                </a>
             </div>
         </div>
         <div class="footer">
@@ -53,10 +66,9 @@
 </template>
 
 <script>
-    import BIcon from "buefy/src/components/icon/Icon";
+
     export default {
         name: "Items",
-        components: {BIcon},
         props: {
             language: {
                 type: String,
@@ -90,8 +102,43 @@
                 this.goods = await this.$api.QueryGoods(params, headers) || {total: 0, items: []};
                 for (let i = 0; i < this.goods.items.length; i++) {
                     this.$set(this.goods.items[i], 'hover', false);
+                    this.$set(this.goods.items[i], 'sizeHover', false);
+                    this.$set(this.goods.items[i], 'selectedColor', 0);
+                    this.$set(this.goods.items[i], 'selectedSize', 0);
                 }
             },
+            AddCart(item) {
+                item = item || {};
+                let cart = {};
+                //goods
+                cart.gid    = item.id;
+                cart.name   = item.name;
+                cart.status = item.status;
+                cart.count  = 1;
+                switch (cart.status) {
+                    case 0x111:
+                        cart.price = item.newIn;
+                        break;
+                    case 0x112:
+                        cart.price = item.price;
+                        break;
+                    case 0x113:
+                        cart.price = item.sale;
+                        break;
+                    case 0x114:
+                        cart.price = item.clearance;
+                        break
+                }
+                //size
+                cart.sizeId = item.sizes[item.selectedSize].id;
+                cart.sizeValue  = item.sizes[item.selectedSize].value;
+                //color
+                cart.colorId   = item.colors[item.selectedColor].id;
+                cart.colorName = item.colors[item.selectedColor].name;
+                //front image
+                cart.frontImage = item.images[0].url;
+                this.$utils.AddCart(cart);
+            }
         }
 
     }
@@ -113,6 +160,25 @@
         width: 337px;
         height: 422px;
     }
+    .card-image > .sizes {
+        position: absolute;
+        height: 6%;
+        top: 90%;
+        background: rgba(192,192,192, 0.6);
+        width: 95%;
+        margin: 2%;
+        text-align: center;
+        line-height: 2rem;
+        cursor: pointer;
+    }
+    .card-image > .sizes  .size {
+        margin: 0 5px;
+        color: white;
+        font-weight: bolder;
+    }
+    .card-image > .sizes  .size:hover {
+        color: black;
+    }
     .card-image > .flags {
         z-index: 0;
         position: absolute;
@@ -120,7 +186,7 @@
     }
     .card-image > .flags > .left, .card-image > .flags > .right {
         float: left;
-        height: 100px;
+        height: auto;
         width: 100px;
     }
     .card-image > .flags > .right {
@@ -136,22 +202,44 @@
         font-size: large;
         text-align: center;
         color: black;
+        font-family: serif;
+        line-height: 1rem;
+    }
+    .card-content > .color > .color_name {
+        font-size: small;
+        text-align: left;
+        width: 100%;
+        display: block;
+        line-height: 1.5rem;
+        color: darkgray;
+        font-family: serif;
     }
     .card-content > .color, .card-content > .color_text {
         width: 100%;
-        height: 40px;
+        height: auto;
         float: left;
         overflow: hidden;
         cursor: pointer;
-        color: black;
+        color: darkgray;
+        font-family: serif;
+        line-height: 3rem;
     }
-    .card-content > .color > .color_warp {
-        width: 15px;
-        height: 15px;
+    .card-content > .color  .color_warp {
+        width: 20px;
+        height: 20px;
         border-radius: 100%;
-        padding: 0;
-        margin: 0 3px;
+        padding: 4px;
+        float: left;
+        display: block;
     }
+    .card-content > .color .color_item {
+         width: 10px;
+         height: 10px;
+         border-radius: 100%;
+         padding: 0;
+         margin: 0;
+         display: block;
+     }
     .card-content > .color > .color_warp:hover {
         border-radius: 0;
     }

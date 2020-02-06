@@ -7,7 +7,7 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 import api     from './axios/api'
 import lang    from './language/languages'
-import storage from './storage/stroage'
+import utils   from './storage/utils'
 import '@mdi/font/css/materialdesignicons.css'
 
 
@@ -17,7 +17,7 @@ Vue.use(Buefy);
 Vue.use(VueAwesomeSwiper);
 Vue.prototype.$api       = api;
 Vue.prototype.$languages = lang;
-Vue.prototype.$storage   = storage;
+Vue.prototype.$utils     = utils;
 
 //载入组件
 import App            from './App.vue'

@@ -77,15 +77,15 @@
                         <div class="media">
                             <div class="media-left">
                                 <figure>
-                                    <img style="width: 96px; height: 96px;" :src="item.frontImage" alt="Placeholder image">
+                                    <img style="width: 96px; height: 96px;" :src="api.QueryImageUrl(item.frontImage)" alt="Placeholder image">
                                 </figure>
                             </div>
                             <div class="media-content">
                                 <ul>
                                     <li style="float: right; line-height: 1rem; color: rgb(192,192,192); cursor: pointer;"><b-icon icon="close" @click.native="RemoveCartItem(index)"></b-icon></li>
-                                    <li>{{item.name}}</li>
-                                    <li>{{item.color}}</li>
-                                    <li>{{item.size}}</li>
+                                    <li>{{item.name[language]}}</li>
+                                    <li>{{item.colorName[language]}}</li>
+                                    <li>{{item.sizeValue}}</li>
                                     <li>
                                         <b-numberinput v-model="item.count" style="width: 50%; float: left" type="is-light" min=1 size="is-small" controls-position="compact"></b-numberinput>
                                         <p style="float: right; line-height: 1.5rem; margin-right: 5%">{{languages.Country[language]}}{{item.count * item.price}}</p>
@@ -136,36 +136,13 @@
                 },
                 children: [],
                 api: this.$api,
-                carts: [
-                    {
-                        name: "测试",
-                        color: "red",
-                        size: "L",
-                        price: 99,
-                        count: 1,
-                        frontImage: "//localhost:13147/images/12/33/2293660499700654081233.jpg",
-                    },
-                    {
-                        name: "测试",
-                        color: "red",
-                        size: "L",
-                        price: 99,
-                        count: 1,
-                        frontImage: "//localhost:13147/images/12/33/2293660499700654081233.jpg",
-                    },
-                    {
-                        name: "测试",
-                        color: "red",
-                        size: "L",
-                        price: 99,
-                        count: 1,
-                        frontImage: "//localhost:13147/images/12/33/2293660499700654081233.jpg",
-                    },
-                ]
+                carts: []
             }
         },
         mounted: function() {
-            this.QueryCategories()
+            this.QueryCategories();
+            this.login  = this.$utils.CheckLogin();
+            this.carts  = this.$utils.QueryCart();
         },
         methods: {
             OpenLogin() {
@@ -191,7 +168,7 @@
                 };
                 const params = {};
                 this.children = [];
-                this.children = await  this.$api.QueryChildCategories(cid, params, headers) || [];
+                this.children = await this.$api.QueryChildCategories(cid, params, headers) || [];
             },
             EnterCategories(index) {
                 this.flagCategory = index;
