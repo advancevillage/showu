@@ -18,8 +18,8 @@
                                 <img class="images" v-if="image.direction === -1 &&  item.hover" :src="api.QueryImageUrl(image.url)" alt="Placeholder image">
                         </div>
                     </a>
-                    <div v-if="item.hover" class="sizes" v-on:mouseenter="item.sizeHover = true" v-on:mouseleave="item.sizeHover = false">
-                        <div v-if="item.sizeHover">
+                    <div  v-if="item.hover" class="sizes" v-on:mouseenter="item.sizeHover = true" v-on:mouseleave="item.sizeHover = false">
+                        <div  v-if="item.sizeHover">
                             <span class="size" v-for="(size, index) in item.sizes" :key="index" v-on:mouseenter="item.selectedSize = index" @click="AddCart(item)">{{size.value}}</span>
                         </div>
                         <div v-else>
@@ -67,8 +67,10 @@
 
 <script>
 
+    import BIcon from "buefy/src/components/icon/Icon";
     export default {
         name: "Items",
+        components: {BIcon},
         props: {
             language: {
                 type: String,
@@ -252,5 +254,24 @@
         float: left;
         margin-right: 1%;
         margin-bottom: 1%;
+    }
+    .ver {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        animation: ver-animation 2s 0.5s 2;
+        animation-timing-function: cubic-bezier(0.06, .46, 0, 1.04)
+    }
+    .ver .hor {
+        animation: hor-animation 2s linear .5s 2;
+    }
+
+    @keyframes hor-animation{
+        0%{
+            transform: translateX(0px)
+        }
+        100%{
+            transform: translateX(400px)
+        }
     }
 </style>
