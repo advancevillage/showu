@@ -141,17 +141,31 @@
         },
         mounted: function() {
             this.QueryCategories();
-            this.login  = this.$utils.CheckLogin();
-            this.carts  = this.$utils.QueryCart();
+            this.QueryUserStatus();
         },
         methods: {
             OpenLogin() {
                 this.$buefy.modal.open({
+                    props: {
+                        language: this.language
+                    },
                     parent: this,
                     component: Login,
                     hasModalCard: true,
-                    trapFocus: true
+                    trapFocus: true,
+                    scroll: "keep",
+                    events: {
+                        triggerCheckLogin: this.QueryUserStatus,
+                    }
                 });
+            },
+            QueryUserStatus() {
+                this.login = this.$utils.CheckLogin();
+                if (this.login) {
+                    //TODO 已登录 合并购物车
+                } else {
+                    this.carts  = this.$utils.QueryCart();
+                }
             },
             QueryCategories: async function() {
                 const params = {

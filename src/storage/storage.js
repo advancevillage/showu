@@ -43,8 +43,14 @@ function decode(encrypted,key,iv){//解密
     return decrypted.toString(CryptoJS.enc.Utf8);
 }
 
+const sha1 = (message) => {
+    //.toString(CryptoJS.enc.Hex)
+    return CryptoJS.SHA1(message).toString()
+};
+
 export default  {
     QueryCookie,
     QueryLocalStorage,
     CreateLocalStorage,
+    sha1,
 }

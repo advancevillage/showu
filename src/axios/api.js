@@ -29,7 +29,8 @@ const QueryCategories = (params, headers) => {
         url: "/v1/categories",
         method: "get",
         params: params || {},
-        headers: headers || {}
+        headers: headers || {},
+        baseURL: '//localhost:13147',
     })
 };
 
@@ -38,7 +39,8 @@ const QueryChildCategories = (pathId, params, headers) => {
         url: "/v1/categories/" + pathId + "/categories",
         method: "get",
         params: params || {},
-        headers: headers || {}
+        headers: headers || {},
+        baseURL: '//localhost:13147',
     })
 };
 
@@ -47,7 +49,8 @@ const QueryGoods = (params, headers) => {
         url: "/v1/goods",
         method: "get",
         params: params || {},
-        headers: headers || {}
+        headers: headers || {},
+        baseURL: '//localhost:13147',
     })
 };
 
@@ -56,7 +59,38 @@ const QueryOneGoods = (pathId, params, headers) => {
         url: "/v1/goods/" + pathId,
         method: "get",
         params: params || {},
-        headers: headers || {}
+        headers: headers || {},
+        baseURL: '//localhost:13147',
+    })
+};
+
+const CreateToken = (headers, body) => {
+    return service({
+        url: "/v1/tokens",
+        method: "post",
+        data: body || {},
+        headers: headers || {},
+        baseURL: '//localhost:13172',
+    })
+};
+
+const CreateUser = (headers, body) => {
+    return service({
+        url: "/v1/users",
+        method: "post",
+        data: body || {},
+        headers: headers || {},
+        baseURL: '//localhost:13172',
+    })
+};
+
+const QueryUser = (headers, params) => {
+    return service({
+        url: "/v1/users",
+        method: "get",
+        params: params || {},
+        headers: headers || {},
+        baseURL: '//localhost:13172',
     })
 };
 
@@ -68,4 +102,7 @@ export default  {
     QueryGoods,
     QueryOneGoods,
     CreateDetailLink,
+    CreateToken,
+    CreateUser,
+    QueryUser,
 }

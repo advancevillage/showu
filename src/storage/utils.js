@@ -40,9 +40,15 @@ const AddCart = (item) => {
     console.log(CheckLogin());
 };
 
+const SHA1 = (message) => {
+    return storage.sha1(message)
+
+};
+
 export default {
     AddCart,
     QueryCart,
     QueryLogin,
-    CheckLogin
+    CheckLogin,
+    SHA1,
 }
