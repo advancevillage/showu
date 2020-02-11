@@ -1,5 +1,6 @@
 <template>
-    <div id="header">
+    <!--v-bind:style= "[condition ? {styleA} : {styleB}]"-->
+    <div id="header" v-bind:style="[scroll > 24 ? {position: 'fixed'} : {}]">
         <!--通知栏-->
         <div class="notice">
             <Notice :language="lang" v-on:selectedLanguage="selectedLanguage"/>
@@ -35,13 +36,23 @@
         },
         data() {
             return {
-                lang: this.language
+                lang: this.language,
+                scroll: 0
             }
+        },
+        mounted() {
+            window.addEventListener('scroll', this.test, true)
+        },
+        destroyed () {
+            window.removeEventListener('scroll', this.test,true);
         },
         methods: {
             selectedLanguage(lang) {
                 this.lang = lang;
                 this.$emit("selectedLanguage", this.lang)
+            },
+            test() {
+                this.scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
             }
         }
     }

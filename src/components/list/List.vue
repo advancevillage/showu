@@ -51,8 +51,7 @@
                     });
 
             } else {
-                //TDO
-                console.log(this.cid);
+                //TODO
             }
         },
         data() {

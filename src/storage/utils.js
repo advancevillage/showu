@@ -37,12 +37,15 @@ const AddCart = (item) => {
         carts.push(item);
     }
     storage.CreateLocalStorage(keys.carts, JSON.stringify(carts));
-    console.log(CheckLogin());
 };
 
 const SHA1 = (message) => {
     return storage.sha1(message)
 
+};
+
+const Singles = {
+    SingleOfAddCart: "sig_add_cart"
 };
 
 export default {
@@ -51,4 +54,5 @@ export default {
     QueryLogin,
     CheckLogin,
     SHA1,
+    Singles,
 }

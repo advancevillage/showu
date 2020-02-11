@@ -66,11 +66,9 @@
 </template>
 
 <script>
-
-    import BIcon from "buefy/src/components/icon/Icon";
     export default {
         name: "Items",
-        components: {BIcon},
+
         props: {
             language: {
                 type: String,
@@ -139,7 +137,7 @@
                 cart.colorName = item.colors[item.selectedColor].name;
                 //front image
                 cart.frontImage = item.images[0].url;
-                this.$utils.AddCart(cart);
+                this.$bus.$emit(this.$utils.Singles.SingleOfAddCart, cart);
             }
         }
 

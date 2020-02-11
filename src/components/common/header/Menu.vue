@@ -32,10 +32,11 @@
                 <div class="button" v-on:click="OpenLogin">
                     <b-icon icon="account" size="is-small"></b-icon>
                 </div>
-                <div class="button"
+                <div class="button" v-bind:class="{'rock': rock}"
                      v-on:mouseenter="flagCartDetail=1"
                      v-on:mouseleave="flagCartDetail=-1">
-                    <svg version="1.1" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 40 40">
+                    {{totalItem}}
+                    <svg style="position: absolute; top: -7px; left: -5px; z-index: -1;" version="1.1" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 40 40">
                         <g>
                             <path stroke-width="1.5" fill="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M6.588,19.992c0,1.434-1.159,2.594-2.589,2.594"></path>
                             <path stroke-width="1.5" fill="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M16.456,13.569c0-2.507,2.029-4.54,4.531-4.54c2.503,0,4.532,2.033,4.532,4.54"></path>
@@ -87,7 +88,7 @@
                                     <li>{{item.colorName[language]}}</li>
                                     <li>{{item.sizeValue}}</li>
                                     <li>
-                                        <b-numberinput v-model="item.count" style="width: 50%; float: left" type="is-light" min=1 size="is-small" controls-position="compact"></b-numberinput>
+                                        <b-numberinput v-model="item.count" style="width: 50%; float: left" type="is-light" min=1 size="is-small" controls-position="compact" @input="QueryCartTotal"></b-numberinput>
                                         <p style="float: right; line-height: 1.5rem; margin-right: 5%">{{languages.Country[language]}}{{item.count * item.price}}</p>
                                     </li>
                                 </ul>
@@ -122,6 +123,17 @@
         created() {
             this.flagMenu = this.nav;
         },
+        mounted() {
+            this.$bus.$on(this.$utils.Singles.SingleOfAddCart,  (data) => {
+                this.$utils.AddCart(data);
+                this.QueryUserStatus();
+            });
+            this.QueryCategories();
+            this.QueryUserStatus();
+        },
+        beforeDestroy() {
+            this.$bus.$off(this.$utils.Singles.SingleOfAddCart);
+        },
         data() {
             return {
                 languages: this.$languages,
@@ -136,12 +148,10 @@
                 },
                 children: [],
                 api: this.$api,
-                carts: []
+                carts: [],
+                totalItem: 0,
+                rock: false
             }
-        },
-        mounted: function() {
-            this.QueryCategories();
-            this.QueryUserStatus();
         },
         methods: {
             OpenLogin() {
@@ -165,6 +175,23 @@
                     //TODO 已登录 合并购物车
                 } else {
                     this.carts  = this.$utils.QueryCart();
+                }
+                this.QueryCartTotal();
+                let timeout = 8;
+                let clock = window.setInterval( () => {
+                    if (timeout < 1) {
+                        window.clearInterval(clock);
+                        this.rock = false;
+                    } else {
+                        timeout--;
+                        this.rock = true;
+                    }
+                }, 50)
+            },
+            QueryCartTotal() {
+                this.totalItem = 0;
+                for (let i = 0; i < this.carts.length; i++ ) {
+                    this.totalItem += this.carts[i].count;
                 }
             },
             QueryCategories: async function() {
@@ -198,6 +225,7 @@
                     return
                 }
                 this.carts.splice(index, 1);
+                this.QueryCartTotal();
             },
             RedirectCartPage() {
                 this.$router.push({path: '/cart'})
@@ -278,9 +306,12 @@
         width: 30px;
         height: 30px;
         margin: 5px;
-        padding: 5px;
-        border: 1px solid;
+        padding: 2px;
+        color: black;
         border-radius: 100%;
+        font-family: serif;
+        font-size: inherit;
+        z-index: 5;
     }
     .cart {
         width: 20%;
@@ -315,5 +346,72 @@
     }
     .media-content li {
         font-size: smaller;
+    }
+    .rock {
+        display: inline-block;
+        background-size: 100% 100%;
+        animation-name: rock;
+        transform-origin: center bottom;
+        animation-duration: 1s;
+        animation-fill-mode: both;
+        animation-iteration-count: infinite;
+        animation-delay: 0s;
+    }
+
+    @keyframes rock {
+        0% {
+            transform: rotate(0deg);
+            transition-timing-function: cubic-bezier(0.215, .61, .355, 1)
+        }
+
+        10% {
+            transform: rotate(-12deg);
+            transition-timing-function: cubic-bezier(0.215, .61, .355, 1)
+        }
+
+        20% {
+            transform: rotate(12deg);
+            transition-timing-function: cubic-bezier(0.215, .61, .355, 1)
+        }
+
+        28% {
+            transform: rotate(-10deg);
+            transition-timing-function: cubic-bezier(0.215, .61, .355, 1)
+        }
+
+        36% {
+            transform: rotate(10deg);
+            transition-timing-function: cubic-bezier(0.755, .5, .855, .06)
+        }
+
+        42% {
+            transform: rotate(-8deg);
+            transition-timing-function: cubic-bezier(0.755, .5, .855, .06)
+        }
+
+        48% {
+            transform: rotate(8deg);
+            transition-timing-function: cubic-bezier(0.755, .5, .855, .06)
+        }
+
+        52% {
+            transform: rotate(-4deg);
+            transition-timing-function: cubic-bezier(0.755, .5, .855, .06)
+        }
+
+        56% {
+            transform: rotate(4deg);
+            transition-timing-function: cubic-bezier(0.755, .5, .855, .06)
+        }
+
+        60% {
+            transform: rotate(0deg);
+            transition-timing-function: cubic-bezier(0.755, .5, .855, .06)
+        }
+
+        100% {
+            transform: rotate(0deg);
+            transition-timing-function: cubic-bezier(0.215, .61, .355, 1)
+        }
     }
 </style>
