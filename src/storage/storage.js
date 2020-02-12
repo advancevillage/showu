@@ -11,6 +11,10 @@ const QueryCookie = (key) => {
     return localCookie.get(key)
 };
 
+const DeleteCookie = (key) => {
+    return localCookie.delete(key)
+};
+
 const QueryLocalStorage = (key) => {
     let value =  localStorage.get(key) || "";
     if (value.length === 0) {
@@ -23,6 +27,11 @@ const QueryLocalStorage = (key) => {
 const CreateLocalStorage = (key, value) => {
     let aes = encode(value, info.key, info.iv);
     localStorage.set(key, aes)
+};
+
+const DeleteLocalStorage = (key) => {
+    localStorage.remove(key);
+
 };
 
 //@link: https://www.jianshu.com/p/1aed5b55ca27
@@ -50,7 +59,9 @@ const sha1 = (message) => {
 
 export default  {
     QueryCookie,
+    DeleteCookie,
     QueryLocalStorage,
     CreateLocalStorage,
+    DeleteLocalStorage,
     sha1,
 }

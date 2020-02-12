@@ -19,7 +19,7 @@ Vue.use(VueAwesomeSwiper);
 Vue.prototype.$api       = api;
 Vue.prototype.$languages = lang;
 Vue.prototype.$utils     = utils;
-Vue.prototype.$bus       = new Vue();
+Vue.prototype.$bus       = new Vue(); //事件总线
 Vue.prototype.$moment    = moment;
 
 //载入组件

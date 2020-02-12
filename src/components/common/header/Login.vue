@@ -144,7 +144,7 @@
                 } else {
                     this.loginErr = "";
                     this.$emit('close');
-                    this.$emit('triggerCheckLogin');
+                    this.$emit('triggerQueryLogin');
                 }
             }
         }

@@ -11,31 +11,20 @@
                 {{item.name[language]}}
                 <em v-if="flagCategory === index"></em>
             </div>
-            <!-- login in状态 -->
-            <div v-if="login" class="account-info">
-                <div class="button">
+
+            <div class="account-info">
+                <!-- login in状态 -->
+                <div v-if="login" class="button">
                     <b-icon icon="account-card-details" size="is-small"></b-icon>
                 </div>
-                <div class="button">
-                    <svg version="1.1" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 40 40">
-                        <g>
-                            <path stroke-width="1.5" fill="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M6.588,19.992c0,1.434-1.159,2.594-2.589,2.594"></path>
-                            <path stroke-width="1.5" fill="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M16.456,13.569c0-2.507,2.029-4.54,4.531-4.54c2.503,0,4.532,2.033,4.532,4.54"></path>
-                            <path stroke-width="1.5" fill="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d=" M16.605,13.591h-3.403c-3.652,0-6.614,2.966-6.614,6.626v6.355l-0.614,2.967c0,0.791,0.64,1.433,1.429,1.433h27.166 c0.791,0,1.431-0.642,1.431-1.433l-0.614-3.171v-6.151c0-3.66-2.962-6.626-6.614-6.626h-3.253"></path>
-                            <line stroke-width="1.5" fill="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" x1="21.936" y1="13.591" x2="16.457" y2="13.591"></line>
-                        </g>
-                    </svg>
-                </div>
-            </div>
-            <!-- 登出状态 -->
-            <div v-else class="account-info">
-                <div class="button" v-on:click="OpenLogin">
+                <!-- 登出状态 -->
+                <div v-else class="button" v-on:click="OpenLogin">
                     <b-icon icon="account" size="is-small"></b-icon>
                 </div>
                 <div class="button" v-bind:class="{'rock': rock}"
                      v-on:mouseenter="flagCartDetail=1"
                      v-on:mouseleave="flagCartDetail=-1">
-                    {{totalItem}}
+                    {{carts.total}}
                     <svg style="position: absolute; top: -7px; left: -5px; z-index: -1;" version="1.1" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 40 40">
                         <g>
                             <path stroke-width="1.5" fill="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M6.588,19.992c0,1.434-1.159,2.594-2.589,2.594"></path>
@@ -67,12 +56,12 @@
              v-if="flagMenu >= 0 && flagCartDetail >= 0"
              v-on:mouseenter="flagMenu=1,  flagCartDetail=1"
              v-on:mouseleave="flagMenu=nav,flagCartDetail=-1">
-            <div v-if="carts.length <= 0" class="cart-header">
+            <div v-if="carts.total <= 0" class="cart-header">
                 <b-icon icon="cart-arrow-down"></b-icon>
                 <p>{{languages.Cart.empty[language]}}</p>
             </div>
             <div v-else class="cart-context">
-                <div class="cart-items" v-for="(item, index) in carts" :key="index">
+                <div class="cart-items" v-for="(item, index) in carts.items" :key="index">
                     <div class="card">
                         <div class="card-content">
                         <div class="media">
@@ -83,12 +72,12 @@
                             </div>
                             <div class="media-content">
                                 <ul>
-                                    <li style="float: right; line-height: 1rem; color: rgb(192,192,192); cursor: pointer;"><b-icon icon="close" @click.native="RemoveCartItem(index)"></b-icon></li>
-                                    <li>{{item.name[language]}}</li>
+                                    <li style="float: right; line-height: 1rem; color: rgb(192,192,192); cursor: pointer;"><b-icon icon="close" @click.native="DeleteCartItem(index)"></b-icon></li>
+                                    <li>{{item.goodsName[language]}}</li>
                                     <li>{{item.colorName[language]}}</li>
                                     <li>{{item.sizeValue}}</li>
                                     <li>
-                                        <b-numberinput v-model="item.count" style="width: 50%; float: left" type="is-light" min=1 size="is-small" controls-position="compact" @input="QueryCartTotal"></b-numberinput>
+                                        <b-numberinput v-model="item.count" style="width: 50%; float: left" type="is-light" min=1 size="is-small" controls-position="compact" @input="UpdateCartItem(index)"></b-numberinput>
                                         <p style="float: right; line-height: 1.5rem; margin-right: 5%">{{languages.Country[language]}}{{item.count * item.price}}</p>
                                     </li>
                                 </ul>
@@ -124,12 +113,30 @@
             this.flagMenu = this.nav;
         },
         mounted() {
-            this.$bus.$on(this.$utils.Singles.SingleOfAddCart,  (data) => {
-                this.$utils.AddCart(data);
-                this.QueryUserStatus();
-            });
+            this.login = this.$utils.QueryLogin().length > 0;
+
+            if (this.login) {
+                //合并购物车
+                this.carts.items = this.$utils.QueryCart();
+                for (let i = 0; i < this.carts.items.length; i++ ) {
+                    this.LoginAddCart(this.carts.items[i])
+                }
+                this.$utils.DeleteCart();
+                this.QueryCarts();
+            } else {
+                this.carts.items = this.$utils.QueryCart();
+            }
+
             this.QueryCategories();
-            this.QueryUserStatus();
+            this.QueryCartTotal();
+
+            this.$bus.$on(this.$utils.Singles.SingleOfAddCart,  (data) => {
+                if (this.login) {
+                    this.LoginAddCart(data);
+                } else {
+                    this.UnLoginAddCart(data);
+                }
+            });
         },
         beforeDestroy() {
             this.$bus.$off(this.$utils.Singles.SingleOfAddCart);
@@ -148,8 +155,10 @@
                 },
                 children: [],
                 api: this.$api,
-                carts: [],
-                totalItem: 0,
+                carts: {
+                    total: 0,
+                    items: []
+                },
                 rock: false
             }
         },
@@ -165,34 +174,13 @@
                     trapFocus: true,
                     scroll: "keep",
                     events: {
-                        triggerCheckLogin: this.QueryUserStatus,
+                        triggerQueryLogin: () => {
+                            //查询登录状态
+                            this.login = this.$utils.QueryLogin().length > 0;
+                            //合并购物车
+                        },
                     }
                 });
-            },
-            QueryUserStatus() {
-                this.login = this.$utils.CheckLogin();
-                if (this.login) {
-                    //TODO 已登录 合并购物车
-                } else {
-                    this.carts  = this.$utils.QueryCart();
-                }
-                this.QueryCartTotal();
-                let timeout = 8;
-                let clock = window.setInterval( () => {
-                    if (timeout < 1) {
-                        window.clearInterval(clock);
-                        this.rock = false;
-                    } else {
-                        timeout--;
-                        this.rock = true;
-                    }
-                }, 50)
-            },
-            QueryCartTotal() {
-                this.totalItem = 0;
-                for (let i = 0; i < this.carts.length; i++ ) {
-                    this.totalItem += this.carts[i].count;
-                }
             },
             QueryCategories: async function() {
                 const params = {
@@ -220,21 +208,107 @@
                 this.flagMenu = 1;
                 this.flagCategory= this.flagCategoryDetail;
             },
-            RemoveCartItem(index) {
-                if (index < 0 || index >= this.carts.length) {
-                    return
-                }
-                this.carts.splice(index, 1);
-                this.QueryCartTotal();
-            },
             RedirectCartPage() {
                 this.$router.push({path: '/cart'})
                     .then(() => {
                         this.$router.go(1);
                     })
                     .catch(() => {
-                        this.$router.go(-1);
+                        this.$router.go(0);
                     });
+            },
+            QueryUserStatus() {
+                if (this.login) {
+                    //TODO 合并购物车
+                    this.QueryCarts();
+                } else {
+                    this.carts  = this.$utils.QueryCart();
+                }
+                console.log(this.carts);
+                this.QueryCartTotal();
+
+            },
+            QueryCartTotal() {
+                this.carts.total = 0;
+                for (let i = 0; i < this.carts.items.length; i++ ) {
+                    this.carts.total += this.carts.items[i].count;
+                }
+                this.animation();
+            },
+            DeleteCartItem(index) {
+                if (index < 0 || index >= this.carts.items.length) {
+                    return
+                }
+                this.carts.items.splice(index, 1);
+                this.QueryCartTotal();
+                if (this.login) {
+                    //TODO
+                } else {
+                    this.$utils.UpdateCart(this.carts.items);
+                }
+            },
+            UpdateCartItem(index) {
+                this.QueryCartTotal();
+                if (this.login) {
+                    console.log(this.carts.items[index])
+                } else {
+                    this.$utils.UpdateCart(this.carts.items);
+                }
+            },
+            UnLoginAddCart(data) {
+                console.log(data);
+                console.log(this.carts);
+                let i = 0;
+                for (i = 0; i < this.carts.items.length; i++) {
+                    if (data.goodsId === this.carts.items[i].goodsId && data.sizeId === this.carts.items[i].sizeId && data.colorId === this.carts.items[i].colorId) {
+                        this.carts.items[i].count += data.count;
+                        break
+                    } else {
+                        continue
+                    }
+                }
+                if ( i >= this.carts.items.length) {
+                    this.carts.items.push(data);
+                }
+                this.QueryCartTotal();
+                this.$utils.UpdateCart(this.carts.items);
+            },
+            async LoginAddCart(data) {
+                const headers = {
+                    "x-language": this.language
+                };
+                const body = data || {};
+                data = await this.$api.CreateCarts(headers, body);
+                if (data.hasOwnProperty("code")) {
+                    this.$utils.DeleteLogin();
+                } else {
+                    this.QueryCarts();
+                }
+            },
+            async QueryCarts() {
+                const params = {};
+                const headers = {
+                    "x-language": this.language
+                };
+                let data = await this.$api.QueryCarts(headers, params);
+                if (data.hasOwnProperty("code")) {
+                    this.$utils.DeleteLogin();
+                } else {
+                    this.carts = data || {total: 0, items: []};
+                    this.QueryCartTotal();
+                }
+            },
+            animation() {
+                let timeout = 8;
+                let clock = window.setInterval( () => {
+                    if (timeout < 1) {
+                        window.clearInterval(clock);
+                        this.rock = false;
+                    } else {
+                        timeout--;
+                        this.rock = true;
+                    }
+                }, 50)
             }
         }
     }

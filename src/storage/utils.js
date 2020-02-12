@@ -5,38 +5,28 @@ const keys = {
     sessionId: "sid"
 };
 
-const QueryLogin = () => {
-    let value = storage.QueryCookie(keys.sessionId);
-    console.log(value);
-    return value
+const Singles = {
+    SingleOfAddCart: "sig_add_cart"
 };
 
-//TODO 复杂度
-const CheckLogin = () => {
-    let value = storage.QueryCookie(keys.sessionId) || "";
-    return value.length > 0
+const QueryLogin = () => {
+    return storage.QueryCookie(keys.sessionId) || "";
+};
+
+const DeleteLogin = () => {
+    storage.DeleteCookie(keys.sessionId);
+};
+
+const UpdateCart = (data) => {
+   storage.CreateLocalStorage (keys.carts, JSON.stringify(data))
 };
 
 const QueryCart = () => {
     return JSON.parse(storage.QueryLocalStorage(keys.carts))
 };
 
-const AddCart = (item) => {
-    let carts = JSON.parse(storage.QueryLocalStorage(keys.carts));
-    let i = 0;
-    for (i = 0; i < carts.length; i++) {
-        if (carts[i].gid === item.gid && carts[i].colorId === item.colorId && carts[i].sizeId === item.sizeId) {
-            break;
-        } else {
-            continue
-        }
-    }
-    if (i < carts.length) {
-        carts[i].count++;
-    } else {
-        carts.push(item);
-    }
-    storage.CreateLocalStorage(keys.carts, JSON.stringify(carts));
+const DeleteCart = () => {
+    storage.DeleteLocalStorage(keys.carts);
 };
 
 const SHA1 = (message) => {
@@ -44,15 +34,12 @@ const SHA1 = (message) => {
 
 };
 
-const Singles = {
-    SingleOfAddCart: "sig_add_cart"
-};
-
 export default {
-    AddCart,
-    QueryCart,
-    QueryLogin,
-    CheckLogin,
-    SHA1,
     Singles,
+    QueryCart,
+    UpdateCart,
+    DeleteCart,
+    QueryLogin,
+    DeleteLogin,
+    SHA1
 }

@@ -111,8 +111,8 @@
                 item = item || {};
                 let cart = {};
                 //goods
-                cart.gid    = item.id;
-                cart.name   = item.name;
+                cart.goodsId    = item.id;
+                cart.goodsName  = item.name;
                 cart.status = item.status;
                 cart.count  = 1;
                 switch (cart.status) {

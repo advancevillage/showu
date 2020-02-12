@@ -90,7 +90,28 @@ const QueryUser = (headers, params) => {
         method: "get",
         params: params || {},
         headers: headers || {},
-        baseURL: '//localhost:13147',
+        baseURL: '//localhost:13173',
+    })
+};
+
+
+const QueryCarts = (headers, params) => {
+    return service({
+        url: "/v1/carts",
+        method: "get",
+        params: params || {},
+        headers: headers || {},
+        baseURL: '//localhost:13173',
+    })
+};
+
+const CreateCarts = (headers, body) => {
+    return service({
+        url: "/v1/carts",
+        method: "post",
+        data: body || {},
+        headers: headers || {},
+        baseURL: '//localhost:13173',
     })
 };
 
@@ -105,4 +126,6 @@ export default  {
     CreateToken,
     CreateUser,
     QueryUser,
+    QueryCarts,
+    CreateCarts
 }
