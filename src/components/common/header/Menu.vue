@@ -87,6 +87,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="cart-footer">
                 <b-button class="checkout"  type="is-dark" size="is-small" @click="RedirectCartPage">{{languages.Cart.checkout[language]}}</b-button>
             </div>
@@ -228,7 +229,6 @@
                 }
                 if (this.login) {
                     this.DeleteCarts(index);
-                    this.QueryCarts();
                 } else {
                     this.carts.items.splice(index, 1);
                     this.$utils.UpdateCart(this.carts.items);
@@ -241,7 +241,6 @@
                 }
                 if (this.login) {
                     this.UpdateCarts(index);
-                    this.QueryCarts();
                 } else {
                     this.carts.items.splice(index, 1);
                     this.$utils.UpdateCart(this.carts.items);
@@ -294,9 +293,8 @@
                     "x-language": this.language,
                 };
                 const body = this.carts.items[index];
-                console.log(body);
-                let data = await this.$api.UpdateCart(body.id, headers, body);
-                console.log(data);
+                await this.$api.UpdateCart(body.id, headers, body);
+                this.QueryCarts();
             },
             async DeleteCarts(index) {
                 if (index < 0 || index > this.carts.items.length) {
@@ -306,8 +304,8 @@
                     "x-language": this.language,
                 };
                 const params = {};
-                let data = await this.$api.DeleteCart(this.carts.items[index].id, headers, params);
-                console.log(data);
+                await this.$api.DeleteCart(this.carts.items[index].id, headers, params);
+                this.QueryCarts();
             },
             animation() {
                 let timeout = 8;
