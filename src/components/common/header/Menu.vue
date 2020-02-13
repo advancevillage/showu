@@ -78,7 +78,7 @@
                                     <li>{{item.sizeValue}}</li>
                                     <li>
                                         <b-numberinput v-model="item.count" style="width: 50%; float: left" type="is-light" min=1 size="is-small" controls-position="compact" @input="UpdateCartItem(index)"></b-numberinput>
-                                        <p style="float: right; line-height: 1.5rem; margin-right: 5%">{{languages.Country[language]}}{{item.count * item.price}}</p>
+                                        <p style="float: right; line-height: 1.5rem; margin-right: 5%">{{languages.Country[language]}}{{item.count * item.goodsPrice}}</p>
                                     </li>
                                 </ul>
                             </div>
@@ -113,22 +113,8 @@
             this.flagMenu = this.nav;
         },
         mounted() {
-            this.login = this.$utils.QueryLogin().length > 0;
-
-            if (this.login) {
-                //合并购物车
-                this.carts.items = this.$utils.QueryCart();
-                for (let i = 0; i < this.carts.items.length; i++ ) {
-                    this.LoginAddCart(this.carts.items[i])
-                }
-                this.$utils.DeleteCart();
-                this.QueryCarts();
-            } else {
-                this.carts.items = this.$utils.QueryCart();
-            }
-
+            this.CartRefresh();
             this.QueryCategories();
-            this.QueryCartTotal();
 
             this.$bus.$on(this.$utils.Singles.SingleOfAddCart,  (data) => {
                 if (this.login) {
@@ -174,11 +160,7 @@
                     trapFocus: true,
                     scroll: "keep",
                     events: {
-                        triggerQueryLogin: () => {
-                            //查询登录状态
-                            this.login = this.$utils.QueryLogin().length > 0;
-                            //合并购物车
-                        },
+                        triggerQueryLogin: this.CartRefresh
                     }
                 });
             },
@@ -217,16 +199,21 @@
                         this.$router.go(0);
                     });
             },
-            QueryUserStatus() {
+            CartRefresh() {
+                this.login = this.$utils.QueryLogin().length > 0;
+
                 if (this.login) {
-                    //TODO 合并购物车
+                    //合并购物车
+                    this.carts.items = this.$utils.QueryCart();
+                    for (let i = 0; i < this.carts.items.length; i++ ) {
+                        this.LoginAddCart(this.carts.items[i])
+                    }
+                    this.$utils.DeleteCart();
                     this.QueryCarts();
                 } else {
-                    this.carts  = this.$utils.QueryCart();
+                    this.carts.items = this.$utils.QueryCart();
                 }
-                console.log(this.carts);
                 this.QueryCartTotal();
-
             },
             QueryCartTotal() {
                 this.carts.total = 0;
@@ -239,25 +226,29 @@
                 if (index < 0 || index >= this.carts.items.length) {
                     return
                 }
-                this.carts.items.splice(index, 1);
-                this.QueryCartTotal();
                 if (this.login) {
-                    //TODO
+                    this.DeleteCarts(index);
+                    this.QueryCarts();
                 } else {
+                    this.carts.items.splice(index, 1);
                     this.$utils.UpdateCart(this.carts.items);
+                    this.QueryCartTotal();
                 }
             },
             UpdateCartItem(index) {
-                this.QueryCartTotal();
+                if (index < 0 || index >= this.carts.items.length) {
+                    return
+                }
                 if (this.login) {
-                    console.log(this.carts.items[index])
+                    this.UpdateCarts(index);
+                    this.QueryCarts();
                 } else {
+                    this.carts.items.splice(index, 1);
                     this.$utils.UpdateCart(this.carts.items);
+                    this.QueryCartTotal();
                 }
             },
             UnLoginAddCart(data) {
-                console.log(data);
-                console.log(this.carts);
                 let i = 0;
                 for (i = 0; i < this.carts.items.length; i++) {
                     if (data.goodsId === this.carts.items[i].goodsId && data.sizeId === this.carts.items[i].sizeId && data.colorId === this.carts.items[i].colorId) {
@@ -279,11 +270,7 @@
                 };
                 const body = data || {};
                 data = await this.$api.CreateCarts(headers, body);
-                if (data.hasOwnProperty("code")) {
-                    this.$utils.DeleteLogin();
-                } else {
-                    this.QueryCarts();
-                }
+                this.QueryCarts();
             },
             async QueryCarts() {
                 const params = {};
@@ -293,10 +280,34 @@
                 let data = await this.$api.QueryCarts(headers, params);
                 if (data.hasOwnProperty("code")) {
                     this.$utils.DeleteLogin();
+                    this.CartRefresh();
                 } else {
                     this.carts = data || {total: 0, items: []};
                     this.QueryCartTotal();
                 }
+            },
+            async UpdateCarts(index) {
+                if (index < 0 || index > this.carts.items.length) {
+                    return
+                }
+                const headers = {
+                    "x-language": this.language,
+                };
+                const body = this.carts.items[index];
+                console.log(body);
+                let data = await this.$api.UpdateCart(body.id, headers, body);
+                console.log(data);
+            },
+            async DeleteCarts(index) {
+                if (index < 0 || index > this.carts.items.length) {
+                    return
+                }
+                const headers = {
+                    "x-language": this.language,
+                };
+                const params = {};
+                let data = await this.$api.DeleteCart(this.carts.items[index].id, headers, params);
+                console.log(data);
             },
             animation() {
                 let timeout = 8;

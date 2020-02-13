@@ -113,20 +113,20 @@
                 //goods
                 cart.goodsId    = item.id;
                 cart.goodsName  = item.name;
-                cart.status = item.status;
+                cart.goodsStatus = item.status;
                 cart.count  = 1;
-                switch (cart.status) {
+                switch (cart.goodsStatus) {
                     case 0x111:
-                        cart.price = item.newIn;
+                        cart.goodsPrice = item.newIn;
                         break;
                     case 0x112:
-                        cart.price = item.price;
+                        cart.goodsPrice = item.price;
                         break;
                     case 0x113:
-                        cart.price = item.sale;
+                        cart.goodsPrice = item.sale;
                         break;
                     case 0x114:
-                        cart.price = item.clearance;
+                        cart.goodsPrice = item.clearance;
                         break
                 }
                 //size

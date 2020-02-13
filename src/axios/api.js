@@ -115,6 +115,26 @@ const CreateCarts = (headers, body) => {
     })
 };
 
+const UpdateCart = (pathId, headers, body) => {
+    return service({
+        url: "/v1/carts/" + pathId,
+        method: "put",
+        data: body || {},
+        headers: headers || {},
+        baseURL: '//localhost:13173',
+    })
+};
+
+const DeleteCart = (pathId, headers, params) => {
+    return service({
+        url: "/v1/carts/" + pathId,
+        method: "delete",
+        params: params || {},
+        headers: headers || {},
+        baseURL: '//localhost:13173',
+    })
+};
+
 export default  {
     QueryImageUrl,
     CreateListLink,
@@ -127,5 +147,7 @@ export default  {
     CreateUser,
     QueryUser,
     QueryCarts,
-    CreateCarts
+    CreateCarts,
+    UpdateCart,
+    DeleteCart
 }
