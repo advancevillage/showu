@@ -6,7 +6,11 @@ const keys = {
 };
 
 const Singles = {
-    SingleOfAddCart: "sig_add_cart"
+    SingleOfAddCart:  "sig_add_cart",
+    SingleOfPushCart: "sig_push_cart",
+    SingleOfPopCart:  "sig_pop_cart",
+    SingleOfUpdateCart: "sig_update_cart",
+    SingleOfDeleteCart: "sig_delete_cart",
 };
 
 const QueryLogin = () => {

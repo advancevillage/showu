@@ -124,9 +124,21 @@
                     this.UnLoginAddCart(data);
                 }
             });
+
+            //删除购物车中商品
+            this.$bus.$on(this.$utils.Singles.SingleOfDeleteCart,  (index) => {
+                this.DeleteCartItem(index);
+            });
+            //更改购物车中商品
+            this.$bus.$on(this.$utils.Singles.SingleOfUpdateCart,  (index) => {
+                this.UpdateCartItem(index);
+            });
+
         },
         beforeDestroy() {
             this.$bus.$off(this.$utils.Singles.SingleOfAddCart);
+            this.$bus.$off(this.$utils.Singles.SingleOfDeleteCart);
+            this.$bus.$off(this.$utils.Singles.SingleOfUpdateCart);
         },
         data() {
             return {
@@ -222,6 +234,8 @@
                     this.carts.total += this.carts.items[i].count;
                 }
                 this.animation();
+                //push carts data
+                this.$bus.$emit(this.$utils.Singles.SingleOfPushCart, {items: this.carts.items, total: this.carts.total});
             },
             DeleteCartItem(index) {
                 if (index < 0 || index >= this.carts.items.length) {
@@ -242,7 +256,6 @@
                 if (this.login) {
                     this.UpdateCarts(index);
                 } else {
-                    this.carts.items.splice(index, 1);
                     this.$utils.UpdateCart(this.carts.items);
                     this.QueryCartTotal();
                 }

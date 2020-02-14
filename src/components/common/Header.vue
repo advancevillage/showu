@@ -41,17 +41,17 @@
             }
         },
         mounted() {
-            window.addEventListener('scroll', this.test, true)
+            window.addEventListener('scroll', this.fixedHeader, true)
         },
         destroyed () {
-            window.removeEventListener('scroll', this.test,true);
+            window.removeEventListener('scroll', this.fixedHeader,true);
         },
         methods: {
             selectedLanguage(lang) {
                 this.lang = lang;
                 this.$emit("selectedLanguage", this.lang)
             },
-            test() {
+            fixedHeader() {
                 this.scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
             }
         }

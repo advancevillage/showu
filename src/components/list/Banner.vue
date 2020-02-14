@@ -7,9 +7,9 @@
             :indicator-mode="banner.indicatorMode"
             :indicator-style="banner.indicatorStyle"
             :indicator-inside="banner.indicatorInside">
-            <b-carousel-item v-for="(item, i) in 6" :key="i">
+            <b-carousel-item v-for="item in 6" :key="item">
             <span>
-                <img class="image" :src="getBannerUrl(i)">
+                <img class="image" :src="getBannerUrl(item)">
             </span>
             </b-carousel-item>
         </b-carousel>

@@ -2,103 +2,49 @@
     <div>
         <Header/>
         <div id="container">
-            <div class="container_warp">
-                <div class="carts">
-                    <div class="carts_list">
-                        <div class="top">
-                        </div>
-                        <div class="center">
-                            <div class="card" v-for="(item, index) in cart.items" :key="index">
-                                <div class="card-content">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <img class="image" :src="item.imageUrl" alt="Placeholder image">
-                                        </div>
-                                        <div class="media-content">
-                                            <p class="title is-6">{{item.title}}</p>
-                                            <p class="subtitle is-7">{{item.size}}</p>
-                                            <p class="subtitle is-7">{{item.color}}</p>
-                                            <p class="subtitle is-7">{{item.style}}</p>
-                                            <b-field class="count_warp">
-                                                <b-numberinput v-model="item.sum" readonly="true" class="count" type="is-light" size="is-small"  :min="item.min" :max="item.max" controls-position="compact"></b-numberinput>
-                                                <span class="price">{{item.symbol}}{{item.sum * item.price}}</span>
-                                            </b-field>
-                                        </div>
-                                    </div>
+
+            <div class="cart_list">
+                <span class="cart_back" @click="back"><em></em>{{languages.Cart.back[language]}}</span>
+                <div class="cart-items" v-for="(item, index) in carts.items" :key="index">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-left">
+                                    <figure>
+                                        <img style="width: 128px; height: 128px;" :src="api.QueryImageUrl(item.frontImage)" alt="Placeholder image">
+                                    </figure>
+                                </div>
+                                <div class="media-content">
+                                    <ul>
+                                        <li style="float: right; line-height: 1rem; color: rgb(192,192,192); cursor: pointer;"><b-icon icon="close" @click.native="DeleteCartItem(index)"></b-icon></li>
+                                        <li>{{item.goodsName[language]}}</li>
+                                        <li>{{item.colorName[language]}}</li>
+                                        <li>{{item.sizeValue}}</li>
+                                        <li>
+                                            <b-numberinput v-model="item.count" style="width: 20%; float: left" type="is-light" min=1 size="is-small" controls-position="compact" @input="UpdateCartItem(index)"></b-numberinput>
+                                            <p style="float: right; line-height: 1.5rem; margin-right: 5%">{{languages.Country[language]}}{{item.count * item.goodsPrice}}</p>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="bottom"></div>
-                    </div>
-                    <div class="carts_summary">
-                        <div style="background: darkgray">
-                            <!-- 订单核对头部 -->
-                            <nav class="level">
-                                <div class="level-item has-text-centered">
-                                    <div>
-                                        <p class="heading">Order Summary</p>
-                                    </div>
-                                </div>
-                            </nav>
-                            <!-- 商品费用 -->
-                            <nav class="level">
-                                <div class="level-left">
-                                    <div class="level-item has-text-centered">
-                                        <p class="heading">Subtotal</p>
-                                    </div>
-                                </div>
-                                <div class="level-right">
-                                    <div class="level-item has-text-centered">
-                                        <p class="heading">Tweets</p>
-                                    </div>
-                                </div>
-                            </nav>
-                            <!-- 关税费用 -->
-                            <nav class="level">
-                                <div class="level-left">
-                                    <div class="level-item has-text-centered">
-                                        <p class="heading">Tax</p>
-                                    </div>
-                                </div>
-                                <div class="level-right">
-                                    <div class="level-item has-text-centered">
-                                        <p class="heading">Tweets</p>
-                                    </div>
-                                </div>
-                            </nav>
-                            <!-- 配送费用 -->
-                            <nav class="level">
-                                <div class="level-left">
-                                    <div class="level-item has-text-centered">
-                                        <p class="heading">Shipping</p>
-                                    </div>
-                                </div>
-                                <div class="level-right">
-                                    <div class="level-item has-text-centered">
-                                        <p class="heading">Tweets</p>
-                                    </div>
-                                </div>
-                            </nav>
-                            <!-- 总费用 -->
-                            <nav class="level" v-bind:style="{'padding-bottom': '1.5rem'}">
-                                <div class="level-left">
-                                    <div class="level-item has-text-centered">
-                                        <p class="heading">Total</p>
-                                    </div>
-                                </div>
-                                <div class="level-right">
-                                    <div class="level-item has-text-centered">
-                                        <p class="heading">Tweets</p>
-                                    </div>
-                                </div>
-                            </nav>
-                        </div>
-                        <!-- 继续 -->
-                        <nav class="level" v-bind:style="{'padding-left': 0, 'padding-right': 0}">
-                            <b-button type="is-dark" expanded>CONTINUE TO CHECKOUT</b-button>
-                        </nav>
                     </div>
                 </div>
+            </div>
+            <div class="cart_summary">
+                <ul>
+                    <li style="font-weight: bolder">{{languages.Cart.summary[language]}}</li>
+                    <li><span style="text-align: left;float: left; width: 80%; padding-left: 5%">{{languages.Cart.goods[language]}}</span><span style="float: right; width: 20%">{{languages.Country[language]}}{{goodsPrice}}</span></li>
+                    <li><span style="text-align: left;float: left; width: 80%; padding-left: 5%">{{languages.Cart.shipping[language]}}</span><span style="float: right; width: 20%">{{languages.Country[language]}}{{shippingPrice}}</span></li>
+                    <li><span style="text-align: left;float: left; width: 80%; padding-left: 5%">{{languages.Cart.tax[language]}}</span><span style="float: right; width: 20%">{{languages.Country[language]}}{{taxPrice}}</span></li>
+                    <li><span style="text-align: left;float: left; width: 80%; padding-left: 5%">{{languages.Cart.total[language]}}</span><span style="float: right; width: 20%">{{languages.Country[language]}}{{totalPrice}}</span></li>
+                    <li style="line-height: 0">
+                        <span style="background: white; width: 100%; height: 30px; display: inline-block"></span>
+                    </li>
+                    <li>
+                        <b-button type="is-dark" size="is-small" expanded>{{languages.Cart.checkout[language]}}</b-button>
+                    </li>
+                </ul>
             </div>
         </div>
         <Footer/>
@@ -115,136 +61,110 @@
             Header,
             Footer
         },
+        created() {
+            //获取购物车数据
+            this.$bus.$on(this.$utils.Singles.SingleOfPushCart, (data) => {
+                this.carts = data;
+            });
+        },
+        mounted() {},
+        beforeDestroy() {
+            this.$bus.$off(this.$utils.Singles.SingleOfPushCart);
+        },
         data() {
             return {
-                cart: {
-                    items: [
-                        {
-                            title: "The Teddy Crew Neck Sweater",
-                            size:  "Size: L",
-                            color: "Color: Red",
-                            style: "Style: Boo",
-                            sum: 2,
-                            min: 1,
-                            max: 10,
-                            price: 99,
-                            symbol: "$",
-                            imageUrl: "https://res.cloudinary.com/everlane/image/upload/c_fill,dpr_2.0,f_auto,h_150,q_auto/v1/i/dc11f623_3d5f.jpg"},
-                        {
-                            title: "The Teddy Crew Neck Sweater",
-                            size:  "Size: L",
-                            color: "Color: Red",
-                            style: "Style: Boo",
-                            sum: 2,
-                            min: 1,
-                            max: 10,
-                            price: 99,
-                            symbol: "$",
-                            imageUrl: "https://res.cloudinary.com/everlane/image/upload/c_fill,dpr_2.0,f_auto,h_150,q_auto/v1/i/dc11f623_3d5f.jpg"},
-                        {
-                            title: "The Teddy Crew Neck Sweater",
-                            size:  "Size: L",
-                            color: "Color: Red",
-                            style: "Style: Boo",
-                            sum: 2,
-                            min: 1,
-                            max: 10,
-                            price: 99,
-                            symbol: "$",
-                            imageUrl: "https://res.cloudinary.com/everlane/image/upload/c_fill,dpr_2.0,f_auto,h_150,q_auto/v1/i/dc11f623_3d5f.jpg"},
-                        {
-                            title: "The Teddy Crew Neck Sweater",
-                            size:  "Size: L",
-                            color: "Color: Red",
-                            style: "Style: Boo",
-                            sum: 2,
-                            min: 1,
-                            max: 10,
-                            price: 99,
-                            symbol: "$",
-                            imageUrl: "https://res.cloudinary.com/everlane/image/upload/c_fill,dpr_2.0,f_auto,h_150,q_auto/v1/i/dc11f623_3d5f.jpg"},
-                        {
-                            title: "The Teddy Crew Neck Sweater",
-                            size:  "Size: L",
-                            color: "Color: Red",
-                            style: "Style: Boo",
-                            sum: 2,
-                            min: 1,
-                            max: 10,
-                            price: 99,
-                            symbol: "$",
-                            imageUrl: "https://res.cloudinary.com/everlane/image/upload/c_fill,dpr_2.0,f_auto,h_150,q_auto/v1/i/dc11f623_3d5f.jpg"},
-                        {
-                            title: "The Teddy Crew Neck Sweater",
-                            size:  "Size: L",
-                            color: "Color: Red",
-                            style: "Style: Boo",
-                            sum: 2,
-                            min: 1,
-                            max: 10,
-                            price: 99,
-                            symbol: "$",
-                            imageUrl: "https://res.cloudinary.com/everlane/image/upload/c_fill,dpr_2.0,f_auto,h_150,q_auto/v1/i/dc11f623_3d5f.jpg"}
-                    ]
-                }
+                carts: {
+                    items: [],
+                    total: 0,
+                },
+                api: this.$api,
+                languages: this.$languages,
+                language: "chinese",
+                totalPrice: 0,   //最后结算总价
+                goodsPrice: 0,   //商品求和
+                shippingPrice: 0,//运费
+                taxPrice: 0,     //税费
+            }
+        },
+        methods: {
+            DeleteCartItem(index) {
+                this.$bus.$emit(this.$utils.Singles.SingleOfDeleteCart, index);
+            },
+            UpdateCartItem(index) {
+                this.$bus.$emit(this.$utils.Singles.SingleOfUpdateCart, index);
+            },
+            back() {
+                this.$router.push({path: '/'})
+                    .then(() => {
+                        this.$router.go(1);
+                    })
+                    .catch(() => {
+                        this.$router.go(-1);
+                    });
             }
         }
     }
 </script>
 
 <style scoped>
-    .container_warp {
-        width: 100%;
+    .cart_list,  .cart_summary {
+        height: 100%;
+        float: left;
         min-height: 740px;
-        margin-top: 60px;
-        float: left;
+        margin-top: 5%;
     }
-    .carts {
-        width: 100%;
-        height: 100%;
-        padding: 0 15%;
-    }
-    .carts > .carts_list, .carts > .carts_summary {
-        float: left;
-        height: 100%;
-    }
-    .carts > .carts_list {
+    .cart_list {
         width: 60%;
+        padding-left: 10%;
     }
-    .carts > .carts_summary {
-        width: 30%;
-        margin-left: 5%;
-    }
-    .carts > .carts_list > .top, .carts > .carts_list > .center, .carts > .carts_list > .bottom {
+    .cart_back {
+        border-bottom: 1px solid black;
         width: 100%;
+        display: block;
+        line-height: 1.5rem;
+        cursor: pointer;
+        font-size: small;
+        font-family: serif;
+        font-weight: bolder;
+        margin-bottom: 5%;
+    }
+    .cart_back > em {
+        border: 5px solid white;
+        border-right: 10px solid black;
+        width: 0;
+        height: 0;
+        font-size: 0;
+        margin-right: 5px;
+        position: relative;
+        top: -4px;
+        left: 0;
     }
     .card-content {
-        padding: 0;
+        padding: 1rem;
     }
-    .image {
-        width: 150px;
-        height: 150px;
+    .media-content {
+        font-family: serif;
     }
-    .subtitle {
-        margin: 0;
-        padding: 0;
+    .cart_summary {
+        width: 40%;
+        padding-left: 1%;
+        padding-top: 4%;
+        text-align: center;
+        padding-right: 20%;
+        position: fixed;
+        top: 0;
+        z-index: -1;
+        right: 0;
     }
-    .count_warp {
-        margin-top: 10px;
-        float: left;
-        width: 100%;
+    .cart_summary ul li {
+        background: rgb(64,64,64);
+        color: white;
+        line-height: 2.5rem;
+        font-size: small;
+        font-family: serif;
     }
-    .count {
-        width: 80%;
-    }
-    .level {
-        border-top: 1px solid gray;
-        padding-top: 1.5rem;
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-    }
-    .carts > .carts_list > .center > .card {
-        margin-bottom: 2%;
+    .cart_summary > ul > li {
+        margin: 0 1%;
     }
 </style>
 

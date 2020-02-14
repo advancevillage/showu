@@ -56,9 +56,37 @@ const Cart = {
         english: "Continue To Checkout",
         chinese: "核对订单"
     },
+    commit: {
+        english: "Continue To Checkout",
+        chinese: "核对订单"
+    },
     empty: {
         english: "Your bag is empty",
         chinese: "空空如也"
+    },
+    back: {
+        english: "Back To Shopping",
+        chinese: "继续购物"
+    },
+    summary: {
+        english: "Order Summary",
+        chinese: "订单明细"
+    },
+    total: {
+        english: "TOTAL",
+        chinese: "总价"
+    },
+    goods: {
+        english: "Subtotal",
+        chinese: "商品价格"
+    },
+    shipping: {
+        english: "Estimated Shipping",
+        chinese: "运费"
+    },
+    tax: {
+        english: "Tax",
+        chinese: "关税"
     }
 };
 
