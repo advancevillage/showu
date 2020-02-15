@@ -53,7 +53,7 @@
             <div class="card-content">
                 <section>
                     <b-field>
-                        <b-slider rounded v-model="price.context" type="is-info" size="is-small" :min="price.min" :max="price.max" :step="price.step">
+                        <b-slider rounded v-model="price.context" type="is-dark" size="is-small" :min="price.min" :max="price.max" :step="price.step">
                             <b-slider-tick :value="price.context[price.left]">{{price.context[price.left]}}</b-slider-tick>
                             <b-slider-tick :value="price.context[price.right]">{{price.context[price.right]}}</b-slider-tick>
                         </b-slider>

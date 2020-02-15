@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 //引入组件库
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
-import VueAwesomeSwiper from 'vue-awesome-swiper'
+import Carousel from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 import api     from './axios/api'
 import lang    from './language/languages'
@@ -11,11 +11,10 @@ import utils   from './storage/utils'
 import moment  from 'moment'
 import '@mdi/font/css/materialdesignicons.css'
 
-
 //安装插件 vue-router
 Vue.use(VueRouter);
 Vue.use(Buefy);
-Vue.use(VueAwesomeSwiper);
+Vue.use(Carousel);
 Vue.prototype.$api       = api;
 Vue.prototype.$languages = lang;
 Vue.prototype.$utils     = utils;

@@ -1,18 +1,11 @@
 <template>
     <div>
-        <b-carousel
-            :arrow="banner.arrow"
-            :pause-info="banner.pauseInfo"
-            :pause-hover="banner.pauseHover"
-            :indicator-mode="banner.indicatorMode"
-            :indicator-style="banner.indicatorStyle"
-            :indicator-inside="banner.indicatorInside">
-            <b-carousel-item v-for="item in 6" :key="item">
-            <span>
+        <swiper :options="carousel" id="carousel">
+            <div class="swiper-slide" v-for="item in 4" :key="item">
                 <img class="image" :src="getBannerUrl(item)">
-            </span>
-            </b-carousel-item>
-        </b-carousel>
+            </div>
+            <div class="swiper-pagination" slot="pagination"></div>
+        </swiper>
     </div>
 </template>
 
@@ -21,15 +14,19 @@
         name: "Banner",
         data() {
             return {
-                banner: {
-                    indicator: true,
-                    indicatorInside: true,
-                    indicatorMode: 'hover',
-                    indicatorPosition: 'is-top',
-                    indicatorStyle: 'is-lines',
-                    pauseInfo: false,
-                    pauseHover: false,
-                    arrow: false
+                carousel: {
+                    autoplay: {
+                        delay: 2000,
+                        disableOnInteraction: false
+                    },
+                    loop: true,
+                    pagination: {
+                        el: ".swiper-pagination",
+                        clickable: true,
+                        renderBullet: function (index, className) {
+                            return '<span class="' + className + '">' + (index + 1) + '</span>';
+                        },
+                    }
                 }
             }
         },
