@@ -204,7 +204,7 @@
                 this.flagCategory= this.flagCategoryDetail;
             },
             RedirectCartPage() {
-                this.$router.push({path: '/cart'})
+                this.$router.push({path: '/order'})
                     .then(() => {
                         this.$router.go(1);
                     })

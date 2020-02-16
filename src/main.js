@@ -15,7 +15,6 @@ import '@mdi/font/css/materialdesignicons.css'
 Vue.use(VueRouter);
 Vue.use(Buefy);
 Vue.use(Carousel);
-
 Vue.prototype.$api       = api;
 Vue.prototype.$languages = lang;
 Vue.prototype.$utils     = utils;
