@@ -54,15 +54,15 @@ const Sign = {
 const Cart = {
     checkout: {
         english: "Continue To Checkout",
-        chinese: "核对订单"
+        chinese: "提交订单"
     },
     commit: {
         english: "Continue To Checkout",
-        chinese: "核对订单"
+        chinese: "提交订单"
     },
     empty: {
         english: "Your bag is empty",
-        chinese: "空空如也"
+        chinese: ""
     },
     back: {
         english: "Back To Shopping",
@@ -101,10 +101,34 @@ const List = {
     }
 };
 
+const Order = {
+    back: {
+        english: "Back To Cart",
+        chinese: "购物车"
+    },
+    account: {
+        english: "Account",
+        chinese: "账户信息"
+    },
+    address: {
+        english: "Address",
+        chinese: "收货地址"
+    },
+    credit: {
+        english: "Pay",
+        chinese: "支付订单"
+    },
+    shipping: {
+        english: "shipping",
+        chinese: "待发货"
+    }
+};
+
 export default  {
     Country,
     Login,
     List,
     Cart,
-    Sign
+    Sign,
+    Order
 }

@@ -58,4 +58,8 @@
     color:#fff;
     background: #007aff;
   }
+  /* buefy steps */
+  .b-steps .steps .step-items .step-item .step-details .step-title {
+    font-size: 0.1rem;
+  }
 </style>

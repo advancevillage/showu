@@ -1,8 +1,7 @@
 <template>
     <div>
-        <Header/>
+        <Header :nav="1"/>
         <div id="container">
-
             <div class="cart_list">
                 <span class="cart_back" @click="back"><em></em>{{languages.Cart.back[language]}}</span>
                 <div class="cart-items" v-for="(item, index) in carts.items" :key="index">
@@ -39,10 +38,10 @@
                     <li><span style="text-align: left;float: left; width: 80%; padding-left: 5%">{{languages.Cart.tax[language]}}</span><span style="float: right; width: 20%">{{languages.Country[language]}}{{taxPrice}}</span></li>
                     <li><span style="text-align: left;float: left; width: 80%; padding-left: 5%">{{languages.Cart.total[language]}}</span><span style="float: right; width: 20%">{{languages.Country[language]}}{{totalPrice}}</span></li>
                     <li style="line-height: 0">
-                        <span style="background: white; width: 100%; height: 30px; display: inline-block"></span>
+                        <span style="background: white; width: 100%; height: 2px; display: inline-block"></span>
                     </li>
-                    <li>
-                        <b-button type="is-dark" size="is-small" expanded>{{languages.Cart.checkout[language]}}</b-button>
+                    <li style="cursor: pointer">
+                        <b-button type="is-dark" size="is-small" expanded @click="redirectOrderPage">{{languages.Cart.commit[language]}}</b-button>
                     </li>
                 </ul>
             </div>
@@ -101,7 +100,16 @@
                     .catch(() => {
                         this.$router.go(-1);
                     });
-            }
+            },
+            redirectOrderPage() {
+                this.$router.push({path: '/order'})
+                    .then(() => {
+                        this.$router.go(1);
+                    })
+                    .catch(() => {
+                        this.$router.go(0);
+                    });
+            },
         }
     }
 </script>
@@ -153,7 +161,7 @@
         padding-right: 20%;
         position: fixed;
         top: 0;
-        z-index: -1;
+        z-index: 0;
         right: 0;
     }
     .cart_summary ul li {

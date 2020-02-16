@@ -15,6 +15,7 @@ import '@mdi/font/css/materialdesignicons.css'
 Vue.use(VueRouter);
 Vue.use(Buefy);
 Vue.use(Carousel);
+
 Vue.prototype.$api       = api;
 Vue.prototype.$languages = lang;
 Vue.prototype.$utils     = utils;
@@ -29,7 +30,7 @@ import Detail         from './components/detail/Detail'        //组件之详情
 import Cart           from './components/cart/Cart'            //组件之购物车
 import Account        from './components/account/Account'      //组件之账户页
 import AccountOrder   from './components/account/Order'        //组件之账户订单页
-import Pay            from './components/pay/Pay'              //组件之支付页
+import Order          from './components/order/Order'              //组件之支付页
 import Common404      from './components/common/NotFound'      //404
 
 //创建路由对象并配置路由规则
@@ -50,8 +51,8 @@ let router = new VueRouter({
         {path: 'order', component: AccountOrder}
       ]
     },
-    //支付页
-    { path: '/pay', component: Pay },
+    //订单支付页
+    { path: '/order', component: Order},
     //404
     { path: '/404', component: Common404 },
     // 404 注意至于最底部
