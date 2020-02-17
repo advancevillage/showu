@@ -226,6 +226,7 @@
                 shippingPrice: 0.0,
                 taxPrice: 0.0,
                 totalPrice: 0.0,
+                login: false,
 
             }
         },
@@ -233,10 +234,26 @@
             //获取购物车数据
             this.$bus.$on(this.$utils.Singles.SingleOfPushCart, (data) => {
                 this.carts = data;
+                this.computePrice();
             });
+
+            this.$bus.$on(this.$utils.Singles.SingleOfLogin, (login) => {
+                this.login = login;
+            });
+
+        },
+        mounted() {
+            if (this.login) {
+                this.step = 1;
+                //TODO 查询收货地址
+                //TODO 查询支付方式
+            } else {
+                this.$bus.$emit(this.$utils.Singles.SingleOfOpenLogin);
+            }
         },
         beforeDestroy() {
             this.$bus.$off(this.$utils.Singles.SingleOfPushCart);
+            this.$bus.$off(this.$utils.Singles.SingleOfLogin);
         },
         methods: {
             back() {
@@ -256,6 +273,17 @@
             },
             processPay() {
                 console.log("pay");
+            },
+            computePrice() {
+                this.goodsPrice = 0.0;
+                this.shippingPrice = 0.0;
+                this.taxPrice = 0.0;
+                this.totalPrice = 0.0;
+                for (let i = 0; i < this.carts.items.length; i++) {
+                    console.log(this.goodsPrice);
+                    this.goodsPrice +=  this.carts.items[i].count * this.carts.items[i].goodsPrice
+                }
+                this.totalPrice = this.goodsPrice + this.shippingPrice + this.taxPrice
             }
         }
 

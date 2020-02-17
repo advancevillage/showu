@@ -11,6 +11,9 @@ const Singles = {
     SingleOfPopCart:  "sig_pop_cart",
     SingleOfUpdateCart: "sig_update_cart",
     SingleOfDeleteCart: "sig_delete_cart",
+    SingleOfLogin: "sig_query_login",
+    SingleOfOpenLogin: "sig_open_login",
+
 };
 
 const QueryLogin = () => {

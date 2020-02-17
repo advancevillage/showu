@@ -134,6 +134,10 @@
                 this.UpdateCartItem(index);
             });
 
+            //事件触发登录弹框
+            this.$bus.$on(this.$utils.Singles.SingleOfOpenLogin, () => {
+                this.OpenLogin();
+            });
         },
         beforeDestroy() {
             this.$bus.$off(this.$utils.Singles.SingleOfAddCart);
@@ -214,7 +218,7 @@
             },
             CartRefresh() {
                 this.login = this.$utils.QueryLogin().length > 0;
-
+                this.$bus.$emit(this.$utils.Singles.SingleOfLogin, this.login);
                 if (this.login) {
                     //合并购物车
                     this.carts.items = this.$utils.QueryCart();
