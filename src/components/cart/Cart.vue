@@ -41,7 +41,7 @@
                         <span style="background: white; width: 100%; height: 2px; display: inline-block"></span>
                     </li>
                     <li style="cursor: pointer">
-                        <b-button type="is-dark" size="is-small" expanded @click="redirectOrderPage">{{languages.Cart.commit[language]}}</b-button>
+                        <b-button type="is-dark" size="is-small" expanded @click="redirectOrderPage" style="letter-spacing: 1rem">{{languages.Cart.commit[language]}}</b-button>
                     </li>
                 </ul>
             </div>

@@ -89,7 +89,7 @@
             </div>
 
             <div class="cart-footer">
-                <b-button class="checkout"  type="is-dark" size="is-small" @click="RedirectCartPage">{{languages.Cart.checkout[language]}}</b-button>
+                <b-button class="checkout"  type="is-dark" size="is-small" @click="RedirectCartPage" style="letter-spacing: 1rem">{{languages.Cart.commit[language]}}</b-button>
             </div>
         </div>
     </div>

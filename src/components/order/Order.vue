@@ -134,7 +134,19 @@
                 </div>
             </div>
             <div class="order_summary">
-
+                <ul>
+                    <li style="font-weight: bolder">{{languages.Cart.summary[language]}}</li>
+                    <li><span style="text-align: left;float: left; width: 80%; padding-left: 5%">{{languages.Cart.goods[language]}}</span><span style="float: right; width: 20%">{{languages.Country[language]}}{{goodsPrice}}</span></li>
+                    <li><span style="text-align: left;float: left; width: 80%; padding-left: 5%">{{languages.Cart.shipping[language]}}</span><span style="float: right; width: 20%">{{languages.Country[language]}}{{shippingPrice}}</span></li>
+                    <li><span style="text-align: left;float: left; width: 80%; padding-left: 5%">{{languages.Cart.tax[language]}}</span><span style="float: right; width: 20%">{{languages.Country[language]}}{{taxPrice}}</span></li>
+                    <li><span style="text-align: left;float: left; width: 80%; padding-left: 5%">{{languages.Cart.total[language]}}</span><span style="float: right; width: 20%">{{languages.Country[language]}}{{totalPrice}}</span></li>
+                    <li style="line-height: 0">
+                        <span style="background: white; width: 100%; height: 2px; display: inline-block"></span>
+                    </li>
+                    <li style="cursor: pointer">
+                        <b-button type="is-dark" size="is-small" expanded @click="processPay" style="letter-spacing: 1rem">{{languages.Cart.pay[language]}}</b-button>
+                    </li>
+                </ul>
             </div>
         </div>
         <Footer/>
@@ -210,6 +222,11 @@
                     items: [],
                     total: 0,
                 },
+                goodsPrice: 0.0,
+                shippingPrice: 0.0,
+                taxPrice: 0.0,
+                totalPrice: 0.0,
+
             }
         },
         created() {
@@ -237,6 +254,9 @@
             UpdateCartItem(index) {
                 this.$bus.$emit(this.$utils.Singles.SingleOfUpdateCart, index);
             },
+            processPay() {
+                console.log("pay");
+            }
         }
 
     }
@@ -256,6 +276,14 @@
     }
     .order_summary {
         width: 37%;
+        padding-left: 1%;
+        padding-top: 4%;
+        text-align: center;
+        padding-right: 20%;
+        position: fixed;
+        top: 0;
+        z-index: 0;
+        right: 0;
     }
     .order_back {
         border-bottom: 1px solid black;
@@ -310,5 +338,12 @@
         font-family: serif;
         text-transform: capitalize;
         word-spacing: 5px;
+    }
+    .order_summary ul li {
+        background: rgb(64,64,64);
+        color: white;
+        line-height: 2.5rem;
+        font-size: small;
+        font-family: serif;
     }
 </style>

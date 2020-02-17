@@ -54,11 +54,15 @@ const Sign = {
 const Cart = {
     checkout: {
         english: "Continue To Checkout",
-        chinese: "提交订单"
+        chinese: "核对订单"
     },
     commit: {
         english: "Continue To Checkout",
-        chinese: "提交订单"
+        chinese: "结算订单"
+    },
+    pay: {
+        english: "Pay the order",
+        chinese: "支付订单"
     },
     empty: {
         english: "Your bag is empty",
@@ -78,7 +82,7 @@ const Cart = {
     },
     goods: {
         english: "Subtotal",
-        chinese: "商品价格"
+        chinese: "小计"
     },
     shipping: {
         english: "Estimated Shipping",
