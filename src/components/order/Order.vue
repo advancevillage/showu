@@ -203,14 +203,42 @@
                     selected: 1,
                     items: [
                         {
-                            logo: "v",
+                            logo: "visa",
                             number: "0000111122223333",
                             month: "01",
                             year: "22",
                             yourName: "kai yan chen",
                         },
                         {
-                            logo: "v",
+                            logo: "mastercard",
+                            number: "0000111122223333",
+                            month: "01",
+                            year: "22",
+                            yourName: "sun he"
+                        },
+                        {
+                            logo: "JCB",
+                            number: "0000111122223333",
+                            month: "01",
+                            year: "22",
+                            yourName: "sun he"
+                        },
+                        {
+                            logo: "Maestro",
+                            number: "0000111122223333",
+                            month: "01",
+                            year: "22",
+                            yourName: "sun he"
+                        },
+                        {
+                            logo: "Discover",
+                            number: "0000111122223333",
+                            month: "01",
+                            year: "22",
+                            yourName: "sun he"
+                        },
+                        {
+                            logo: "American_Express",
                             number: "0000111122223333",
                             month: "01",
                             year: "22",

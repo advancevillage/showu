@@ -33,7 +33,7 @@
         },
         data() {
             return {
-                image: "https://www.merchantequip.com/image",
+                image: "https://assets.braintreegateway.com/payment_method_logo/",
                 height: 32,
                 url: "",
             }
@@ -43,10 +43,7 @@
         },
         methods: {
             CreateCreditLogo() {
-                let bg = "bgcolor=808080";
-                let h  = "height=" + this.height;
-                let l  = "logos="  + this.card.logo;
-                this.url = this.image + "?" + bg + "&" + h + "&" + l
+                this.url = this.image + this.card.logo.toLowerCase() + ".png"
             }
         }
     }
@@ -64,6 +61,7 @@
         height: 40px;
         width: 100%;
         font-family: serif;
+        padding: 2%;
     }
     .credit_your_name {
         height: 30px;
