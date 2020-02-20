@@ -17,7 +17,7 @@
                         </div>
                         <div class="level-item has-text-centered">
                             <span>
-                                <button style="cursor: pointer; border: none; margin: 0 10px" type="button">
+                                <button style="cursor: pointer; border: none; margin: 0 10px" type="button" @click="OpenAddressModal">
                                     <span class="mdi mdi-account-plus"></span>
                                 </button>
                             </span>
@@ -154,16 +154,17 @@
 </template>
 
 <script>
-    import Header from '../common/Header'
-    import Footer from '../common/Footer'
-    import Credit from './Credit'
+    import Header  from '../common/Header'
+    import Footer  from '../common/Footer'
+    import Credit  from './Credit'
+    import Address from '../account/Address'
 
     export default {
         name: "Order",
         components: {
             Header,
             Footer,
-            Credit
+            Credit,
         },
         data() {
             return {
@@ -312,6 +313,19 @@
                     this.goodsPrice +=  this.carts.items[i].count * this.carts.items[i].goodsPrice
                 }
                 this.totalPrice = this.goodsPrice + this.shippingPrice + this.taxPrice
+            },
+            OpenAddressModal() {
+                this.$buefy.modal.open({
+                    props: {
+                        language: this.language
+                    },
+                    parent: this,
+                    component: Address,
+                    hasModalCard: true,
+                    trapFocus: true,
+                    scroll: "keep",
+                    events: {}
+                });
             }
         }
 

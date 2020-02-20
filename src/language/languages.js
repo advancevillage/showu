@@ -128,7 +128,15 @@ const Order = {
     }
 };
 
+const Address = {
+    country: {
+        english: "Country",
+        chinese: "国家"
+    }
+};
+
 export default  {
+    Address,
     Country,
     Login,
     List,
