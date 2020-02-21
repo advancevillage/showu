@@ -132,6 +132,42 @@ const Address = {
     country: {
         english: "Country",
         chinese: "国家"
+    },
+    province: {
+        english: "Province",
+        chinese: "省"
+    },
+    city: {
+        english: "City",
+        chinese: "城市"
+    },
+    area: {
+        english: "Area",
+        chinese: "区"
+    },
+    street: {
+        english: "Street",
+        chinese: "街道地址"
+    },
+    zipCode: {
+        english: "ZipCode",
+        chinese: "邮编"
+    },
+    fullName: {
+        english: "Full Name",
+        chinese: "收件人"
+    },
+    line1: {
+        english: "ADDRESS LINE 1*",
+        chinese: "收货地址"
+    },
+    line2: {
+        english: "ADDRESS LINE 2",
+        chinese: "收货地址"
+    },
+    phone: {
+        english: "Phone",
+        chinese: "手机号码"
     }
 };
 

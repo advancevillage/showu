@@ -170,7 +170,7 @@
             return {
                 api: this.$api,
                 languages: this.$languages,
-                language: "chinese",
+                language: "english",
                 hasNavigation: false,
                 step: 0,
                 address: {
