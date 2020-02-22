@@ -67,7 +67,7 @@
                                 <img style="height: 20px" src="http://i76.imgup.net/accepted_c22e0.png">
                             </span>
                             <span>
-                                <button style="cursor: pointer; border: none; margin: 0 10px" type="button">
+                                <button style="cursor: pointer; border: none; margin: 0 10px" type="button" @click="OpenCreditModal">
                                     <span class="mdi mdi-credit-card-plus"></span>
                                 </button>
                             </span>
@@ -144,7 +144,7 @@
                         <span style="background: white; width: 100%; height: 2px; display: inline-block"></span>
                     </li>
                     <li style="cursor: pointer">
-                        <b-button type="is-dark" size="is-small" expanded @click="processPay" style="letter-spacing: 1rem">{{languages.Cart.pay[language]}}</b-button>
+                        <b-button type="is-dark" size="is-small" expanded @click="processPay" style="letter-spacing: 0.1em">{{languages.Cart.pay[language]}}</b-button>
                     </li>
                 </ul>
             </div>
@@ -156,7 +156,8 @@
 <script>
     import Header  from '../common/Header'
     import Footer  from '../common/Footer'
-    import Credit  from './Credit'
+    import Credit  from '../credit/Credit'
+    import CreditCreate from '../credit/Create'
     import Address from '../account/Address'
 
     export default {
@@ -204,46 +205,11 @@
                     selected: 1,
                     items: [
                         {
-                            logo: "visa",
-                            number: "0000111122223333",
+                            logo: "",
+                            yourName: "",
+                            number: "4111111111111111",
                             month: "01",
                             year: "22",
-                            yourName: "kai yan chen",
-                        },
-                        {
-                            logo: "mastercard",
-                            number: "0000111122223333",
-                            month: "01",
-                            year: "22",
-                            yourName: "sun he"
-                        },
-                        {
-                            logo: "JCB",
-                            number: "0000111122223333",
-                            month: "01",
-                            year: "22",
-                            yourName: "sun he"
-                        },
-                        {
-                            logo: "Maestro",
-                            number: "0000111122223333",
-                            month: "01",
-                            year: "22",
-                            yourName: "sun he"
-                        },
-                        {
-                            logo: "Discover",
-                            number: "0000111122223333",
-                            month: "01",
-                            year: "22",
-                            yourName: "sun he"
-                        },
-                        {
-                            logo: "American_Express",
-                            number: "0000111122223333",
-                            month: "01",
-                            year: "22",
-                            yourName: "sun he"
                         },
                     ],
                 },
@@ -321,6 +287,19 @@
                     },
                     parent: this,
                     component: Address,
+                    hasModalCard: true,
+                    trapFocus: true,
+                    scroll: "keep",
+                    events: {}
+                });
+            },
+            OpenCreditModal() {
+                this.$buefy.modal.open({
+                    props: {
+                        language: this.language
+                    },
+                    parent: this,
+                    component: CreditCreate,
                     hasModalCard: true,
                     trapFocus: true,
                     scroll: "keep",

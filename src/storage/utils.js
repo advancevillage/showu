@@ -13,6 +13,7 @@ const Singles = {
     SingleOfDeleteCart: "sig_delete_cart",
     SingleOfLogin: "sig_query_login",
     SingleOfOpenLogin: "sig_open_login",
+    SingleOfQueryCreditLogo: "sig_query_credit_logo"
 
 };
 

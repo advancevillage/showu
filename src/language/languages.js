@@ -171,9 +171,29 @@ const Address = {
     }
 };
 
+const Credit = {
+    number: {
+        english: "CREDIT CARD NUMBER*",
+        chinese: "卡号"
+    },
+    security: {
+        english: "SECURITY CODE*",
+        chinese: "卡号"
+    },
+    expire: {
+        english: "EXPIRATION DATE*",
+        chinese: "过期时间"
+    },
+    create: {
+        english: "Add Card",
+        chinese: "添加信用卡"
+    }
+};
+
 export default  {
     Address,
     Country,
+    Credit,
     Login,
     List,
     Cart,
