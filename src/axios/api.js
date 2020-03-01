@@ -135,6 +135,47 @@ const DeleteCart = (pathId, headers, params) => {
     })
 };
 
+const CreateAddress = (headers, body) => {
+    return service({
+        url: "/v1/address",
+        method: "post",
+        data: body || {},
+        headers: headers || {},
+        baseURL: '//localhost:13147',
+    })
+};
+
+const QueryAddress = (headers, params) => {
+    return service({
+        url: "/v1/address",
+        method: "get",
+        params: params || {},
+        headers: headers || {},
+        baseURL: '//localhost:13147',
+    })
+};
+
+const CreateCreditCard = (headers, body) => {
+    return service({
+        url: "/v1/credit",
+        method: "post",
+        data: body || {},
+        headers: headers || {},
+        baseURL: '//localhost:13147',
+    })
+};
+
+const QueryCreditCard = (headers, params) => {
+    return service({
+        url: "/v1/credit",
+        method: "get",
+        params: params || {},
+        headers: headers || {},
+        baseURL: '//localhost:13147',
+    })
+};
+
+
 export default  {
     QueryImageUrl,
     CreateListLink,
@@ -149,5 +190,9 @@ export default  {
     QueryCarts,
     CreateCarts,
     UpdateCart,
-    DeleteCart
+    DeleteCart,
+    CreateAddress,
+    QueryAddress,
+    CreateCreditCard,
+    QueryCreditCard,
 }

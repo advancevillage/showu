@@ -154,20 +154,24 @@ const Address = {
         chinese: "邮编"
     },
     fullName: {
-        english: "Full Name",
+        english: "full name",
         chinese: "收件人"
     },
     line1: {
-        english: "ADDRESS LINE 1*",
+        english: "address line 1*",
         chinese: "收货地址"
     },
     line2: {
-        english: "ADDRESS LINE 2",
+        english: "address line 2",
         chinese: "收货地址"
     },
     phone: {
-        english: "Phone",
+        english: "phone",
         chinese: "手机号码"
+    },
+    create: {
+        english: "Add Address",
+        chinese: "添加地址"
     }
 };
 

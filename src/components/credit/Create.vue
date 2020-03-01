@@ -16,7 +16,8 @@
             <input v-model="card.cvv" v-bind:style="[securityErr ? {borderColor: 'red'}:{borderColor: 'gray'}]" type="text" placeholder="567" minlength="3" maxlength="3" @input="CheckoutSecurity"/>
         </div>
         <div class="credit_action">
-            <button type="button">{{this.languages.Credit.create[this.language].toLowerCase()}}</button>
+            <button type="button" @click="CreateCreditCard">{{this.languages.Credit.create[this.language].toLowerCase()}}</button>
+            <span v-if="creditErr.length > 0">{{this.creditErr}}</span>
         </div>
     </div>
 </template>
@@ -39,7 +40,7 @@
             return {
                 languages: this.$languages,
                 card: {
-                    logo: "",
+                    bin: "",
                     number: "",
                     month: "",
                     year: "",
@@ -50,6 +51,7 @@
                 numberErr: false,
                 securityErr: false,
                 expireErr: false,
+                creditErr: "",
             }
         },
         methods: {
@@ -117,6 +119,23 @@
                             this.expireErr = true;
                     }
                 }
+            },
+            async CreateCreditCard() {
+                const headers = {
+                   "x-language": this.language,
+                };
+                let body = {};
+                body.number = this.card.number;
+                body.cvv    = this.card.cvv;
+                body.expire = this.card.expire;
+                body.bin    = this.card.bin;
+                let data = await  this.$api.CreateCreditCard(headers, body) || {};
+                if (data.hasOwnProperty("code") && parseInt(data.code) > 299) {
+                    this.creditErr = data.message;
+                } else {
+                    this.creditErr = "";
+                    this.$emit('close');
+                }
             }
         }
     }
@@ -169,10 +188,18 @@
     .credit_security, .credit_expire {
         width: 45%;
     }
+    .credit_action {
+        padding-bottom: 2%;
+    }
     .credit_action button {
         width: 100%;
         height: 25px;
         margin: 1% 0 0;
         text-transform: capitalize;
+    }
+    .credit_action span {
+        font-family: serif;
+        color: red;
+        font-size: small;
     }
 </style>

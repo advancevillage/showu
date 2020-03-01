@@ -1,8 +1,8 @@
 <template>
     <div class="credit_card">
-        <ul>
+        <ul v-if="card.bin !== 'paypal'">
             <li class="credit_logo">
-                <img v-if="card.logo.length > 0" :src="url" alt="logos"/>
+                <img v-if="card.bin.length > 0" :src="url" alt="logos"/>
             </li>
             <li class="credit_number">
                 <label>
@@ -12,11 +12,13 @@
             <li class="credit_expire">
                  <div style="float: right;margin: 0 5%;text-align: center;">
                      <div style="font-size: 0.1rem;color: darkgray;">Month/Year</div>
-                     <div style="font-size: 1rem;">{{this.card.month}}/{{this.card.year}}</div>
+                     <div style="font-size: 1rem;">{{this.card.expire}}</div>
                  </div>
             </li>
-            <li class="credit_your_name">
-                <span v-if="card.yourName.length > 0">{{this.card.yourName}}</span>
+        </ul>
+        <ul v-if="card.bin === 'paypal'">
+            <li class="credit_logo">
+                <img v-if="card.bin.length > 0" :src="url" alt="logos"/>
             </li>
         </ul>
     </div>
@@ -47,7 +49,7 @@
         methods: {
             CreateCreditLogo() {
                 //https://developers.braintreepayments.com/guides/credit-cards/testing-go-live/php
-                this.card.logo = "";
+                this.card.bin = "";
                 if (this.card.number.length <= 0) {
                     return
                 }
@@ -55,16 +57,16 @@
                 let bin2 = "";
                 switch (bin) {
                     case "4":  //visa  4
-                        this.card.logo = "visa";
+                        this.card.bin = "visa";
                         break;
                     case "5":  //mastercard 5|2
-                        this.card.logo = "mastercard";
+                        this.card.bin = "mastercard";
                         break;
                     case "2":  //mastercard 5|2
-                        this.card.logo = "mastercard";
+                        this.card.bin = "mastercard";
                         break;
                     case "6": //Discover  6
-                        this.card.logo = "discover";
+                        this.card.bin = "discover";
                         break;
                     case "3":
                         if (this.card.number.length <= 1) {
@@ -73,19 +75,22 @@
                         bin2 = this.card.number[1];
                         switch (bin2) {
                             case "7": //American Express 37
-                                this.card.logo = "American_Express";
+                                this.card.bin = "American_Express";
                                 break;
                             case "5": //JCB 35
-                                this.card.logo = "JCB";
+                                this.card.bin = "JCB";
                                 break;
                             default:
                                 return
                         }
                         break;
+                    case "9":
+                        this.card.bin = "paypal";
+                        break;
                     default:
                         return
                 }
-                this.url = this.image + this.card.logo.toLowerCase() + ".png";
+                this.url = this.image + this.card.bin.toLowerCase() + ".png";
             },
         }
     }
@@ -93,25 +98,16 @@
 
 <style scoped>
     .credit_card {
+        width: 150px;
         height: 150px;
-        width: 237px;
         border-radius: 0;
         background: rgb(128, 128, 128);
         color: white;
     }
-    .credit_logo, .credit_number, .credit_expire, .credit_your_name {
-        height: 40px;
+    .credit_logo, .credit_number, .credit_expire {
         width: 100%;
         font-family: serif;
         padding: 2%;
-    }
-    .credit_your_name {
-        height: 30px;
-        padding: 0 20px;
-        font-size: 1rem;
-        text-transform: capitalize;
-        position: relative;
-        top: -20px;
     }
     .credit_logo > img {
         margin: 4px;
@@ -121,7 +117,7 @@
         height: 100%;
         border: none;
         font-size: medium;
-        letter-spacing: 5px;
+        letter-spacing: 2px;
         text-align: center;
         background: rgb(128, 128, 128);
         color: white;

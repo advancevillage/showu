@@ -57,4 +57,7 @@
         color: white;
         height: 22px;
     }
+    .level-right select:focus {
+        outline: none;
+    }
 </style>

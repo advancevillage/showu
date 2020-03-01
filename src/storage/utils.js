@@ -14,7 +14,6 @@ const Singles = {
     SingleOfLogin: "sig_query_login",
     SingleOfOpenLogin: "sig_open_login",
     SingleOfQueryCreditLogo: "sig_query_credit_logo"
-
 };
 
 const QueryLogin = () => {

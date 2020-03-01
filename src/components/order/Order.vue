@@ -16,11 +16,6 @@
                         <div class="level-item has-text-centered">
                         </div>
                         <div class="level-item has-text-centered">
-                            <span>
-                                <button style="cursor: pointer; border: none; margin: 0 10px" type="button" @click="OpenAddressModal">
-                                    <span class="mdi mdi-account-plus"></span>
-                                </button>
-                            </span>
                         </div>
                         <div class="level-item has-text-centered">
                         </div>
@@ -42,19 +37,23 @@
                                     </button>
                                 </span>
                             </li>
-                            <li><span class="order_address_info"><b>{{item.people}}</b></span></li>
-                            <li><span class="order_address_info">{{item.email}}</span></li>
+                            <li><span class="order_address_info"><b>{{item.fullName}}</b></span></li>
                             <li><span class="order_address_info">{{item.phone}}</span></li>
                             <li>
-                                <span style="font-size: 0.1rem;margin: 0 3px" class="order_address_info">{{item.country}}</span>
-                                <span style="font-size: 0.1rem;margin: 0 3px" class="order_address_info">{{item.province}}</span>
-                                <span style="font-size: 0.1rem;margin: 0 3px" class="order_address_info">{{item.city}}</span>
+                                <span style="font-size: 0.1rem; display: block" class="order_address_info">{{item.line1}}</span>
+                                <span style="font-size: 0.1rem; display: block" class="order_address_info">{{item.line2}}</span>
                             </li>
                             <li>
-                                <span style="font-size: 0.1rem" class="order_address_info">{{item.area}}</span>
-                                <span style="font-size: 0.1rem" class="order_address_info">{{item.street}}</span>
+                                <span style="font-size: 0.1rem;" class="order_address_info">{{item.city}}</span>
+                                <span style="font-size: 0.1rem;" class="order_address_info">{{item.province}}</span>
+                                <span style="font-size: 0.1rem;" class="order_address_info">{{item.country}}</span>
                             </li>
                         </ul>
+                    </div>
+                    <div class="order_address">
+                        <button type="button" @click="OpenAddressModal">
+                            <span class="mdi mdi-map-marker"></span>
+                        </button>
                     </div>
                 </div>
                 <!-- 支付信息 -->
@@ -62,18 +61,8 @@
                     <nav class="level">
                         <div class="level-item has-text-centered">
                         </div>
-                        <div class="level-item has-text-centered">
-                            <span>
-                                <img style="height: 20px" src="http://i76.imgup.net/accepted_c22e0.png">
-                            </span>
-                            <span>
-                                <button style="cursor: pointer; border: none; margin: 0 10px" type="button" @click="OpenCreditModal">
-                                    <span class="mdi mdi-credit-card-plus"></span>
-                                </button>
-                            </span>
-                        </div>
-                        <div class="level-item has-text-centered">
-                        </div>
+                        <div class="level-item has-text-centered"></div>
+                        <div class="level-item has-text-centered"></div>
                     </nav>
                     <div class="order_credit" v-for="(item, index) in credit.items" :key="index">
                         <ul>
@@ -94,6 +83,12 @@
                             </li>
                             <li><Credit :card="item"/></li>
                         </ul>
+                    </div>
+                    <div class="order_credit">
+                        <button type="button" @click="OpenCreditModal">
+                            <img style="height: 20px" src="http://i76.imgup.net/accepted_c22e0.png">
+                            <span class="mdi mdi-credit-card-plus"></span>
+                        </button>
                     </div>
                 </div>
                 <!-- 商品列表 -->
@@ -175,46 +170,18 @@
                 hasNavigation: false,
                 step: 0,
                 address: {
-                    total: 1,
+                    total: 0,
                     selected: 0,
-                    items: [
-                        {
-                            people: "richard ",
-                            country: "中国",
-                            province: "shanghai",
-                            city: "上海",
-                            area: "浦东新区",
-                            street: "栖霞路20#201",
-                            email: "richard@test.com",
-                            phone:"+86 17621620657"
-                        },
-                        {
-                            people: "richard richard richard",
-                            country: "中国",
-                            province: "shanghai",
-                            city: "上海",
-                            area: "浦东新区",
-                            street: "栖霞路20#201 栖霞路20#201 栖霞路20#201",
-                            email: "richard@test.com",
-                            phone:"+86 17621620657"
-                        }
-                    ]
+                    items: []
                 },
                 credit: {
-                    total: 0,
-                    selected: 1,
-                    items: [
-                        {
-                            logo: "",
-                            yourName: "",
-                            number: "4111111111111111",
-                            month: "01",
-                            year: "22",
-                        },
-                    ],
+                    total: 1,
+                    selected: 0,
+                    items: [],
                 },
                 carts: {
                     items: [],
+                    selected: 0,
                     total: 0,
                 },
                 goodsPrice: 0.0,
@@ -241,7 +208,9 @@
             if (this.login) {
                 this.step = 1;
                 //TODO 查询收货地址
+                this.QueryAddress();
                 //TODO 查询支付方式
+                this.QueryCreditCard();
             } else {
                 this.$bus.$emit(this.$utils.Singles.SingleOfOpenLogin);
             }
@@ -275,7 +244,6 @@
                 this.taxPrice = 0.0;
                 this.totalPrice = 0.0;
                 for (let i = 0; i < this.carts.items.length; i++) {
-                    console.log(this.goodsPrice);
                     this.goodsPrice +=  this.carts.items[i].count * this.carts.items[i].goodsPrice
                 }
                 this.totalPrice = this.goodsPrice + this.shippingPrice + this.taxPrice
@@ -305,6 +273,50 @@
                     scroll: "keep",
                     events: {}
                 });
+            },
+            async QueryAddress() {
+                const header = {
+                    "x-language": this.language,
+                };
+                const params = {};
+                let data = await this.$api.QueryAddress(header, params) || {};
+                if (data.hasOwnProperty("code")) {
+                    console.log(data);
+                } else {
+                    this.address.total = data.total;
+                    this.address.items = data.items;
+                    for (let i = 0; i < this.address.items.length; i++) {
+                        if (this.address.items[i].isDefault) {
+                            this.address.selected = i;
+                            break;
+                        } else {
+                            this.address.selected = -1;
+                        }
+                    }
+                }
+            },
+            async QueryCreditCard() {
+                const header = {
+                    "x-language": this.language,
+                };
+                const params = {};
+                let data = await this.$api.QueryCreditCard(header, params) || {};
+                if (data.hasOwnProperty("code")) {
+                    console.log(data);
+                } else {
+                    this.credit.total = data.total;
+                    this.credit.items = data.items;
+                    for (let i = 0; i < this.credit.items.length; i++) {
+                        if (this.credit.items[i].isDefault) {
+                            this.credit.selected = i;
+                            break;
+                        } else {
+                            this.credit.selected = -1;
+                        }
+                    }
+                    this.credit.total++;
+                    this.credit.items.push({number:"9999999999999999", bin: "paypal"})
+                }
             }
         }
 
@@ -319,16 +331,16 @@
         margin-top: 5%;
     }
     .order_info {
-        width: 63%;
+        width: 67%;
         padding-left: 10%;
         border-right: 1px solid black;
     }
     .order_summary {
-        width: 37%;
+        width: 33%;
         padding-left: 1%;
         padding-top: 4%;
         text-align: center;
-        padding-right: 20%;
+        padding-right: 10%;
         position: fixed;
         top: 0;
         z-index: 0;
@@ -358,16 +370,29 @@
     }
     .order_address {
         width:  auto;
-        height: auto;
-        border: 1px solid gray;
+        height: 150px;
+        border: none;
         float: left;
-        padding: 0 10px;
-        margin: 0 5px;
+        margin: 5px;
+        min-width: 150px;
+    }
+    .order_address > button {
+        min-width: 150px;
+        cursor: pointer;
+        height: 100%;
+        width: 100%;
+        outline: none;
+    }
+    .order_address ul {
+        padding: 3%;
+        border: 1px solid gray;
+        height: 100%;
     }
     .order_address_info {
         font-family: serif;
         font-size: 1rem;
         line-height: 1rem;
+        letter-spacing: 1px;
     }
     .level-item {
         border: 1px solid;
@@ -375,6 +400,16 @@
     .order_credit {
         float: left;
         margin: 5px;
+        min-width: 150px;
+        height: 150px;
+        border: none;
+        background: gray;
+    }
+    .order_credit > button {
+        min-width: 100%;
+        height: 100%;
+        cursor: pointer;
+        outline: none;
     }
     .card-content {
         padding: 0;
@@ -395,4 +430,8 @@
         font-size: small;
         font-family: serif;
     }
+    .level-item span button:focus {
+        outline: none;
+    }
+
 </style>
