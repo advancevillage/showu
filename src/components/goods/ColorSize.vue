@@ -244,22 +244,22 @@
                     sizes.push(this.sizes.items[this.sizes.selected[j]]);
                 }
                 this.data.sizes  = sizes;
-                let stock = [];
+                let stocks = [];
                 for (let i = 0; i < this.stock.data.length; i++) {
                     let value = {};
                     value.colorId = this.stock.data[i].colorId;
                     value.sizeId  = this.stock.data[i].sizeId;
-                    value.stock   = this.stock.data[i].stock;
-                    stock.push(value);
+                    value.total   = this.stock.data[i].stock;
+                    stocks.push(value);
                     for (let j = 0; j < this.stock.data[i].children.length; j++) {
                         let value = {};
                         value.colorId = this.stock.data[i].children[j].colorId;
                         value.sizeId  = this.stock.data[i].children[j].sizeId;
-                        value.stock   = this.stock.data[i].children[j].stock;
-                        stock.push(value);
+                        value.total   = this.stock.data[i].children[j].stock;
+                        stocks.push(value);
                     }
                 }
-                this.data.stock = stock;
+                this.data.stocks = stocks;
                 this.$emit("colorSizeInfo", this.data);
             }
         }

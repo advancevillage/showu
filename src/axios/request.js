@@ -2,8 +2,7 @@ import axios from 'axios';
 
 // 请求的默认域名
 const service = axios.create({
-    baseURL: '//localhost:13147',
-    timeout: 15 * 1000,
+    timeout: 60 * 1000,
     responseType: 'json',
     headers: {
         post: {
@@ -12,7 +11,8 @@ const service = axios.create({
         put: {
             "Content-Type": "application/json"
         }
-    }
+    },
+    withCredentials: true //cors set-cookie
 });
 
 service.interceptors.request.use(config => {

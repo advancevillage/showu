@@ -289,13 +289,13 @@
                         }
                     },
                     {
-                        key: "stock",width: "90px", fixed: 'right',
+                        key: "stocks",width: "90px", fixed: 'right',
                         render: (h, params) => {
                             let key = params.column.key;
                             let value = params.row[key] || [];
                             let stock = 0;
                             for ( let i = 0; i < value.length; i++) {
-                                stock += value[i].stock;
+                                stock += value[i].total;
                             }
                             return h("span", stock);
                         },
@@ -439,7 +439,7 @@
             colorSizeInfo: function (colorSizeInfo) {
                 this.data.colors = colorSizeInfo.colors;
                 this.data.sizes  = colorSizeInfo.sizes;
-                this.data.stock  = colorSizeInfo.stock;
+                this.data.stocks = colorSizeInfo.stocks;
             },
             brandInfo: function (brandInfo) {
                 this.data.brand = brandInfo.brand;

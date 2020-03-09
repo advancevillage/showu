@@ -119,7 +119,7 @@
                 languages: this.$languages,
                 uri: "//localhost:13147/v1/images",
                 domain: "//localhost:13147/",
-                maxSize: 2048,
+                maxSize: 4096,
                 slide: {
                     items: [],
                     max: 6,
