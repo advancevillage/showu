@@ -24,7 +24,7 @@
                         <ul>
                             <li>
                                 <span>
-                                     <label><input v-model="address.selected" type="radio" checked :value="index"></label>
+                                     <label><input v-model="address.selected" type="radio" checked :value="index" @click="SelectAddress(index)"></label>
                                 </span>
                                 <span>
                                     <button style="float: right; padding: 0; margin: 8px 2px 0;cursor: pointer;" type="button">
@@ -78,7 +78,7 @@
                                     </button>
                                 </span>
                                 <span style="float: right; margin: 5px;">
-                                     <label><input v-model="credit.selected" type="radio" checked :value="index"></label>
+                                     <label><input v-model="credit.selected" type="radio" checked :value="index" @click="SelectCredit(index)"></label>
                                 </span>
                             </li>
                             <li><Credit :card="item"/></li>
@@ -139,7 +139,7 @@
                         <span style="background: white; width: 100%; height: 2px; display: inline-block"></span>
                     </li>
                     <li style="cursor: pointer">
-                        <b-button type="is-dark" size="is-small" expanded @click="processPay" style="letter-spacing: 0.1em">{{languages.Cart.pay[language]}}</b-button>
+                        <b-button type="is-dark" size="is-small" expanded @click="CreateOrder" style="letter-spacing: 0.1em">{{languages.Cart.pay[language]}}</b-button>
                     </li>
                 </ul>
             </div>
@@ -166,7 +166,7 @@
             return {
                 api: this.$api,
                 languages: this.$languages,
-                language: "english",
+                language: "chinese",
                 hasNavigation: false,
                 step: 0,
                 address: {
@@ -207,6 +207,8 @@
         mounted() {
             if (this.login) {
                 this.step = 1;
+                //TODO 获取订单页Token
+                this.CreateOrderToken();
                 //TODO 查询收货地址
                 this.QueryAddress();
                 //TODO 查询支付方式
@@ -235,8 +237,27 @@
             UpdateCartItem(index) {
                 this.$bus.$emit(this.$utils.Singles.SingleOfUpdateCart, index);
             },
-            processPay() {
-                console.log("pay");
+            async CreateOrder() {
+                if (this.address.selected < 0 || this.address.selected >= this.address.items.length) {
+                    return
+                }
+                if (this.credit.selected < 0 || this.credit.selected >= this.credit.items.length) {
+                    return
+                }
+                const header = {
+                    "x-language": this.language,
+                };
+                const body = {};
+                body.address = this.address.items[this.address.selected];
+                body.pay     = this.credit.items[this.credit.selected];
+                body.stocks  = this.carts.items;
+                body.goodsCount = this.carts.total;
+                body.subTotal   = this.goodsPrice;
+                body.total      = this.totalPrice;
+                body.shipping   = this.shippingPrice;
+                body.tax        = this.taxPrice;
+                let data = await this.$api.CreateOrder(header, body);
+                console.log(data);
             },
             computePrice() {
                 this.goodsPrice = 0.0;
@@ -274,6 +295,14 @@
                     events: {}
                 });
             },
+            SelectAddress(index) {
+                this.address.selected = index;
+                this.step = this.step < 2 ? 2 : this.step;
+            },
+            SelectCredit(index) {
+                this.credit.selected = index;
+                this.step = this.step < 3 ? 3 : this.step;
+            },
             async QueryAddress() {
                 const header = {
                     "x-language": this.language,
@@ -288,6 +317,7 @@
                     for (let i = 0; i < this.address.items.length; i++) {
                         if (this.address.items[i].isDefault) {
                             this.address.selected = i;
+                            this.step = 2;
                             break;
                         } else {
                             this.address.selected = -1;
@@ -309,6 +339,7 @@
                     for (let i = 0; i < this.credit.items.length; i++) {
                         if (this.credit.items[i].isDefault) {
                             this.credit.selected = i;
+                            this.step = 3;
                             break;
                         } else {
                             this.credit.selected = -1;
@@ -317,6 +348,13 @@
                     this.credit.total++;
                     this.credit.items.push({number:"9999999999999999", bin: "paypal"})
                 }
+            },
+            async CreateOrderToken() {
+                const header = {
+                    "x-language": this.language,
+                };
+                const body = {};
+                await this.$api.CreateOrderToken(header, body);
             }
         }
 

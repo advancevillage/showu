@@ -175,6 +175,26 @@ const QueryCreditCard = (headers, params) => {
     })
 };
 
+const CreateOrderToken = (headers, body) => {
+    return service({
+        url: "/v1/orderToken",
+        method: "post",
+        data: body || {},
+        headers: headers || {},
+        baseURL: '//localhost:13173',
+    })
+};
+
+
+const CreateOrder = (headers, body) => {
+    return service({
+        url: "/v1/orders",
+        method: "post",
+        data: body || {},
+        headers: headers || {},
+        baseURL: '//localhost:13173',
+    })
+};
 
 export default  {
     QueryImageUrl,
@@ -195,4 +215,6 @@ export default  {
     QueryAddress,
     CreateCreditCard,
     QueryCreditCard,
+    CreateOrderToken,
+    CreateOrder,
 }

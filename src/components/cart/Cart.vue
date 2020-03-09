@@ -102,7 +102,7 @@
                     });
             },
             redirectOrderPage() {
-                this.$router.push({path: '/order'})
+                this.$router.push({path: '/orders'})
                     .then(() => {
                         this.$router.go(1);
                     })

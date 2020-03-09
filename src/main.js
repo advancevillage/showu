@@ -51,7 +51,7 @@ let router = new VueRouter({
       ]
     },
     //订单支付页
-    { path: '/order', component: Order},
+    { path: '/orders', component: Order},
     //404
     { path: '/404', component: Common404 },
     // 404 注意至于最底部
