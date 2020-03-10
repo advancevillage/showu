@@ -77,8 +77,8 @@
                                     <li>{{item.colorName[language]}}</li>
                                     <li>{{item.sizeValue}}</li>
                                     <li>
-                                        <b-numberinput v-model="item.count" style="width: 50%; float: left" type="is-light" min=1 size="is-small" controls-position="compact" @input="UpdateCartItem(index)"></b-numberinput>
-                                        <p style="float: right; line-height: 1.5rem; margin-right: 5%">{{languages.Country[language]}}{{item.count * item.goodsPrice}}</p>
+                                        <b-numberinput v-model="item.total" style="width: 50%; float: left" type="is-light" min=1 size="is-small" controls-position="compact" @input="UpdateCartItem(index)"></b-numberinput>
+                                        <p style="float: right; line-height: 1.5rem; margin-right: 5%">{{languages.Country[language]}}{{item.total * item.goodsPrice}}</p>
                                     </li>
                                 </ul>
                             </div>
@@ -235,7 +235,7 @@
             QueryCartTotal() {
                 this.carts.total = 0;
                 for (let i = 0; i < this.carts.items.length; i++ ) {
-                    this.carts.total += this.carts.items[i].count;
+                    this.carts.total += this.carts.items[i].total;
                 }
                 this.animation();
                 //push carts data
@@ -294,6 +294,7 @@
                     "x-language": this.language
                 };
                 let data = await this.$api.QueryCarts(headers, params);
+                console.log(data);
                 if (data.hasOwnProperty("code")) {
                     this.$utils.DeleteLogin();
                     this.CartRefresh();
@@ -301,6 +302,7 @@
                     this.carts = data || {total: 0, items: []};
                     this.QueryCartTotal();
                 }
+                console.log(this.carts);
             },
             async UpdateCarts(index) {
                 if (index < 0 || index > this.carts.items.length) {

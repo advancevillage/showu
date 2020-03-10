@@ -111,10 +111,10 @@
                 item = item || {};
                 let cart = {};
                 //goods
-                cart.goodsId    = item.id;
-                cart.goodsName  = item.name;
+                cart.goodsId     = item.id;
+                cart.goodsName   = item.name;
                 cart.goodsStatus = item.status;
-                cart.count  = 1;
+                cart.total  = 1;
                 switch (cart.goodsStatus) {
                     case 0x111:
                         cart.goodsPrice = item.newIn;
