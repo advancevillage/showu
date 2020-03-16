@@ -294,7 +294,6 @@
                     "x-language": this.language
                 };
                 let data = await this.$api.QueryCarts(headers, params);
-                console.log(data);
                 if (data.hasOwnProperty("code")) {
                     this.$utils.DeleteLogin();
                     this.CartRefresh();
@@ -302,7 +301,6 @@
                     this.carts = data || {total: 0, items: []};
                     this.QueryCartTotal();
                 }
-                console.log(this.carts);
             },
             async UpdateCarts(index) {
                 if (index < 0 || index > this.carts.items.length) {

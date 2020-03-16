@@ -64,31 +64,15 @@
                         <div class="level-item has-text-centered"></div>
                         <div class="level-item has-text-centered"></div>
                     </nav>
-                    <div class="order_credit" v-for="(item, index) in credit.items" :key="index">
-                        <ul>
-                            <li>
-                                <span style="float: right; margin: 5px;cursor: pointer;">
-                                    <button  type="button">
-                                        <span class="mdi mdi-delete"></span>
-                                    </button>
-                                </span>
-                                <span style="float: right; margin: 5px;cursor: pointer;">
-                                    <button  type="button">
-                                        <span class="mdi mdi-account-edit"></span>
-                                    </button>
-                                </span>
-                                <span style="float: right; margin: 5px;">
-                                     <label><input v-model="credit.selected" type="radio" checked :value="index" @click="SelectCredit(index)"></label>
-                                </span>
-                            </li>
-                            <li><Credit :card="item"/></li>
-                        </ul>
-                    </div>
                     <div class="order_credit">
-                        <button type="button" @click="OpenCreditModal">
-                            <img style="height: 20px" src="http://i76.imgup.net/accepted_c22e0.png">
-                            <span class="mdi mdi-credit-card-plus"></span>
-                        </button>
+                        <v-braintree :authorization="brainTree.authorization"
+                                     :locale="brainTree.locale"
+                                     :paypal="brainTree.paypal"
+                                     btnText=""
+                                     btnClass="pay_btn"
+                                     @success="PaySuccess"
+                                     @error="PayError">
+                        </v-braintree>
                     </div>
                 </div>
                 <!-- 商品列表 -->
@@ -117,8 +101,8 @@
                                             <li>{{item.goodsName[language]}}</li>
                                             <li>{{item.colorName[language]}}/{{item.sizeValue}}</li>
                                             <li>
-                                                <b-numberinput v-model="item.count" style="width: 20%; float: left" type="is-light" min=1 size="is-small" controls-position="compact" @input="UpdateCartItem(index)"></b-numberinput>
-                                                <p style="float: right; line-height: 1.5rem; margin-right: 5%">{{languages.Country[language]}}{{item.count * item.goodsPrice}}</p>
+                                                <b-numberinput v-model="item.total" style="width: 20%; float: left" type="is-light" min=1 size="is-small" controls-position="compact" @input="UpdateCartItem(index)"></b-numberinput>
+                                                <p style="float: right; line-height: 1.5rem; margin-right: 5%">{{languages.Country[language]}}{{item.total * item.goodsPrice}}</p>
                                             </li>
                                         </ul>
                                     </div>
@@ -151,8 +135,6 @@
 <script>
     import Header  from '../common/Header'
     import Footer  from '../common/Footer'
-    import Credit  from '../credit/Credit'
-    import CreditCreate from '../credit/Create'
     import Address from '../account/Address'
 
     export default {
@@ -160,10 +142,16 @@
         components: {
             Header,
             Footer,
-            Credit,
         },
         data() {
             return {
+                brainTree: {
+                    authorization: "eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiJleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpGVXpJMU5pSXNJbXRwWkNJNklqSXdNVGd3TkRJMk1UWXRjMkZ1WkdKdmVDSXNJbWx6Y3lJNklrRjFkR2g1SW4wLmV5SmxlSEFpT2pFMU9EUTBNekkzTXprc0ltcDBhU0k2SWpCaE1XTXhaR0l5TFRSbU9USXROR1l3T1MxaU1XWmxMV05oWm1Sa04yVTNaVEUyTmlJc0luTjFZaUk2SWpNMFpqaHJNbVJ0Y25remFHTnpPVzBpTENKcGMzTWlPaUpCZFhSb2VTSXNJbTFsY21Ob1lXNTBJanA3SW5CMVlteHBZMTlwWkNJNklqTTBaamhyTW1SdGNua3phR056T1cwaUxDSjJaWEpwWm5sZlkyRnlaRjlpZVY5a1pXWmhkV3gwSWpwMGNuVmxmU3dpY21sbmFIUnpJanBiSW0xaGJtRm5aVjkyWVhWc2RDSmRMQ0p2Y0hScGIyNXpJanA3SW0xbGNtTm9ZVzUwWDJGalkyOTFiblJmYVdRaU9pSXpOR1k0YXpKa2JYSjVNMmhqY3psdEluMTkucWJOdHVUWHNocUNkdXQ3dXd5Y2xzd3dGeTRVeDNycVZaRTJ5a3REOEdadmZ5NHV5dnh6SExwXzJjUWlObFBUN2htNkdXUUM5VEp6Z0RfU3RkR2J6aEEiLCJjb25maWdVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvMzRmOGsyZG1yeTNoY3M5bS9jbGllbnRfYXBpL3YxL2NvbmZpZ3VyYXRpb24iLCJncmFwaFFMIjp7InVybCI6Imh0dHBzOi8vcGF5bWVudHMuc2FuZGJveC5icmFpbnRyZWUtYXBpLmNvbS9ncmFwaHFsIiwiZGF0ZSI6IjIwMTgtMDUtMDgifSwiY2hhbGxlbmdlcyI6W10sImVudmlyb25tZW50Ijoic2FuZGJveCIsImNsaWVudEFwaVVybCI6Imh0dHBzOi8vYXBpLnNhbmRib3guYnJhaW50cmVlZ2F0ZXdheS5jb206NDQzL21lcmNoYW50cy8zNGY4azJkbXJ5M2hjczltL2NsaWVudF9hcGkiLCJhc3NldHNVcmwiOiJodHRwczovL2Fzc2V0cy5icmFpbnRyZWVnYXRld2F5LmNvbSIsImF1dGhVcmwiOiJodHRwczovL2F1dGgudmVubW8uc2FuZGJveC5icmFpbnRyZWVnYXRld2F5LmNvbSIsImFuYWx5dGljcyI6eyJ1cmwiOiJodHRwczovL29yaWdpbi1hbmFseXRpY3Mtc2FuZC5zYW5kYm94LmJyYWludHJlZS1hcGkuY29tLzM0ZjhrMmRtcnkzaGNzOW0ifSwidGhyZWVEU2VjdXJlRW5hYmxlZCI6dHJ1ZSwicGF5cGFsRW5hYmxlZCI6dHJ1ZSwicGF5cGFsIjp7ImRpc3BsYXlOYW1lIjoic2hvd3UiLCJjbGllbnRJZCI6bnVsbCwicHJpdmFjeVVybCI6Imh0dHA6Ly9leGFtcGxlLmNvbS9wcCIsInVzZXJBZ3JlZW1lbnRVcmwiOiJodHRwOi8vZXhhbXBsZS5jb20vdG9zIiwiYmFzZVVybCI6Imh0dHBzOi8vYXNzZXRzLmJyYWludHJlZWdhdGV3YXkuY29tIiwiYXNzZXRzVXJsIjoiaHR0cHM6Ly9jaGVja291dC5wYXlwYWwuY29tIiwiZGlyZWN0QmFzZVVybCI6bnVsbCwiYWxsb3dIdHRwIjp0cnVlLCJlbnZpcm9ubWVudE5vTmV0d29yayI6dHJ1ZSwiZW52aXJvbm1lbnQiOiJvZmZsaW5lIiwidW52ZXR0ZWRNZXJjaGFudCI6ZmFsc2UsImJyYWludHJlZUNsaWVudElkIjoibWFzdGVyY2xpZW50MyIsImJpbGxpbmdBZ3JlZW1lbnRzRW5hYmxlZCI6dHJ1ZSwibWVyY2hhbnRBY2NvdW50SWQiOiJzaG93dSIsImN1cnJlbmN5SXNvQ29kZSI6IlVTRCJ9LCJtZXJjaGFudElkIjoiMzRmOGsyZG1yeTNoY3M5bSIsInZlbm1vIjoib2ZmIiwibWVyY2hhbnRBY2NvdW50SWQiOiIzNGY4azJkbXJ5M2hjczltIn0=",
+                    locale: "zh_CN",
+                    paypal: {
+                        flow: "vault"
+                    }
+                },
                 api: this.$api,
                 languages: this.$languages,
                 language: "chinese",
@@ -264,8 +252,9 @@
                 this.shippingPrice = 0.0;
                 this.taxPrice = 0.0;
                 this.totalPrice = 0.0;
+                console.log(this.carts);
                 for (let i = 0; i < this.carts.items.length; i++) {
-                    this.goodsPrice +=  this.carts.items[i].count * this.carts.items[i].goodsPrice
+                    this.goodsPrice +=  this.carts.items[i].total * this.carts.items[i].goodsPrice
                 }
                 this.totalPrice = this.goodsPrice + this.shippingPrice + this.taxPrice
             },
@@ -282,26 +271,15 @@
                     events: {}
                 });
             },
-            OpenCreditModal() {
-                this.$buefy.modal.open({
-                    props: {
-                        language: this.language
-                    },
-                    parent: this,
-                    component: CreditCreate,
-                    hasModalCard: true,
-                    trapFocus: true,
-                    scroll: "keep",
-                    events: {}
-                });
-            },
             SelectAddress(index) {
                 this.address.selected = index;
                 this.step = this.step < 2 ? 2 : this.step;
             },
-            SelectCredit(index) {
-                this.credit.selected = index;
-                this.step = this.step < 3 ? 3 : this.step;
+            PaySuccess(payload) {
+                console.log(payload);
+            },
+            PayError(error) {
+                console.log(error)
             },
             async QueryAddress() {
                 const header = {
@@ -437,11 +415,11 @@
     }
     .order_credit {
         float: left;
-        margin: 5px;
-        min-width: 150px;
-        height: 150px;
+        margin: 1%;
+        width: 98%;
+        height: auto;
         border: none;
-        background: gray;
+        background: white;
     }
     .order_credit > button {
         min-width: 100%;
@@ -471,5 +449,7 @@
     .level-item span button:focus {
         outline: none;
     }
-
+    .pay_btn {
+        display: none;
+    }
 </style>

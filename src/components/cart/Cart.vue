@@ -20,8 +20,8 @@
                                         <li>{{item.colorName[language]}}</li>
                                         <li>{{item.sizeValue}}</li>
                                         <li>
-                                            <b-numberinput v-model="item.count" style="width: 20%; float: left" type="is-light" min=1 size="is-small" controls-position="compact" @input="UpdateCartItem(index)"></b-numberinput>
-                                            <p style="float: right; line-height: 1.5rem; margin-right: 5%">{{languages.Country[language]}}{{item.count * item.goodsPrice}}</p>
+                                            <b-numberinput v-model="item.total" style="width: 20%; float: left" type="is-light" min=1 size="is-small" controls-position="compact" @input="UpdateCartItem(index)"></b-numberinput>
+                                            <p style="float: right; line-height: 1.5rem; margin-right: 5%">{{languages.Country[language]}}{{item.total * item.goodsPrice}}</p>
                                         </li>
                                     </ul>
                                 </div>

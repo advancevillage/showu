@@ -191,7 +191,7 @@ const Credit = {
     create: {
         english: "Add Card",
         chinese: "添加信用卡"
-    }
+    },
 };
 
 export default  {
