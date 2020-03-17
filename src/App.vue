@@ -62,4 +62,8 @@
   .b-steps .steps .step-items .step-item .step-details .step-title {
     font-size: 0.1rem;
   }
+  /* paypal */
+  [data-braintree-id="paypal-button"] {
+      display: none;
+  }
 </style>
