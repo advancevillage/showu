@@ -63,7 +63,13 @@
     font-size: 0.1rem;
   }
   /* paypal */
-  [data-braintree-id="paypal-button"] {
-      display: none;
+  /*[data-braintree-id="paypal-button"] {*/
+      /*display: none;*/
+  /*}*/
+  [data-braintree-id="choose-a-way-to-pay"] {
+    display: none;
+  }
+  [data-braintree-id="methods-label"] {
+    display: none;
   }
 </style>
