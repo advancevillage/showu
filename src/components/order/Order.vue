@@ -323,7 +323,7 @@
     .order_summary {
         width: 33%;
         padding-left: 1%;
-        padding-top: 3%;
+        padding-top: 1%;
         text-align: center;
         padding-right: 3%;
         position: fixed;
@@ -382,14 +382,6 @@
     .level-item {
         border: 1px solid;
     }
-    .order_credit {
-        float: left;
-        margin: 1%;
-        width: 98%;
-        height: auto;
-        border: none;
-        background: white;
-    }
     .order_credit > button {
         min-width: 100%;
         height: 100%;
@@ -417,8 +409,5 @@
     }
     .level-item span button:focus {
         outline: none;
-    }
-    .pay_btn {
-        color: gray;
     }
 </style>

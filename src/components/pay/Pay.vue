@@ -30,6 +30,12 @@
                     instance.on('paymentOptionSelected', function(option) {
                         _this.paymentOption = option.paymentOption;
                     });
+                    instance.on('noPaymentMethodRequestable', function() {
+                        console.log('noPaymentMethodRequestable')
+                    });
+                    instance.on('toggleAdditionalOptions', function() {
+                        console.log('toggleAdditionalOptions')
+                    });
                     this.instance = instance;
                 })
                 .catch(err => {
@@ -53,17 +59,23 @@
 
 <style scoped>
     #btn-pay {
-        width: 100%;
-        height: 30px;
-        background: #B5B5B5;
-        border: none;
-        border-radius: 1%;
-        padding: 0;
-        margin: 0;
-        outline: none;
+        background: #000000;
+        border-radius: 0.25rem;
+        border: 0;
         cursor: pointer;
-        letter-spacing: 1em;
-        font-family: serif;
-        font-weight: bolder;
+        color: white;
+        display: inline-block;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 150ms cubic-bezier(0.77,0,0.175,1);
+        font-size: 0.875rem;
+        width: 100%;
+        height: 2rem;
+        letter-spacing: 1rem;
+    }
+    #btn-pay:hover {
+        background: #1524d9;
+        transition: all 150ms cubic-bezier(0.77,0,0.175,1);
+        color:white;
     }
 </style>
