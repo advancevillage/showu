@@ -165,23 +165,13 @@ const CreateCreditCard = (headers, body) => {
     })
 };
 
-const QueryCreditCard = (headers, params) => {
-    return service({
-        url: "/v1/credit",
-        method: "get",
-        params: params || {},
-        headers: headers || {},
-        baseURL: '//localhost:13147',
-    })
-};
-
 const CreateOrderToken = (headers, body) => {
     return service({
         url: "/v1/orderToken",
         method: "post",
         data: body || {},
         headers: headers || {},
-        baseURL: '//localhost:13173',
+        baseURL: '//localhost:13147',
     })
 };
 
@@ -192,7 +182,17 @@ const CreateOrder = (headers, body) => {
         method: "post",
         data: body || {},
         headers: headers || {},
-        baseURL: '//localhost:13173',
+        baseURL: '//localhost:13147',
+    })
+};
+
+const CreatePayToken = (headers, body) => {
+    return service({
+        url: "/v1/payToken",
+        method: "post",
+        data: body || {},
+        headers: headers || {},
+        baseURL: '//localhost:13147',
     })
 };
 
@@ -214,7 +214,7 @@ export default  {
     CreateAddress,
     QueryAddress,
     CreateCreditCard,
-    QueryCreditCard,
     CreateOrderToken,
     CreateOrder,
+    CreatePayToken,
 }

@@ -107,7 +107,7 @@
 
                     </li>
                 </ul>
-                <Pay></Pay>
+                <Pay v-on:selectPay="selectPay"></Pay>
             </div>
         </div>
         <Footer/>
@@ -139,16 +139,12 @@
                     selected: 0,
                     items: []
                 },
-                credit: {
-                    total: 1,
-                    selected: 0,
-                    items: [],
-                },
                 carts: {
                     items: [],
                     selected: 0,
                     total: 0,
                 },
+                pay: {},
                 goodsPrice: 0.0,
                 shippingPrice: 0.0,
                 taxPrice: 0.0,
@@ -175,8 +171,6 @@
                 this.CreateOrderToken();
                 //TODO 查询收货地址
                 this.QueryAddress();
-                //TODO 查询支付方式
-                this.QueryCreditCard();
             } else {
                 this.$bus.$emit(this.$utils.Singles.SingleOfOpenLogin);
             }
@@ -205,23 +199,26 @@
                 if (this.address.selected < 0 || this.address.selected >= this.address.items.length) {
                     return
                 }
-                if (this.credit.selected < 0 || this.credit.selected >= this.credit.items.length) {
-                    return
-                }
                 const header = {
                     "x-language": this.language,
                 };
                 const body = {};
                 body.address = this.address.items[this.address.selected];
-                body.pay     = this.credit.items[this.credit.selected];
                 body.stocks  = this.carts.items;
                 body.goodsCount = this.carts.total;
                 body.subTotal   = this.goodsPrice;
                 body.total      = this.totalPrice;
                 body.shipping   = this.shippingPrice;
                 body.tax        = this.taxPrice;
-                let data = await this.$api.CreateOrder(header, body);
-                console.log(data);
+                body.pay        = this.pay;
+                await this.$api.CreateOrder(header, body);
+                this.$router.push({path: '/account/order'})
+                    .then(() => {
+                        this.$router.go(1);
+                    })
+                    .catch(() => {
+                        this.$router.go(-1);
+                    });
             },
             computePrice() {
                 this.goodsPrice = 0.0;
@@ -250,6 +247,10 @@
                 this.address.selected = index;
                 this.step = this.step < 2 ? 2 : this.step;
             },
+            selectPay(payInfo) {
+                this.pay = payInfo;
+                this.CreateOrder();
+            },
             async QueryAddress() {
                 const header = {
                     "x-language": this.language,
@@ -270,30 +271,6 @@
                             this.address.selected = -1;
                         }
                     }
-                }
-            },
-            async QueryCreditCard() {
-                const header = {
-                    "x-language": this.language,
-                };
-                const params = {};
-                let data = await this.$api.QueryCreditCard(header, params) || {};
-                if (data.hasOwnProperty("code")) {
-                    console.log(data);
-                } else {
-                    this.credit.total = data.total;
-                    this.credit.items = data.items;
-                    for (let i = 0; i < this.credit.items.length; i++) {
-                        if (this.credit.items[i].isDefault) {
-                            this.credit.selected = i;
-                            this.step = 3;
-                            break;
-                        } else {
-                            this.credit.selected = -1;
-                        }
-                    }
-                    this.credit.total++;
-                    this.credit.items.push({number:"9999999999999999", bin: "paypal"})
                 }
             },
             async CreateOrderToken() {

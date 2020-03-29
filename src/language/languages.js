@@ -194,7 +194,27 @@ const Credit = {
     },
 };
 
+const Account = {
+    account: {
+        english: "account",
+        chinese: "账户"
+    },
+    orderReturn: {
+        english: "order & return",
+        chinese: "订单"
+    },
+    shipping: {
+        english: "order & return",
+        chinese: "收货"
+    },
+    logOut :{
+        english: "log out",
+        chinese: "登出"
+    }
+};
+
 export default  {
+    Account,
     Address,
     Country,
     Credit,

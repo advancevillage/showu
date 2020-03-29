@@ -18,7 +18,9 @@
                     <b-icon icon="account-card-details" size="is-small"></b-icon>
                 </div>
                 <!-- 登出状态 -->
-                <div v-else class="button" v-on:click="OpenLogin">
+                <div v-else class="button" v-on:click="OpenLogin"
+                     v-on:mouseenter="flagAccount=1"
+                     v-on:mouseleave="flagAccount=-1">
                     <b-icon icon="account" size="is-small"></b-icon>
                 </div>
                 <div class="button" v-bind:class="{'rock': rock}"
@@ -92,6 +94,21 @@
                 <b-button class="checkout"  type="is-dark" size="is-small" @click="RedirectCartPage" style="letter-spacing: 1rem">{{languages.Cart.commit[language]}}</b-button>
             </div>
         </div>
+        <div class="account"
+             v-if="flagMenu >= 0 && flagAccount >= 0"
+             v-on:mouseenter="flagMenu=1,  flagAccount=1"
+             v-on:mouseleave="flagMenu=nav,flagAccount=-1">
+            <ul>
+                <li v-for="(item, i) in account" :key="i">
+                    <span v-if="item.url.length > 0">
+                        <a :href="item.url">{{languages.Account[item.key][language]}}</a>
+                    </span>
+                    <span v-else>
+                        {{languages.Account[item.key][language]}}
+                    </span>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -151,6 +168,7 @@
                 flagCategory: -1,
                 flagCategoryDetail: -1,
                 flagCartDetail: -1,
+                flagAccount: -1,
                 login: false,
                 categories: {
                     total: 0,
@@ -162,6 +180,12 @@
                     total: 0,
                     items: []
                 },
+                account: [
+                    { key: "account", url: "/account"},
+                    { key: "orderReturn", url: "/account/orders"},
+                    { key: "shipping", url: "/account/shipping"},
+                    { key: "logOut", url:""}
+                ],
                 rock: false
             }
         },
@@ -404,7 +428,7 @@
     .account-info > .button {
         float: left;
         width: 30px;
-        height: 30px;
+        height: 35px;
         margin: 5px;
         padding: 2px;
         color: black;
@@ -413,13 +437,38 @@
         font-size: inherit;
         z-index: 5;
     }
-    .cart {
+    .cart, .account {
         width: 20%;
         z-index: 30;
         position: absolute;
         right: 0;
         height: auto;
+        font-family: serif;
+        font-size: medium;
         border-top: 2px solid white;
+    }
+    .account {
+        width: 10%;
+    }
+    .account li {
+        font-family: serif;
+        font-size: small;
+        padding-top: 3%;
+        padding-bottom: 3%;
+        background-color: rgba(192, 192, 192, 0.8);
+        cursor: pointer;
+        color: black;
+        text-align: center;
+    }
+    .account li:hover {
+        color: white;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    .account a {
+        color: black;
+    }
+    .account a:hover {
+        color: white;
     }
     .cart-header, .cart-footer, .cart-context, .cart-items {
         width: 100%;
