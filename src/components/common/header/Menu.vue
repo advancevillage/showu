@@ -14,7 +14,9 @@
 
             <div class="account-info">
                 <!-- login in状态 -->
-                <div v-if="login" class="button">
+                <div v-if="login" class="button"
+                     v-on:mouseenter="flagAccount=1"
+                     v-on:mouseleave="flagAccount=-1">
                     <b-icon icon="account-card-details" size="is-small"></b-icon>
                 </div>
                 <!-- 登出状态 -->
@@ -182,8 +184,8 @@
                 },
                 account: [
                     { key: "account", url: "/account"},
-                    { key: "orderReturn", url: "/account/orders"},
-                    { key: "shipping", url: "/account/shipping"},
+                    { key: "orderReturn", url: "/account?href=order"},
+                    { key: "shipping", url: "/account?href=ship"},
                     { key: "logOut", url:""}
                 ],
                 rock: false

@@ -186,6 +186,16 @@ const CreateOrder = (headers, body) => {
     })
 };
 
+const QueryOrder = (headers, params) => {
+    return service({
+        url: "/v1/orders",
+        method: "get",
+        params: params || {},
+        headers: headers || {},
+        baseURL: '//localhost:13179',
+    })
+};
+
 const CreatePayToken = (headers, body) => {
     return service({
         url: "/v1/payToken",
@@ -216,5 +226,6 @@ export default  {
     CreateCreditCard,
     CreateOrderToken,
     CreateOrder,
+    QueryOrder,
     CreatePayToken,
 }

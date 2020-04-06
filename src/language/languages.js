@@ -105,6 +105,17 @@ const List = {
     }
 };
 
+const State = {
+    pending_pay: {
+        english: "Pending Pay",
+        chinese: "待支付"
+    },
+    pending_ship: {
+        english: "Pending Ship",
+        chinese: "待发货"
+    }
+};
+
 const Order = {
     back: {
         english: "Back To Cart",
@@ -125,6 +136,38 @@ const Order = {
     shipping: {
         english: "shipping",
         chinese: "待发货"
+    },
+    id: {
+        english: "OrderId",
+        chinese: "订单编号"
+    },
+    payMoney: {
+        english: "PayOrder",
+        chinese: "支付金额"
+    },
+    state: {
+        english: "State",
+        chinese: "订单状态"
+    },
+    orderTime : {
+        english: "OrderTime",
+        chinese: "下单时间"
+    },
+    payMethod: {
+        english: "Pay Method",
+        chinese: "支付方式"
+    },
+    goodsCount: {
+        english: "Goods Count",
+        chinese: "商品数量"
+    },
+    actions: {
+        english: "Actions",
+        chinese: "操作"
+    },
+    goodsList: {
+        english: "Goods List",
+        chinese: "商品列表"
     }
 };
 
@@ -222,5 +265,6 @@ export default  {
     List,
     Cart,
     Sign,
+    State,
     Order
 }
