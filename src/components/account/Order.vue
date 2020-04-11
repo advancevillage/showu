@@ -8,7 +8,9 @@
         <div v-else>
             <b-table :data="orders.items" class="order" hoverable striped :selected.sync="selected">
                 <template slot-scope="props">
-
+                    <b-table-column :label="languages.Order.goodsList[language]" centered width="60">
+                        <img style="margin: 0 2px; height: 30px" v-for="(item,index) in props.row.stocks" :key=index :src="api.QueryImageUrl(item.frontImage)"/>
+                    </b-table-column>
                     <b-table-column :label="languages.Order.id[language]" centered width="40">
                         <a style="border: none; font-weight: bolder; color: black" :href="'/account?href=order&sn=' + props.row.id">{{ props.row.id }}</a>
                     </b-table-column>
@@ -66,6 +68,7 @@
         },
         data() {
             return {
+                api: this.$api,
                 languages: this.$languages,
                 moment: this.$moment,
                 language: "chinese",

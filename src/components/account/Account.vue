@@ -77,7 +77,7 @@
         padding: 60px 2% 0;
     }
     .tabs {
-        margin: 0 15%;
+        margin: 0 12%;
         font-size: 1rem;
         font-family: serif;
     }

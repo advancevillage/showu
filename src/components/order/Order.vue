@@ -212,7 +212,7 @@
                 body.tax        = this.taxPrice;
                 body.pay        = this.pay;
                 await this.$api.CreateOrder(header, body);
-                this.$router.push({path: '/account/order'})
+                this.$router.push({path: '/account?href=order'})
                     .then(() => {
                         this.$router.go(1);
                     })
