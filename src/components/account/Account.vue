@@ -5,7 +5,8 @@
             <div class="container_warp">
                 <b-tabs v-model="tab" class="tabs" vertical size="is-small" type="is-boxed">
                     <b-tab-item v-for="(item, i) in tabs" :key="i" :label="languages.Account[item.key][language]">
-                        <Order :sn="sn" v-if="item.key === 'orderReturn'"/>
+                        <Order v-if="item.key === 'order'" :sn="sn" />
+                        <User  v-else-if="item.key === 'user'"/>
                         <div v-else>
                             <p>hello others</p>
                         </div>
@@ -21,6 +22,7 @@
     import Header  from '../common/Header'
     import Footer  from '../common/Footer'
     import Order   from './Order'
+    import User    from './User'
 
     export default {
         name: "Account",
@@ -28,6 +30,7 @@
             Header,
             Footer,
             Order,
+            User,
         },
         created() {
            let href = this.$route.query.href || "";
@@ -56,9 +59,8 @@
                 tab: 1,
                 sn: "",
                 tabs: [
-                    { key: "account", icon: "/account"},
-                    { key: "orderReturn", icon: "/account?href=order"},
-                    { key: "shipping", icon: "/account?href=ship"},
+                    { key: "user", icon: "/account"},
+                    { key: "order", icon: "/account?href=order"},
                 ]
             }
         },

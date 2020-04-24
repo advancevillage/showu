@@ -104,7 +104,6 @@
                         <span style="background: white; width: 100%; height: 2px; display: inline-block"></span>
                     </li>
                     <li style="cursor: pointer">
-
                     </li>
                 </ul>
                 <Pay v-on:selectPay="selectPay"></Pay>

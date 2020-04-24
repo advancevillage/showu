@@ -183,9 +183,8 @@
                     items: []
                 },
                 account: [
-                    { key: "account", url: "/account"},
-                    { key: "orderReturn", url: "/account?href=order"},
-                    { key: "shipping", url: "/account?href=ship"},
+                    { key: "user", url: "/account"},
+                    { key: "order", url: "/account?href=order"},
                     { key: "logOut", url:""}
                 ],
                 rock: false

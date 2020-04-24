@@ -182,13 +182,23 @@ const CreateOrder = (headers, body) => {
         method: "post",
         data: body || {},
         headers: headers || {},
-        baseURL: '//localhost:13179',
+        baseURL: '//localhost:13147',
     })
 };
 
 const QueryOrder = (headers, params) => {
     return service({
         url: "/v1/orders",
+        method: "get",
+        params: params || {},
+        headers: headers || {},
+        baseURL: '//localhost:13147',
+    })
+};
+
+const QueryOneOrder = (pathId, headers, params) => {
+    return service({
+        url: "/v1/orders/" + pathId,
         method: "get",
         params: params || {},
         headers: headers || {},
@@ -227,5 +237,6 @@ export default  {
     CreateOrderToken,
     CreateOrder,
     QueryOrder,
+    QueryOneOrder,
     CreatePayToken,
 }

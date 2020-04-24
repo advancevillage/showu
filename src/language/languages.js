@@ -23,10 +23,6 @@ const Login = {
 };
 
 const Sign = {
-    // header: {
-    //     english: "Quick Join In",
-    //     chinese: "开始你的购物旅程",
-    // },
     header: {
         english: "<b>Welcome to Join In</b>",
         chinese: "<b>加入会员，更多优惠送给你!</b>",
@@ -117,6 +113,10 @@ const State = {
 };
 
 const Order = {
+    backDetail: {
+        english: "Back To Order",
+        chinese: "订单列表"
+    },
     back: {
         english: "Back To Cart",
         chinese: "购物车"
@@ -126,7 +126,7 @@ const Order = {
         chinese: "账户信息"
     },
     address: {
-        english: "Address",
+        english: "Shipping Address",
         chinese: "收货地址"
     },
     credit: {
@@ -145,6 +145,18 @@ const Order = {
         english: "PayOrder",
         chinese: "支付金额"
     },
+    shipMoney: {
+        english: "Shipping Fee",
+        chinese: "运费"
+    },
+    taxMoney: {
+        english: "Tax",
+        chinese: "税费"
+    },
+    couponMoney: {
+        english: "Coupon",
+        chinese: "红包"
+    },
     state: {
         english: "State",
         chinese: "订单状态"
@@ -156,6 +168,10 @@ const Order = {
     payMethod: {
         english: "Pay Method",
         chinese: "支付方式"
+    },
+    cardNumber: {
+        english: "Card",
+        chinese: "支付卡号"
     },
     goodsCount: {
         english: "Goods Count",
@@ -238,17 +254,29 @@ const Credit = {
 };
 
 const Account = {
-    account: {
+    user: {
         english: "account",
         chinese: "账户"
     },
-    orderReturn: {
+    email: {
+        english: "E-mail",
+        chinese: "账户邮箱"
+    },
+    password: {
+        english: "Password",
+        chinese: "账户密码"
+    },
+    order: {
         english: "order & return",
         chinese: "订单"
     },
-    shipping: {
-        english: "order & return",
-        chinese: "收货"
+    shippingAddress: {
+        english: "Shipping Address",
+        chinese: "收货地址"
+    },
+    billingAddress: {
+        english: "Billing Address",
+        chinese: "账单地址"
     },
     logOut :{
         english: "log out",

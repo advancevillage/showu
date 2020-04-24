@@ -1,7 +1,14 @@
 <template>
     <div>
-        <div id="drop-in-container"></div>
-        <button v-if="paymentOption === 'card'" id="btn-pay" @click.prevent="Purchase">{{this.languages.Order.credit[this.language]}}</button>
+        <div v-if="isLoading" class="load_warp">
+            <b-loading style="position: relative;" :is-full-page="isFullPage" :active.sync="isLoading">
+                <b-icon class="loading" icon="sync" size="is-large"></b-icon>
+            </b-loading>
+        </div>
+        <div>
+            <div id="drop-in-container"></div>
+            <button v-if="paymentOption === 'card'" id="btn-pay" @click.prevent="Purchase">{{this.languages.Order.credit[this.language]}}</button>
+        </div>
     </div>
 </template>
 
@@ -21,10 +28,13 @@
                     flow: "vault"
                 },
                 paymentOption: "",
-                payInfo: {}
+                payInfo: {},
+                isLoading: true,
+                isFullPage: false
             }
         },
         mounted() {
+            this.PreLoading(8);
             this.CreatePayToken();
         },
         methods: {
@@ -59,6 +69,12 @@
                     .catch(err => {
                         console.error(err);
                     })
+            },
+            PreLoading(second) {
+                this.isLoading = true
+                setTimeout(() => {
+                    this.isLoading = false
+                }, second * 1000)
             }
         }
     }
@@ -85,5 +101,22 @@
         background: #1524d9;
         transition: all 150ms cubic-bezier(0.77,0,0.175,1);
         color:white;
+    }
+    .load_warp {
+        z-index: 3;
+        position: absolute;
+        width: 100%;
+        background: white;
+        height: 180px;
+        margin: 0;
+        padding: 0;
+    }
+    .loading {
+        zoom: 3;
+        -webkit-animation:circle 1.5s infinite linear;
+    }
+    @-webkit-keyframes circle{
+        0%{ transform:rotate(0deg); }
+        100%{ transform:rotate(360deg); }
     }
 </style>
