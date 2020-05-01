@@ -7,12 +7,14 @@
                 <p class="card-header-title">
                     {{size.header}}
                 </p>
-                <b-tag class="clear" size="is-small" type="is-text">{{clear.text}}</b-tag>
+                <b-tag class="clear" size="is-small" type="is-text" v-on:click.native="clearSelected(size.context)">{{clear.text}}</b-tag>
             </header>
             <!-- 内容 -->
-            <div class="card-content">
+            <div class="card-content" :style="'height:' + (25 + (size.context.length + 3)/3 * 25) + 'px'">
                 <section>
-                    <b-tag class="size" v-for="(item, index) in size.context" :key="index">{{item}}</b-tag>
+                    <b-tag class="size" v-for="(item, index) in size.context" :key="index" v-bind:style="[item.selected ? {background: 'black', fontWeight: 'bolder', color: 'white'} : {}]" v-on:click.native="item.selected = !item.selected">
+                        {{item.value}}
+                    </b-tag>
                 </section>
             </div>
             <!-- 过滤项 尾部-->
@@ -26,13 +28,15 @@
                 <p class="card-header-title">
                     {{color.header}}
                 </p>
-                <b-tag class="clear" size="is-small" type="is-text">{{clear.text}}</b-tag>
+                <b-tag class="clear" size="is-small" type="is-text" v-on:click.native="clearSelected(color.context)">{{clear.text}}</b-tag>
             </header>
             <!-- 内容 -->
-            <div class="card-content">
+            <div class="card-content" :style="'height:' + (25 + (color.context.length + 10)/10 * 25) + 'px'">
                 <section>
-                    <div class="color_warp" v-for="(item, index) in color.context" :key="index" >
-                        <b-tag class="color" v-bind:style="{'background-color': item}"></b-tag>
+                    <div class="color_warp" v-for="(item, index) in color.context" :key="index" v-on:click="item.selected = !item.selected">
+                        <b-tag class="color" v-bind:style="{'background-color': item.value}">
+                            <span v-if="item.selected" style="color: white;font-weight: bolder;">&radic;</span>
+                        </b-tag>
                     </div>
                 </section>
             </div>
@@ -71,12 +75,14 @@
                 <p class="card-header-title">
                     {{style.header}}
                 </p>
-                <b-tag class="clear" size="is-small" type="is-text">{{clear.text}}</b-tag>
+                <b-tag class="clear" size="is-small" type="is-text" v-on:click.native="clearSelected(style.context)">{{clear.text}}</b-tag>
             </header>
             <!-- 内容 -->
-            <div class="card-content">
+            <div class="card-content" :style="'height:' + (25 + (style.context.length + 3)/3 * 25) + 'px'">
                 <section>
-                    <b-tag class="style" v-for="(item, index) in style.context" :key="index">{{item}}</b-tag>
+                    <b-tag class="style" v-for="(item, index) in style.context" :key="index" v-bind:style="[item.selected ? {background: 'black', fontWeight: 'bolder', color: 'white'} : {}]" v-on:click.native="item.selected = !item.selected">
+                        {{item.value}}
+                    </b-tag>
                 </section>
             </div>
             <!-- 过滤项 尾部-->
@@ -90,12 +96,14 @@
                 <p class="card-header-title">
                     {{fabric.header}}
                 </p>
-                <b-tag class="clear" size="is-small" type="is-text">{{clear.text}}</b-tag>
+                <b-tag class="clear" size="is-small" type="is-text" v-on:click.native="clearSelected(fabric.context)">{{clear.text}}</b-tag>
             </header>
             <!-- 内容 -->
-            <div class="card-content">
+            <div class="card-content" :style="'height:' + (25 + (fabric.context.length + 3)/3 * 25) + 'px'">
                 <section>
-                    <b-tag class="fabric" v-for="(item, index) in fabric.context" :key="index">{{item}}</b-tag>
+                    <b-tag class="fabric" v-for="(item, index) in fabric.context" :key="index" v-bind:style="[item.selected ? {background: 'black', fontWeight: 'bolder', color: 'white'} : {}]" v-on:click.native="item.selected = !item.selected">
+                        {{item.value}}
+                    </b-tag>
                 </section>
             </div>
             <!-- 过滤项 尾部-->
@@ -112,16 +120,20 @@
             return {
                 size: {
                     header: "Size",
-                    context: ["XS/36", "S/37", "L/42", "M/43", "L"]
+                    context: [
+                        {value: "XS/36", selected: false},
+                        {value: "S/37", selected: false},
+                        {value: "L/42", selected: false},
+                        {value: "M/43", selected: false},
+                        {value: "L", selected: false}
+                    ]
                 },
                 color: {
                     header: "Color",
                     context: [
-                        "rgba(255,0,0,0.8)", "rgba(0,255,0,1)", "rgba(0,0,255,1)", "rgba(255,255,0,1)",
-                        "rgba(255,0,0,0.8)", "rgba(0,255,0,1)", "rgba(0,0,255,1)", "rgba(255,255,0,1)",
-                        "rgba(255,0,0,0.8)", "rgba(0,255,0,1)", "rgba(0,0,255,1)", "rgba(255,255,0,1)",
-                        "rgba(255,0,0,0.8)", "rgba(0,255,0,1)", "rgba(0,0,255,1)", "rgba(255,255,0,1)",
-                        "rgba(255,0,0,0.8)", "rgba(0,255,0,1)", "rgba(0,0,255,1)", "rgba(255,255,0,1)"
+                        {value : "rgba(255,0,0,0.8)", selected: false},
+                        {value : "rgba(0,255,0,1)", selected: false},
+                        {value : "rgba(0,0,255,1)", selected: false}
                     ]
                 },
                 price: {
@@ -136,14 +148,32 @@
                 },
                 style: {
                     header: "Style",
-                    context: ["Tanks", "Tees", "Dress", "Boho"]
+                    context: [
+                        {value: "Tanks", selected: false},
+                        {value: "Tees", selected: false},
+                        {value: "Dress", selected: false},
+                        {value: "Boho", selected: false}]
                 },
                 fabric: {
                     header: "Fabric",
-                    context: ["100% Cotton", "Poly-Cotton", "Satin", "Lace", "Tulle", "Chiffon", "100% Cotton", "Poly-Cotton"]
+                    context: [
+                        {value: "100% Cotton", selected: false},
+                        {value: "Poly-Cotton", selected: false},
+                        {value: "Satin", selected: false},
+                        {value: "Lace", selected: false},
+                        {value: "Tulle", selected: false}
+                    ]
                 },
                 clear: {
                     text: "clear"
+                }
+            }
+        },
+        methods: {
+            clearSelected(items) {
+                items = items || [];
+                for (let i = 0; i < items.length; i++) {
+                    items[i].selected = false;
                 }
             }
         }
@@ -154,8 +184,9 @@
     .size, .color, .color_warp, .style, .fabric {
         float: left;
         height: 20px;
-        width: 40px;
+        width: auto;
         margin: 5px;
+        cursor: pointer;
     }
     .size:hover, .style:hover, .fabric:hover {
         background: darkgray;
@@ -192,6 +223,5 @@
     }
     .card-content {
         padding: 0.5rem;
-        min-height: 100px;
     }
 </style>
