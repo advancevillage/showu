@@ -58,7 +58,6 @@
         text-align: center;
         color: #000;
         overflow: hidden;
-        z-index: 100;
     }
     .slide > * {
         float: left;
