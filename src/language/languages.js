@@ -87,6 +87,10 @@ const Cart = {
     tax: {
         english: "Tax",
         chinese: "关税"
+    },
+    btn: {
+        english: "Add To Cart",
+        chinese: "添加购物车"
     }
 };
 

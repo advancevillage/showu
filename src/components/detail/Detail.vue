@@ -4,7 +4,7 @@
         <div id="container">
             <div class="container_warp">
                 <div class="detail_banner">
-                    <Banner/>
+                    <Banner :items="banner.items" :width="banner.width" @click="getBannerSelect"/>
                 </div>
                 <div class="detail_warp">
                     <div class="left">
@@ -14,16 +14,15 @@
                         <div class="size">
                             <Size :sizes="goods.sizes"/>
                         </div>
-                        <div class="style">
-                            <Style/>
-                        </div>
                     </div>
                     <div class="mid">
                         <div class="top"></div>
                         <div class="center"></div>
                         <div class="bottom">
                             <div class="buttons">
-                                <b-button class="add_cart" expanded>ADD TO BAG</b-button>
+                                <b-button class="add_cart">
+                                    <b-icon icon="cart-plus"></b-icon>
+                                </b-button>
                             </div>
                         </div>
                     </div>
@@ -32,7 +31,7 @@
                 </div>
                 <div class="detail_other">
                     <div class="detail_thumb">
-                        <Thumb :thumbs="thumbs"/>
+                        <Thumb :items="thumbs.items" :width="thumbs.width" :height="thumbs.height" @click="getThumbSelect"/>
                     </div>
                     <div class="detail_desc">
                         <Description/>
@@ -53,11 +52,11 @@
 <script>
     import Header from '../common/Header'
     import Footer from '../common/Footer'
-    import Banner from './Banner'
+    import Banner from '../Banner'
     import Color  from './Color'
     import Size   from './Size'
-    import Style  from './Style'
-    import Thumb  from './Thumb'
+    // import Thumb  from './Thumb'
+    import Thumb from "../Carousel";
     import Similar from './Similar'
     import Description   from './Description'
 
@@ -69,7 +68,6 @@
             Banner,
             Color,
             Size,
-            Style,
             Thumb,
             Description,
             Similar
@@ -80,13 +78,22 @@
         data() {
             return {
                 language: "chinese",
+                languages: this.$languages,
                 gid: "",
                 goods: {
                     colors: [],
                     sizes: [],
                     images: [],
                 },
-                thumbs: []
+                thumbs: {
+                    width: 200,
+                    height: 200,
+                    items: []
+                },
+                banner: {
+                    width: document.body.clientWidth,
+                    items: [{},{}, {}, {}, {}, {}]
+                }
             }
         },
         mounted() {
@@ -111,12 +118,17 @@
                 };
                 this.goods = await this.$api.QueryOneGoods(this.gid, params, headers) || {};
                 let images = this.goods.images || [];
-                this.thumbs = [];
                 for (let i = 0; i < images.length; i++) {
                     let value = {};
-                    value.image = this.$api.QueryImageUrl(images[i].url);
-                    this.thumbs.push(value);
+                    value.imageUrl = this.$api.QueryImageUrl(images[i].url);
+                    this.thumbs.items.push(value);
                 }
+            },
+            getThumbSelect(data) {
+                console.log(data);
+            },
+            getBannerSelect(data) {
+                console.log(data);
             }
         }
     }
@@ -130,7 +142,7 @@
     .detail_banner, .detail_warp {
         width: 100%;
         z-index: 5;
-        height: 640px;
+        height: 60%;
         position: absolute;
     }
     .detail_warp {
@@ -140,7 +152,7 @@
     }
     .detail_warp > .left, .detail_warp > .mid, .detail_warp > .right  {
         float: left;
-        height: 100%;
+        height: 80%;
     }
     .detail_warp > .left, .detail_warp > .right {
         width: 10%;
@@ -148,16 +160,12 @@
     .detail_warp > .mid {
         width: 80%;
     }
-    .detail_warp > .left > .color, .detail_warp > .left > .size, .detail_warp > .left > .style {
-        width: 100%;
-        height: 10%;
-    }
-    .detail_warp > .left > .color {
-        height: 20%;
-    }
+    /*.detail_warp > .left > .color, .detail_warp > .left > .size, .detail_warp > .left > .style {*/
+    /*    width: 100%;*/
+    /*    height: 10%;*/
+    /*}*/
     .detail_warp > .mid > .top, .detail_warp > .mid > .center, .detail_warp > .mid > .bottom {
         width: 100%;
-        height: 10%;
     }
     .detail_warp > .mid > .center {
         height: 60%;
@@ -169,14 +177,29 @@
         margin: 0;
         padding: 0;
         background: darkgray;
+        outline: none;
+        border: 0;
+        transition: all 150ms cubic-bezier(0.77,0,0.175,1);
+        border-radius: 0.25rem;
+        cursor: pointer;
+        display: inline-block;
+        font-weight: 500;
+        text-decoration: none;
+        font-size: 1.2rem;
+        width: 100%;
+        height: 1.5rem;
+        box-shadow: none;
+        font-family: serif;
+        zoom: 1.5;
     }
     .detail_warp > .mid > .bottom > .buttons > .add_cart:hover {
         background: white;
     }
     .detail_other {
         width: 100%;
-        min-height: 640px;
-        margin-top: 640px;
+        /*min-height: 60px;*/
+        margin-top: 620px;
+        z-index: 30;
         padding: 10px 2%;
         float: left;
     }

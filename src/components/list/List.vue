@@ -4,7 +4,7 @@
         <div id="container">
             <div class="container_warp">
                 <div class="list_banner">
-                    <Banner/>
+                    <Banner :items="banner.items" height="200"/>
                 </div>
                 <div class="list_warp">
                     <div class="list_warp_filter">
@@ -23,7 +23,7 @@
 <script>
     import Header  from '../common/Header'
     import Footer  from '../common/Footer'
-    import Banner  from './Banner'
+    import Banner  from '../Banner'
     import Filters from './Filters'
     import Items   from './Items'
 
@@ -57,7 +57,14 @@
         data() {
             return {
                 language: "chinese",
-                cid: ""
+                languages: this.$languages,
+                cid: "",
+                banner: {
+                    width: 0,
+                    items: [{
+                        link: "www.baidu.com"
+                    }, {}, {}, {}]
+                }
             }
         },
         methods: {

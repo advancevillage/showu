@@ -10,13 +10,11 @@ import lang    from './language/languages'
 import utils   from './storage/utils'
 import moment  from 'moment'
 import '@mdi/font/css/materialdesignicons.css'
-import BrainTree from 'vue-braintree'
 
 //安装插件 vue-router
 Vue.use(VueRouter);
 Vue.use(Buefy);
 Vue.use(Carousel);
-Vue.use(BrainTree);
 Vue.prototype.$api       = api;
 Vue.prototype.$languages = lang;
 Vue.prototype.$utils     = utils;
