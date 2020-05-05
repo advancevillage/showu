@@ -23,7 +23,7 @@ Vue.prototype.$moment    = moment;
 
 //载入组件
 import App            from './App.vue'
-import Index          from './components/index/Index'          //组件之首页
+import Index          from './pages/Index'          //组件之首页
 import List           from './components/list/List'            //组件之列表页
 import Detail         from './components/detail/Detail'        //组件之详情页
 import Cart           from './components/cart/Cart'            //组件之购物车
