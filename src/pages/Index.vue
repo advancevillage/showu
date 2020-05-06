@@ -6,6 +6,7 @@
         <Carousel :items="banner.items" :width="banner.width" :height="banner.height" @get="getBanner"/>
         <Slide :items="slides.items" :width="slides.width" :height="slides.height" @get="getSlide"/>
         <Number :title="number.price" :max="number.max" :min="number.min"/>
+        <ListGroup :items="lists.items" :width="lists.width"/>
     </div>
 </template>
 
@@ -16,6 +17,7 @@
     import Carousel from "../components/Basic/Carousel";
     import Slide from "../components/Basic/Slide";
     import Number from "../components/Basic/Number";
+    import ListGroup from "../components/Basic/ListGroup";
 
     export default {
         name: "Index",
@@ -26,6 +28,7 @@
             ColorGroup,
             Slide,
             Number,
+            ListGroup,
         },
         data() {
             return {
@@ -112,6 +115,17 @@
                     min: 50,
                     max: 999,
                     price: "price"
+                },
+                lists: {
+                    items: [
+                        { value: "中国", fn: function (data) {
+                                console.log(data);
+                            }},
+                        { value: "开宝", link: "/"},
+                        { value: "Kelly", link: "/"},
+                        { value: "Richard", link: "/"},
+                    ],
+                    width: 100,
                 }
             }
         },
