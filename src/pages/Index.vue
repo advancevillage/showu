@@ -6,7 +6,8 @@
         <Carousel :items="banner.items" :width="banner.width" :height="banner.height" @get="getBanner"/>
         <Slide :items="slides.items" :width="slides.width" :height="slides.height" @get="getSlide"/>
         <Number :title="number.price" :max="number.max" :min="number.min"/>
-        <ListGroup :items="lists.items" :width="lists.width"/>
+<!--        <ListGroup :items="lists.items" :width="lists.width"/>-->
+        <Notice :items="notice.items" :countries="selector.items"/>
     </div>
 </template>
 
@@ -17,7 +18,8 @@
     import Carousel from "../components/Basic/Carousel";
     import Slide from "../components/Basic/Slide";
     import Number from "../components/Basic/Number";
-    import ListGroup from "../components/Basic/ListGroup";
+    // import ListGroup from "../components/Basic/ListGroup";
+    import Notice from "../components/Business/Notice";
 
     export default {
         name: "Index",
@@ -28,7 +30,8 @@
             ColorGroup,
             Slide,
             Number,
-            ListGroup,
+            // ListGroup,
+            Notice,
         },
         data() {
             return {
@@ -126,6 +129,14 @@
                         { value: "Richard", link: "/"},
                     ],
                     width: 100,
+                },
+                notice: {
+                    items: [
+                        {value: "111444中国你好111444中国你好", link: "/", icon: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1588874077730&di=0e1ff22a90f71e9d2796205339940f21&imgtype=0&src=http%3A%2F%2Fbpic.588ku.com%2Felement_origin_min_pic%2F18%2F03%2F18%2Ff7ae017d4c92a900869d91a83e9f6161.jpg"},
+                        {value: "222", icon: ""},
+                        {value: "333", link: "/", icon: ""},
+                        {value: "444中国你好", link: "/", icon: ""}
+                    ],
                 }
             }
         },

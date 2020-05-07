@@ -54,5 +54,7 @@
         text-align: center;
         font-family: monospace;
         line-height: 1rem;
+        background: black;
+        color: white;
     }
 </style>
