@@ -288,7 +288,18 @@ const Account = {
     }
 };
 
+const OPERATE = {
+    DELETE: {
+        en: "del",
+    },
+    CHECKOUT: {
+        en: "check out"
+    }
+};
+
 export default  {
+    OPERATE,
+
     Account,
     Address,
     Country,

@@ -1,5 +1,5 @@
 <template>
-    <div class="list-group" v-bind:style="{width: width + 'px', height: height + 'px'}">
+    <div class="list-group" v-bind:style="{width: width + 'px', height: (17 * items.length) + 'px'}">
         <ul>
             <li v-for="(item, index) in items" :key="index">
                 <a v-if="item.link" :href="item.link">
@@ -38,6 +38,7 @@
     .list-group {
         text-align: center;
         font-family: serif;
+        overflow: auto;
     }
     .list-group ul {
         background: lightgray;

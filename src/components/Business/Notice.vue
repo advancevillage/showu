@@ -9,7 +9,7 @@
             </li>
         </ul>
         <ul>
-            <li v-bind:style="{float: 'right', marginRight: '1%'}"><Selector :items="countries" :width="(height >> 1) * 3" :height="height >> 1"/></li>
+            <li v-bind:style="{float: 'right', marginRight: '1%'}"><Selector :items="countries" :width="(height >> 1) * 3" :height="height >> 1" @get="getLanguage"/></li>
         </ul>
     </div>
 </template>
@@ -68,6 +68,9 @@
             cycle() {
                 this.active++
                 this.active %= this.items.length;
+            },
+            getLanguage(data) {
+                this.$emit('getLanguage', data)
             }
         }
     }
@@ -82,7 +85,6 @@
         float: left;
         width: 33.3%;
         height: 100%;
-        border: 1px solid;
         overflow: hidden;
     }
     .notice ul li {

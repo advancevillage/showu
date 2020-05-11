@@ -31,6 +31,7 @@ import Account        from './components/account/Account'      //组件之账户
 import AccountOrder   from './components/account/Order'        //组件之账户订单页
 import Order          from './components/order/Order'              //组件之支付页
 import Common404      from './components/common/NotFound'      //404
+import Test           from './pages/Test'                 //Debug 页面
 
 //创建路由对象并配置路由规则
 let router = new VueRouter({
@@ -55,7 +56,9 @@ let router = new VueRouter({
     //404
     { path: '/404', component: Common404 },
     // 404 注意至于最底部
-    { path: '*',  redirect: '/404' }
+    { path: '*',  redirect: '/404' },
+      //test 页面
+    { path: '/test', component: Test},
   ],
   mode: 'history' //hash(#)
 });

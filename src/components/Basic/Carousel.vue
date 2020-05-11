@@ -6,6 +6,9 @@
                     <img :src="item.imageUrl" v-bind:style="{width: width + 'px', height: height + 'px',}"/>
                 </a>
                 <img v-else :src="item.imageUrl" v-bind:style="{width: width + 'px', height: height + 'px',}"/>
+                <div v-if="item.button" class="container" v-bind:style="{height: (height >> 2) + 'px'}">
+                    <button>{{item.button.value}}</button>
+                </div>
             </li>
         </ul>
         <span class="indicator" v-bind:style="{display: 'inline-block'}">
@@ -85,5 +88,35 @@
     }
     .slide-auto li {
         display: inline-block;
+    }
+    .container {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+    .container span {
+        display: inline-block;
+        font-family: monospace;
+        font-size: x-large;
+        text-align: center;
+        zoom: 2;
+    }
+    .container button {
+        background: lightgray;
+        color: black;
+        display: block;
+        width: 10%;
+        height: 50px;
+        border-radius: 10px;
+        cursor: pointer;
+        box-shadow: none;
+        outline: none;
+        margin-left: 48%;
+        text-align: center;
+    }
+    .container button:hover {
+        background: darkgray;
+        font-weight: bolder;
     }
 </style>
