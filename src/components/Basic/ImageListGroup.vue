@@ -9,6 +9,7 @@
                     <span class="operate" @click="deleteIndex(index)"><span class="mdi mdi-close-circle"></span></span>
                     <span v-bind:style="{width: '100%', display: 'inline-block'}">{{item.value}}</span>
                     <span v-bind:style="{width: '100%', display: 'inline-block'}">{{item.price}}</span>
+                    <span v-bind:style="{width: '100%', display: 'inline-block'}"></span>
                     <button v-bind:style="[item.count <= 1 ? {pointerEvents: 'none'}:{}]" @click="decr(item)">-</button>
                     <label>
                         <input v-model="item.count" type="number" @input="changeCount(item)"/>
@@ -75,6 +76,7 @@
         height: 100%;
         float: left;
         border-bottom: 1px solid lightgray;
+        border-radius: 6px;
     }
     .image-list-group li > * {
         display: block;
@@ -86,8 +88,8 @@
         height: 64px;
     }
     .image-list-group button, .image-list-group input {
-        width: 20px;
-        height: 20px;
+        width: 15px;
+        height: 15px;
         box-shadow: none;
         outline: none;
         border: none;

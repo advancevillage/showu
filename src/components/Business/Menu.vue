@@ -80,9 +80,9 @@
                     { value: "Richard", link: "/"},
                 ],
                 carts: [
-                    {value: "color,size", count: 5, link: "", price: 19.9, imageUrl: "//localhost:13147/images/67/18/2636167883511603206718.png"},
-                    {value: "color,size", count: 5, link: "", price: 19.9, imageUrl: "//localhost:13147/images/67/18/2636167883511603206718.png"},
-                    {value: "color,size", count: 5, link: "", price: 19.9, imageUrl: "//localhost:13147/images/67/18/2636167883511603206718.png"},
+                    {value: "color,size", count: 4, link: "", price: 19.9, imageUrl: "//localhost:13147/images/67/18/2636167883511603206718.png"},
+                    {value: "color,size", count: 3, link: "", price: 19.9, imageUrl: "//localhost:13147/images/67/18/2636167883511603206718.png"},
+                    {value: "color,size", count: 2, link: "", price: 19.9, imageUrl: "//localhost:13147/images/67/18/2636167883511603206718.png"},
                 ],
             }
         },

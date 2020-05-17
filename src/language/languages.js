@@ -287,19 +287,77 @@ const Account = {
         chinese: "登出"
     }
 };
-
+/////////////////////
 const OPERATE = {
     DELETE: {
         en: "del",
     },
     CHECKOUT: {
         en: "check out"
+    },
+    SAVE: {
+        en: "save"
+    }
+};
+
+const ADDRESS = {
+    EMAIL: {
+        en:     "Email Address",
+        zh_CN:  "邮箱地址"
+    },
+    FULL_NAME: {
+        en:     "Full Name",
+        zh_CN:  "昵称"
+    },
+    PASSWORD: {
+        en:     "Password",
+        zh_CN:  "密码"
+    },
+    CONFIRM_PASSWORD: {
+        en:     "Confirm Password",
+        zh_CN:  "确认密码"
+    },
+    LINE_1: {
+        en:     "Address Line 1",
+        zh_CN:  "收货地址"
+    },
+    LINE_2: {
+        en:     "Address Line 2",
+        zh_CN:  "收货地址"
+    },
+    ZIP_CODE: {
+        en:     "Zip/Postcode",
+        zh_CN:  "邮编"
+    },
+    CITY: {
+        en:     "Suburb/City",
+        zh_CN:  "城市"
+    },
+    PROVINCE: {
+        en:     "State/Province",
+        zh_CN:  "州/省"
+    },
+    COUNTRY: {
+        en:     "Country",
+        zh_CN:  "国家"
+    },
+    PHONE: {
+        en:     "Phone Number",
+        zh_CN:  "手机号码"
+    },
+    PRIVACY_POLICY: {
+        en:     "The Privacy Policy",
+        zh_CN:  "隐私条款"
+    },
+    REQUIRED: {
+        en:     "REQUIRED",
+        zh_CN:  "必填"
     }
 };
 
 export default  {
     OPERATE,
-
+    ADDRESS,
     Account,
     Address,
     Country,
