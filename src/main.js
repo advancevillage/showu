@@ -20,6 +20,7 @@ Vue.prototype.$languages = lang;
 Vue.prototype.$utils     = utils;
 Vue.prototype.$bus       = new Vue(); //事件总线
 Vue.prototype.$moment    = moment;
+Vue.prototype.$project   = "kelly"
 
 //载入组件
 import App            from './App.vue'

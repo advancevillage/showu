@@ -1,5 +1,5 @@
 <template>
-    <div class="slide">
+    <div class="slide" v-bind:style="{width: width + 'px', height: height + 'px'}">
         <ul class="slide-auto" v-bind:style="{width: width * items.length + 'px', marginLeft: marginLeft + 'px'}">
             <li v-for="(item, index) in items" :key="index" v-bind:style="{width: width + 'px', height: height + 'px'}">
                 <a v-if="item.link" :href="item.link">
@@ -35,11 +35,29 @@
                 required: false,
                 default: 620,
             },
+            interval: {
+                type: Number,
+                required: false,
+                default: 5
+            }
         },
         data() {
             return {
-                marginLeft: 0
+                marginLeft: 0,
+                clock: null,
+                active: 0
             }
+        },
+        mounted() {
+            this.clock = window.setInterval(()=> {
+                this.marginLeft = 0 - this.active * this.width;
+                this.marginLeft %= this.width * this.items.length;
+                this.active++;
+                this.active %= this.items.length;
+            }, this.interval * 1000)
+        },
+        beforeDestroy() {
+            window.clearInterval(this.clock)
         },
         methods: {
             get(index) {

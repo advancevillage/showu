@@ -24,13 +24,18 @@ const CreateListLink = (name, id) => {
     return ("/list/" + name[en] + "?cid=" + id).toLowerCase().trim().replace(/\s+/g, "");
 };
 
-const QueryCategories = (params, headers) => {
+const GenerateLink = (type, project, name, id) => {
+    let language = "en";
+    return ("/" + type + "/" + project + "-" + name[language] + "-" + id).toLowerCase().trim().replace(/\s+/g, "-");
+}
+
+const QueryCategories = (headers, params) => {
     return service({
         url: "/v1/categories",
         method: "get",
         params: params || {},
         headers: headers || {},
-        baseURL: '//localhost:13147',
+        baseURL: 'https://3dcea233-42a0-473f-a756-687b1372ad4c.mock.pstmn.io',
     })
 };
 
@@ -216,7 +221,53 @@ const CreatePayToken = (headers, body) => {
     })
 };
 
+const QueryNotices = (headers, params) => {
+    return service({
+        url: "/v1/notices",
+        method: "get",
+        params: params || {},
+        headers: headers || {},
+        baseURL: 'https://3dcea233-42a0-473f-a756-687b1372ad4c.mock.pstmn.io',
+    })
+};
+
+const QueryCountries = (headers, params) => {
+    return service({
+        url: "/v1/countries",
+        method: "get",
+        params: params || {},
+        headers: headers || {},
+        baseURL: 'https://3dcea233-42a0-473f-a756-687b1372ad4c.mock.pstmn.io',
+    })
+};
+
+const QueryBanners = (headers, params) => {
+    return service({
+        url: "/v1/banners",
+        method: "get",
+        params: params || {},
+        headers: headers || {},
+        baseURL: 'https://3dcea233-42a0-473f-a756-687b1372ad4c.mock.pstmn.io',
+    })
+};
+
+const QueryNewIns = (headers, params) => {
+    return service({
+        url: "/v1/newIns",
+        method: "get",
+        params: params || {},
+        headers: headers || {},
+        baseURL: 'https://3dcea233-42a0-473f-a756-687b1372ad4c.mock.pstmn.io',
+    })
+};
+
 export default  {
+    GenerateLink,
+    QueryBanners,
+    QueryNotices,
+    QueryNewIns,
+    QueryCountries,
+
     QueryImageUrl,
     CreateListLink,
     QueryCategories,

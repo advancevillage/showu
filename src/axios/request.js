@@ -30,8 +30,10 @@ service.interceptors.response.use(response => {
 }, error => {
     if (!error.response) {
         let response = {};
-        response.code = 110;
-        response.message = "network error";
+        response.code  = 1110;
+        response.data  = {};
+        response.data.total = 1;
+        response.data.errors = [{value: "network connect error"}];
         return response
     } else {
         return error.response.data

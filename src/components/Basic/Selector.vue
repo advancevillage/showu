@@ -35,6 +35,7 @@
         },
         data() {
             return {
+                //i18n https://blog.csdn.net/u010987039/article/details/81671886 速查表
                 selected: 0,
             }
         },

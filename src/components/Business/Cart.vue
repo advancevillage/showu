@@ -1,6 +1,6 @@
 <template>
     <div class="add-cart" v-bind:style="{width: width + 'px', height: height + 'px'}" @mouseenter="active = true" @mouseleave="active = !active">
-        <button>
+        <button v-bind:style="[opacity ? {background: 'rgba(128,128,128,0)', border: '1px solid rgba(128,128,128,0)'}:{background: 'rgba(128,128,128,1)', border: '1px solid rgba(128,128,128,1)'}]">
             <span class="mdi mdi-cart" @click="go('/cart')"></span>
             <p>{{computeCount()}}</p>
             <em v-if="active"></em>
@@ -39,6 +39,11 @@
                 type: String,
                 required: false,
                 default: "en"
+            },
+            opacity: {
+                type: Boolean,
+                required: false,
+                default: false
             }
         },
         data() {
@@ -81,8 +86,6 @@
         display: block;
         outline: none;
         font-family: monospace;
-        background: rgb(128,128,128);
-        border: 1px solid rgb(128,128,128);
         cursor: pointer;
         position: relative;
     }

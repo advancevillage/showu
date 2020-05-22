@@ -1,6 +1,6 @@
 <template>
     <div class="user" v-bind:style="{width: width + 'px', height: height + 'px'}" @mouseenter="active = true" @mouseleave="active = !active">
-        <button>
+        <button v-bind:style="[opacity ? {background: 'rgba(128,128,128,0)', border: '1px solid rgba(128,128,128,0)'}:{background: 'rgba(128,128,128,1)', border: '1px solid rgba(128,128,128,1)'}]">
             <span class="mdi mdi-account"></span>
             <em  v-if="active"></em>
             <div v-if="active">
@@ -32,6 +32,11 @@
                 type: Number,
                 required: false,
                 default: 50
+            },
+            opacity: {
+                type: Boolean,
+                required: false,
+                default: false,
             }
         },
         data() {

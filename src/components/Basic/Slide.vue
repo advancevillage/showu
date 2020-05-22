@@ -1,8 +1,8 @@
 <template>
-    <div class="slide">
+    <div class="slide" v-bind:style="{height: height + 'px'}">
         <button v-if="((width + interval) * items.length) > clientWidth" v-bind:style="{top: (height >> 1) + 'px', left: '15px'}" @click="prev">&lt;</button>
-        <ul class="slide-auto" v-bind:style="{width: (width * items.length + interval * items.length) + 'px', marginLeft: marginLeft + 'px'}">
-            <li v-for="(item, index) in items" :key="index" v-bind:style="{width: width + 'px', height: height + 'px', marginRight: interval + 'px'}" @click="get(index)">
+        <ul class="slide-auto" v-bind:style="{width: (width * slides.length + interval * items.length) + 'px', marginLeft: marginLeft + 'px'}">
+            <li v-for="(item, index) in slides" :key="index" v-bind:style="{width: width + 'px', height: height + 'px', marginRight: interval + 'px'}" @click="get(index)">
                 <a v-if="item.link" :href="item.link">
                     <img :src="item.imageUrl" class="slide-item" v-bind:style="{width: width + 'px', height: height + 'px',}"/>
                 </a>
@@ -46,20 +46,39 @@
             return {
                 clientWidth: document.body.clientWidth,
                 marginLeft: 0,
+                slides: [],
+                left: 0,
+                right: 0
             }
         },
-        mounted() {},
+        watch: {
+            items(data) {
+                for (let i = 0; i < data.length; i++) {
+                    this.slides.push(data[i])
+                }
+                for (let i = 0; i < data.length; i++) {
+                    this.slides.push(data[i])
+                }
+            }
+        },
+        mounted() {
+            for (let i = 0; i < this.items.length; i++) {
+                this.slides.push(this.items[i])
+            }
+        },
         methods: {
             next() {
-                this.marginLeft -= (this.width + this.interval);
-                this.marginLeft %= (this.width + this.interval) * this.items.length;
+                this.right++;
+                this.marginLeft = (this.width + this.interval) * -this.right;
+                this.right %= this.items.length;
             },
             prev() {
-                this.marginLeft += (this.width + this.interval);
-                this.marginLeft %= (this.width + this.interval) * this.items.length;
+                this.left++;
+                this.marginLeft = (this.width + this.interval) * -(this.items.length - this.left);
+                this.left %= this.items.length;
             },
             get(index) {
-                this.$emit('get', this.items[index]);
+                this.$emit('get', this.items[index % this.items.length]);
             }
         }
     }
@@ -69,7 +88,6 @@
     .slide {
         position: relative;
         margin: 1%;
-        text-align: center;
         color: #000;
         overflow: hidden;
     }

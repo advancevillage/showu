@@ -9,7 +9,7 @@
             </li>
         </ul>
         <ul>
-            <li v-bind:style="{float: 'right', marginRight: '1%'}"><Selector :items="countries" :width="(height >> 1) * 3" :height="height >> 1" @get="getLanguage"/></li>
+            <li v-bind:style="{float: 'right', marginRight: '1%'}"><Selector :items="countries" :width="width >> 4" :height="height >> 1" @get="getLanguage"/></li>
         </ul>
     </div>
 </template>
@@ -46,7 +46,11 @@
                 required: false,
                 default: 2
             },
-
+            language: {
+                type: String,
+                required: false,
+                default: "en"
+            }
         },
         mounted() {
             this.timer = setInterval(this.cycle, this.interval * 1000)
@@ -103,8 +107,6 @@
         color: white;
         float: inherit;
         margin: 0 auto;
-        text-decoration: underline;
-        text-decoration-color: white;
     }
     .notice ul li > *:hover {
         color: pink;
