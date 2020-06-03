@@ -297,6 +297,10 @@ const OPERATE = {
     },
     SAVE: {
         en: "save"
+    },
+    BACK: {
+        en:     "back",
+        zh_CN:  "返回"
     }
 };
 
@@ -355,9 +359,37 @@ const ADDRESS = {
     }
 };
 
+const GOODS = {
+    SIZE: {
+        en:     "Size",
+        zh_CN:  "尺码"
+    },
+    COLOR: {
+        en:     "Color",
+        zh_CN:  "颜色"
+    }
+}
+
+const NOUN = {
+    ACCOUNT: {
+        en:     "Account",
+        zh_CN:  "账户"
+    },
+    ADDRESS: {
+        en:     "Address",
+        zh_CN:  "住址"
+    },
+    PAY: {
+        en:     "Pay",
+        zh_CN:  "支付"
+    }
+}
+
 export default  {
     OPERATE,
     ADDRESS,
+    GOODS,
+    NOUN,
     Account,
     Address,
     Country,

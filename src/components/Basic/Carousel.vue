@@ -11,6 +11,9 @@
                 </div>
             </li>
         </ul>
+        <span class="action" v-if="action">
+            <button @click="action.fn"><span class="mdi mdi-cart"></span></button>
+        </span>
         <span class="indicator" v-bind:style="{display: 'inline-block'}">
             <button v-for="(item, index) in items" :key="index" v-on:click="get(index)">{{index + 1}}</button>
         </span>
@@ -34,6 +37,10 @@
                 type: Number,
                 required: false,
                 default: 620,
+            },
+            action: {
+                type: Object,
+                required: false
             },
             interval: {
                 type: Number,
@@ -136,5 +143,34 @@
     .container button:hover {
         background: darkgray;
         font-weight: bolder;
+    }
+    .action {
+        position: absolute;
+        top: 66%;
+        left: 48%;
+    }
+    .action button {
+        width: 100px;
+        height: 50px;
+        overflow: hidden;
+        border-radius: 10px;
+        cursor: pointer;
+        font-family: monospace;
+        line-height: 3rem;
+        box-shadow: none;
+        outline: none;
+        border: 0;
+        display: inline-block;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 150ms cubic-bezier(0.77,0,0.175,1);
+    }
+    .action button:hover {
+        background: #1524d9;
+        transition: all 150ms cubic-bezier(0.77,0,0.175,1);
+        color:white;
+    }
+    .action button > span {
+        zoom: 3;
     }
 </style>

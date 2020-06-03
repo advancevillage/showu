@@ -1,5 +1,5 @@
 <template>
-    <div class="header">
+    <div class="ss_header" v-bind:style="[scroll > height ? {position: 'fixed'}:{}]">
         <Notice :items="notices" :countries="countries" :width="width" :height="height/3" @getLanguage="getLanguage"/>
         <Menu :categories="categories" :users="users" :carts="carts" :width="width" :height="2 * height/3" :language="language" :opacity="opacity"/>
     </div>
@@ -23,12 +23,22 @@
             height: {
                 type: Number,
                 required: true,
+            },
+            opacity: {
+                type: Boolean,
+                required: false,
+                default: true
             }
         },
         mounted() {
             this.QueryNotices();
             this.QueryCountries();
             this.QueryCategories();
+            this.QueryCarts();
+            window.addEventListener('scroll', this.fixedHeader, true)
+        },
+        beforeDestroy() {
+            window.removeEventListener('scroll', this.fixedHeader,true);
         },
         data() {
             return {
@@ -43,13 +53,9 @@
                     { value: "Kelly", link: "/"},
                     { value: "Richard", link: "/"},
                 ],
-                carts: [
-                    {value: "color,size", count: 4, link: "", price: 19.9, imageUrl: "//localhost:13147/images/67/18/2636167883511603206718.png"},
-                    {value: "color,size", count: 3, link: "", price: 19.9, imageUrl: "//localhost:13147/images/67/18/2636167883511603206718.png"},
-                    {value: "color,size", count: 2, link: "", price: 19.9, imageUrl: "//localhost:13147/images/67/18/2636167883511603206718.png"},
-                ],
+                carts: [],
                 language: "en",
-                opacity: true
+                scroll: 0
             }
         },
         methods: {
@@ -83,15 +89,30 @@
                     this.categories = response.data.items;
                 }
             },
+            async QueryCarts() {
+                const params = {};
+                const headers = {};
+                let response = await this.$api.QueryCarts(headers, params);
+                if (response.hasOwnProperty("code") && parseInt(response.code) > 299) {
+                    console.log(this.response);
+                } else {
+                    this.carts = response.data.items;
+                }
+            },
             //多语言事件触发
             getLanguage(data) {
                 this.language = data.key;
                 this.$emit('getLanguage', this.language);
+            },
+            fixedHeader() {
+                this.scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
             }
         }
     }
 </script>
 
 <style scoped>
-
+    .ss_header {
+        z-index: 5;
+    }
 </style>

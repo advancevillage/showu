@@ -6,11 +6,10 @@
         </header>
         <section>
             <span class="warp" v-for="(item, index) in items" :key="index" v-on:click="get(index)">
-                <span v-if="item.selected" class="color"  v-bind:style="{backgroundColor: item.value, color: reversalColor(item.value), fontWeight: 'border', fontFamily: 'serif'}">&radic;</span>
-                <span v-if="!item.selected" class="color" v-bind:style="{backgroundColor: item.value, borderColor: reversalColor(item.value)}"></span>
+                <span v-if="selected[index].key" class="color"  v-bind:style="{backgroundColor: item.rgb, color: reversalColor(item.rgb), fontWeight: 'border', fontFamily: 'serif'}">&radic;</span>
+                <span v-if="!selected[index].key" class="color" v-bind:style="{backgroundColor: item.rgb}"></span>
             </span>
         </section>
-        <!--                <em v-if="item.selected" :style="{color: reversalColor(item.value), fontWeight: 'border', fontFamily: 'serif'}">&radic;</em>-->
     </div>
 </template>
 
@@ -43,19 +42,36 @@
                 default: "clear"
             }
         },
+        data() {
+            return {
+                selected: []
+            }
+        },
+        mounted() {
+            for (let i = 0; i < this.items.length; i++) {
+                this.selected.push({key: false})
+            }
+        },
+        watch: {
+            items() {
+                for (let i = 0; i < this.items.length; i++) {
+                    this.selected.push({key: false})
+                }
+            }
+        },
         methods: {
             reset() {
                 for (let i = 0; i < this.items.length; i++) {
-                    this.items[i].selected = false
+                    this.selected[i].key = false
                 }
                 let data = [];
                 this.$emit('get', data)
             },
             get(index) {
-                this.items[index].selected = !this.items[index].selected
+                this.selected[index].key = !this.selected[index].key;
                 let data = [];
                 for (let i = 0; i < this.items.length; i++) {
-                    if (this.items[i].selected) {
+                    if (this.selected[index].key) {
                         data.push(this.items[i])
                     }
                 }
@@ -106,10 +122,9 @@
 
 <style scoped>
     .color-group {
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         font-family: monospace;
         margin: 2px;
-        line-height: 1.5rem;
+        line-height: 1rem;
     }
     .color-group header {
         border-bottom: 1px solid darkgray;
@@ -121,6 +136,7 @@
         float: left;
         text-align: left;
         margin: 1%;
+        color: black;
     }
     .color-group header > button {
         float: left;
@@ -132,21 +148,22 @@
         border: none;
         cursor: pointer;
         color: black;
+        background-color: rgba(128,128,128,0);
     }
     .color-group header > button:hover {
         font-weight: bolder;
     }
     .warp {
-        width: 28px;
-        height: 28px;
+        width: 24px;
+        height: 24px;
         float: left;
         cursor: pointer;
         margin: 0;
         border-radius: 100%;
     }
     .color {
-        width: 24px;
-        height: 24px;
+        width: 20px;
+        height: 20px;
         display: inline-block;
         border-radius: 100%;
         background-color: rgb(16, 0, 0);
@@ -154,12 +171,11 @@
         font-family: monospace;
         font-weight: bolder;
         padding: 0 2px 0;
-        border: 1px solid;
     }
     .color:hover {
         margin: 0;
-        width: 28px;
-        height: 28px;
+        width: 24px;
+        height: 24px;
         padding: 0 6px 0;
     }
 </style>

@@ -12,7 +12,7 @@
                     <span v-bind:style="{width: '100%', display: 'inline-block'}"></span>
                     <button v-bind:style="[item.count <= 1 ? {pointerEvents: 'none'}:{}]" @click="decr(item)">-</button>
                     <label>
-                        <input v-model="item.count" type="number" @input="changeCount(item)"/>
+                        <input v-model="item.count" type="tel" @input="changeCount(item)"/>
                     </label>
                     <button @click="incr(item)">+</button>
                     <span class="price">{{(item.count * item.price).toFixed(1)}}</span>
@@ -54,6 +54,8 @@
         methods: {
             changeCount(item) {
                 item.count = item.count <= 1 ? 1 : item.count;
+                item.count = parseInt(item.count)
+                this.$emit('update')
             },
             deleteIndex(index) {
                 this.$emit('del', index)
@@ -71,6 +73,9 @@
 </script>
 
 <style scoped>
+    .image-list-group {
+        background-color: lightgray;
+    }
     .image-list-group li {
         width: 100%;
         height: 100%;
@@ -94,6 +99,7 @@
         outline: none;
         border: none;
         border-radius: 100%;
+        background: lightgray;
     }
     .image-list-group input {
         width: 50px;
@@ -101,7 +107,6 @@
         border-radius: 10px;
     }
     .image-list-group button {
-        background: white;
         color: black;
         cursor: pointer;
     }

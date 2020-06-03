@@ -1,11 +1,11 @@
 <template>
-    <div class="add-cart" v-bind:style="{width: width + 'px', height: height + 'px'}" @mouseenter="active = true" @mouseleave="active = !active">
+    <div v-if="items.length > 0" class="add-cart" v-bind:style="{width: width + 'px', height: height + 'px'}" @mouseenter="active = true" @mouseleave="active = !active">
         <button v-bind:style="[opacity ? {background: 'rgba(128,128,128,0)', border: '1px solid rgba(128,128,128,0)'}:{background: 'rgba(128,128,128,1)', border: '1px solid rgba(128,128,128,1)'}]">
             <span class="mdi mdi-cart" @click="go('/cart')"></span>
-            <p>{{computeCount()}}</p>
+            <p>{{total}}</p>
             <em v-if="active"></em>
             <div v-if="active">
-                <ImageListGroup :items="items" :width="(width + 10) << 2"/>
+                <ImageListGroup :items="items" :width="(width + 10) << 2" @update="computeCount" @incr="incr" @decr="decr"/>
                 <button class="checkout" @click="go('/checkout')">{{languages.OPERATE.CHECKOUT[language]}}</button>
             </div>
         </button>
@@ -46,19 +46,32 @@
                 default: false
             }
         },
+        watch: {
+            items() {
+                this.computeCount()
+            }
+        },
         data() {
             return {
                 active: false,
                 languages: this.$languages,
+                total: 0,
             }
         },
         methods: {
             computeCount() {
-                let count = 0;
+                this.total = 0;
                 for (let i = 0; i < this.items.length; i++) {
-                    count += this.items[i].count;
+                    this.total += this.items[i].count;
                 }
-                return count;
+            },
+            incr(item) {
+                console.log(item);
+                this.computeCount();
+            },
+            decr(item) {
+                console.log(item);
+                this.computeCount();
             },
             go(url) {
                 this.$router.push({path: url})

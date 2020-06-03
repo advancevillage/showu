@@ -35,7 +35,7 @@ const QueryCategories = (headers, params) => {
         method: "get",
         params: params || {},
         headers: headers || {},
-        baseURL: 'https://3dcea233-42a0-473f-a756-687b1372ad4c.mock.pstmn.io',
+        baseURL: '//localhost:20520',
     })
 };
 
@@ -49,23 +49,32 @@ const QueryChildCategories = (pathId, params, headers) => {
     })
 };
 
-const QueryGoods = (params, headers) => {
+const QueryGoods = (headers, params) => {
     return service({
         url: "/v1/goods",
         method: "get",
         params: params || {},
         headers: headers || {},
-        baseURL: '//localhost:13147',
+        baseURL: '//localhost:20520',
     })
 };
 
-const QueryOneGoods = (pathId, params, headers) => {
+const QueryOneGoods = (pathId, headers, params) => {
     return service({
         url: "/v1/goods/" + pathId,
         method: "get",
         params: params || {},
         headers: headers || {},
-        baseURL: '//localhost:13147',
+        baseURL: '//localhost:20520',
+    })
+};
+const QuerySimilarGoods = (headers, params) => {
+    return service({
+        url: "/v1/similarGoods/",
+        method: "get",
+        params: params || {},
+        headers: headers || {},
+        baseURL: '//localhost:20520',
     })
 };
 
@@ -99,14 +108,13 @@ const QueryUser = (headers, params) => {
     })
 };
 
-
 const QueryCarts = (headers, params) => {
     return service({
         url: "/v1/carts",
         method: "get",
         params: params || {},
         headers: headers || {},
-        baseURL: '//localhost:13147',
+        baseURL: '//localhost:20520',
     })
 };
 
@@ -227,7 +235,7 @@ const QueryNotices = (headers, params) => {
         method: "get",
         params: params || {},
         headers: headers || {},
-        baseURL: 'https://3dcea233-42a0-473f-a756-687b1372ad4c.mock.pstmn.io',
+        baseURL: '//localhost:20520',
     })
 };
 
@@ -237,7 +245,7 @@ const QueryCountries = (headers, params) => {
         method: "get",
         params: params || {},
         headers: headers || {},
-        baseURL: 'https://3dcea233-42a0-473f-a756-687b1372ad4c.mock.pstmn.io',
+        baseURL: '//localhost:20520',
     })
 };
 
@@ -247,7 +255,7 @@ const QueryBanners = (headers, params) => {
         method: "get",
         params: params || {},
         headers: headers || {},
-        baseURL: 'https://3dcea233-42a0-473f-a756-687b1372ad4c.mock.pstmn.io',
+        baseURL: '//localhost:20520',
     })
 };
 
@@ -257,16 +265,61 @@ const QueryNewIns = (headers, params) => {
         method: "get",
         params: params || {},
         headers: headers || {},
-        baseURL: 'https://3dcea233-42a0-473f-a756-687b1372ad4c.mock.pstmn.io',
+        baseURL: '//localhost:20520',
+    })
+};
+
+const QueryHots = (headers, params) => {
+    return service({
+        url: "/v1/hots",
+        method: "get",
+        params: params || {},
+        headers: headers || {},
+        baseURL: '//localhost:20520',
+    })
+};
+
+const QueryFooters = (headers, params) => {
+    return service({
+        url: "/v1/footers",
+        method: "get",
+        params: params || {},
+        headers: headers || {},
+        baseURL: '//localhost:20520',
+    })
+};
+
+const QuerySizes = (headers, params) => {
+    return service({
+        url: "/v1/sizes",
+        method: "get",
+        params: params || {},
+        headers: headers || {},
+        baseURL: '//localhost:20520',
+    })
+};
+
+const QueryColors = (headers, params) => {
+    return service({
+        url: "/v1/colors",
+        method: "get",
+        params: params || {},
+        headers: headers || {},
+        baseURL: '//localhost:20520',
     })
 };
 
 export default  {
     GenerateLink,
     QueryBanners,
+    QueryColors,
+    QueryCountries,
+    QueryFooters,
+    QueryHots,
     QueryNotices,
     QueryNewIns,
-    QueryCountries,
+    QuerySizes,
+    QuerySimilarGoods,
 
     QueryImageUrl,
     CreateListLink,

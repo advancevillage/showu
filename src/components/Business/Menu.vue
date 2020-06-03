@@ -6,7 +6,7 @@
                 <em v-bind:style="[active === index ? {display: 'block'}:{display: 'none'}]"></em>
             </div>
             <div class="cart">
-                <Cart :items="carts" :height="height" :opacity="opacity"/>
+                <Cart :items="carts" :height="height" :opacity="opacity" />
             </div>
             <div class="user">
                 <User :items="users" :height="height" :opacity="opacity"/>

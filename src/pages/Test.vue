@@ -2,17 +2,22 @@
     <div>
         <TagGroup :items="sizes.items" :width="sizes.width" @get="getSizes"/>
         <Selector :items="selector.items" :width="selector.width" :height="selector.height" :styles="selector.styles" @get="getCountry"/>
-        <Menu/>
+<!--        <Menu/>-->
 <!--        <ImageListGroup/>-->
         <Address/>
+<!--        <Fragment/>-->
         <Goods :item="goods" @get="getGoods"/>
         <Goods :item="goods" @get="getGoods"/>
         <ColorGroup :items="colors.items" :width="colors.width" @get="getColors"/>
         <Carousel :items="banner.items" :width="banner.width" :height="banner.height" @get="getBanner"/>
-        <Slide :items="slides.items" :width="slides.width" :height="slides.height" @get="getSlide"/>
+        <Slide :items="slides.items" :width="slides.width" :height="slides.height" :step=1000 @get="getSlide"/>
         <Number :title="number.price" :max="number.max" :min="number.min"/>
 <!--        <ListGroup :items="lists.items" :width="lists.width"/>-->
         <Notice :items="notice.items" :countries="selector.items" @getLanguage="getSlide"/>
+        <Footer/>
+        <label>
+            <input class="test" type="tel"/>
+        </label>
     </div>
 </template>
 
@@ -25,14 +30,17 @@
     import Number from "../components/Basic/Number";
     // import ListGroup from "../components/Basic/ListGroup";
     import Notice from "../components/Business/Notice";
-    import Menu   from "../components/Business/Menu"
+    // import Menu   from "../components/Business/Menu"
     import Goods from "../components/Business/Goods";
     import Address from "../components/Business/Address"
     // import ImageListGroup from "../components/Basic/ImageListGroup";
+    import Footer from "../components/Business/Footer";
+    // import Fragment from "../components/Basic/Fragment";
 
     export default {
         name: "Index",
         components: {
+            // Fragment,
             Carousel,
             Selector,
             TagGroup,
@@ -41,9 +49,10 @@
             Number,
             // ListGroup,
             Notice,
-            Menu,
+            // Menu,
             Goods,
             Address,
+            Footer,
             // ImageListGroup,
         },
         data() {
@@ -245,5 +254,7 @@
 </script>
 
 <style scoped>
-
+    .test:after {
+        display: none;
+    }
 </style>

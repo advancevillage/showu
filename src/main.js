@@ -10,11 +10,14 @@ import lang    from './language/languages'
 import utils   from './storage/utils'
 import moment  from 'moment'
 import '@mdi/font/css/materialdesignicons.css'
+import VueSteps from 'a-vue-steps'
+import 'a-vue-steps/dist/vue-steps.min.css'
 
 //安装插件 vue-router
 Vue.use(VueRouter);
 Vue.use(Buefy);
 Vue.use(Carousel);
+Vue.use(VueSteps);
 Vue.prototype.$api       = api;
 Vue.prototype.$languages = lang;
 Vue.prototype.$utils     = utils;
@@ -25,9 +28,11 @@ Vue.prototype.$project   = "kelly"
 //载入组件
 import App            from './App.vue'
 import Index          from './pages/Index'          //组件之首页
-import List           from './components/list/List'            //组件之列表页
-import Detail         from './components/detail/Detail'        //组件之详情页
-import Cart           from './components/cart/Cart'            //组件之购物车
+// import List           from './components/list/List'            //组件之列表页
+import List           from './pages/List'
+import Checkout       from "./pages/Checkout";
+import Detail         from './pages/Detail'        //组件之详情页
+// import Cart           from './components/cart/Cart'            //组件之购物车
 import Account        from './components/account/Account'      //组件之账户页
 import AccountOrder   from './components/account/Order'        //组件之账户订单页
 import Order          from './components/order/Order'              //组件之支付页
@@ -38,13 +43,13 @@ import Test           from './pages/Test'                 //Debug 页面
 let router = new VueRouter({
   routes: [
     //首页
-    { path: '/', component: Index },
+    { path: '/', component: Index, },
     //列表页
     { path: '/list/*', component: List },
     //详情页
-    { path: '/detail/*', component: Detail },
+    { path: '/products/*', component: Detail },
     //购物车
-    { path: '/cart', component: Cart },
+    { path: '/checkout', component: Checkout },
     //账户页
     { path: '/account', component: Account,
       children: [

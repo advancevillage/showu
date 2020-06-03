@@ -6,8 +6,8 @@
                     <img :src="item.stateImageUrl"/>
                 </span>
             </div>
-            <img v-if="decoration" :src="item.imageUrl" v-bind:style="{width: width + 'px', height: (0.8 * height) + 'px'}" @mouseenter="decoration = false" @mouseleave="decoration = true" />
-            <img v-else :src="item.backImageUrl" v-bind:style="{width: width + 'px', height: (0.8 * height) + 'px'}" @mouseenter="decoration = false" @mouseleave="decoration = true"/>
+            <img v-if="decoration" :src="item.imageUrl" v-bind:style="{width: width + 'px', height: (0.85 * height) + 'px'}" @mouseenter="decoration = false" @mouseleave="decoration = true" />
+            <img v-else :src="item.backImageUrl" v-bind:style="{width: width + 'px', height: (0.85 * height) + 'px'}" @mouseenter="decoration = false" @mouseleave="decoration = true"/>
             <div class="sizes" @mouseenter="sizeSelected = true" @mouseleave="sizeSelected = false">
                 <span v-if="sizeSelected" v-bind:style="{height: width >> 3 + 'px'}">
                     <ul v-bind:style="[((width - 25 * item.sizes.length) >> 1) <= 0 ? {}: {marginLeft: ((width - 25 * item.sizes.length) >> 1) + 'px'}]">
@@ -94,12 +94,16 @@
 
 <style scoped>
     .goods {
-        border: 1px solid black;
+        border: 1px solid lightgray;
         position: relative;
         margin: 0;
-        padding: 0;
+        padding: 1px;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+    .goods:hover {
+        border: 1px solid black;
+        padding: 0;
     }
     .image {
         width: 100%;

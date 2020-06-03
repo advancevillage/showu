@@ -1,5 +1,5 @@
 <template>
-    <div class="list-group" v-bind:style="{width: width + 'px', height: (17 * items.length) + 'px'}">
+    <div class="list-group" v-bind:style="{width: width + 'px', height: 'auto'}">
         <ul>
             <li v-for="(item, index) in items" :key="index">
                 <a v-if="item.link" :href="item.link">
@@ -30,6 +30,7 @@
                 type: Array,
                 required: true,
             }
+            // (17 * items.length) + 'px'}
         },
     }
 </script>

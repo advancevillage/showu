@@ -1,12 +1,13 @@
 <template>
-    <div class="tag-group" v-bind:style="{width: width + 'px', height: (25 * items.length/3 + height) + 'px'}">
+    <div v-if="items.length > 0" class="tag-group" v-bind:style="{width: width + 'px', height: (25 * items.length/3 + height) + 'px'}">
         <header>
             <p v-if="title.length > 0" v-bind:style="{width: (100 - 6 - 1 - (clear.length * 7) * 100 / width) + '%'}">{{title}}</p>
             <button v-if="clear.length > 0" v-bind:style="{width: ((clear.length * 7) * 100 / width) + '%'}" @click="reset">{{clear}}</button>
         </header>
         <section>
-            <span v-for="(item, index) in items" :key="index" v-bind:style="[item.selected ? {background: 'black', fontWeight: 'bolder', color: 'white'} : {}]" v-on:click="get(index)">
-                {{item.value}}
+            <span v-for="(item, index) in selected" :key="index">
+                <span v-bind:style="[item.key ? {background: 'black', fontWeight: 'bolder', color: 'white'} : {}]" v-on:click="get(index)" v-if="items[index].value">{{items[index].value}}</span>
+                <span v-bind:style="[item.key ? {background: 'black', fontWeight: 'bolder', color: 'white'} : {}]" v-on:click="get(index)" v-else>{{items[index]}}</span>
             </span>
         </section>
     </div>
@@ -41,19 +42,36 @@
                 default: "clear"
             }
         },
+        mounted() {
+            for (let i = 0; i < this.items.length; i++) {
+                this.selected.push({key: false})
+            }
+        },
+        watch: {
+            items() {
+                for (let i = 0; i < this.items.length; i++) {
+                    this.selected.push({key: false})
+                }
+            }
+        },
+        data() {
+            return {
+                selected: []
+            }
+        },
         methods: {
             reset() {
                 for (let i = 0; i < this.items.length; i++) {
-                    this.items[i].selected = false
+                    this.selected[i].key = false
                 }
                 let data = [];
                 this.$emit('get', data)
             },
             get(index) {
-                this.items[index].selected = !this.items[index].selected;
+                this.selected[index].key = !this.selected[index].key;
                 let data = [];
                 for (let i = 0; i < this.items.length; i++) {
-                    if (this.items[i].selected) {
+                    if (this.selected[i].key) {
                         data.push(this.items[i])
                     }
                 }
@@ -65,16 +83,16 @@
 
 <style scoped>
     .tag-group {
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
         font-family: monospace;
         margin: 2px;
         line-height: 1.5rem;
     }
-    .tag-group span {
+    .tag-group > section > span > span {
         float: left;
         height: auto;
         width: auto;
-        margin: 5px;
+        margin: 2px;
         cursor: pointer;
         color: black;
         -webkit-box-align: center;
@@ -93,7 +111,7 @@
         padding-right: 0.75em;
         white-space: nowrap;
     }
-    .tag-group span:hover {
+    .tag-group > section > span > span:hover {
         background-color: darkgray;
     }
     .tag-group header {
@@ -105,6 +123,7 @@
         float: left;
         text-align: left;
         margin: 1%;
+        color: black;
     }
     .tag-group header > button {
         float: left;
@@ -116,6 +135,9 @@
         border: none;
         cursor: pointer;
         color: black;
+        height: auto;
+        width: auto;
+        background-color: rgba(128, 128, 128, 0);
     }
     .tag-group header > button:hover {
         font-weight: bolder;
