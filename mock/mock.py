@@ -50,6 +50,10 @@ countries = {
                 "value": "US"
             },
             {
+                "key": "en",
+                "value": "UK"
+            },
+            {
                 "key": "zh_CN",
                 "value": "China"
             }
@@ -60,6 +64,40 @@ countries = {
 @app.route('/v1/countries', methods=['GET'])
 def get_countries():
     response = make_response(jsonify(countries))
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    return response, 200
+
+provinces = {
+    "code": 200,
+    "data": {
+        "items": [
+            {
+                "value": "河北",
+                 "cities": [
+                     "保定", "石家庄"
+                 ]
+            },
+            {
+                "value": "内蒙古",
+                "cities": [
+                    "呼和浩特", "化德"
+                ]
+            },
+            {
+                "value": "Beijing",
+                "cities": [
+                    "Beijing"
+                ]
+            },
+        ],
+        "total": 1
+    }
+}
+
+@app.route('/v1/provinces', methods=['GET'])
+def get_provinces():
+    response = make_response(jsonify(provinces))
     response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
     response.headers['Access-Control-Allow-Credentials'] = 'true'
     return response, 200

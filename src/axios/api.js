@@ -249,6 +249,16 @@ const QueryCountries = (headers, params) => {
     })
 };
 
+const QueryProvinces = (headers, params) => {
+    return service({
+        url: "/v1/provinces",
+        method: "get",
+        params: params || {},
+        headers: headers || {},
+        baseURL: '//localhost:20520',
+    })
+};
+
 const QueryBanners = (headers, params) => {
     return service({
         url: "/v1/banners",
@@ -318,6 +328,7 @@ export default  {
     QueryHots,
     QueryNotices,
     QueryNewIns,
+    QueryProvinces,
     QuerySizes,
     QuerySimilarGoods,
 

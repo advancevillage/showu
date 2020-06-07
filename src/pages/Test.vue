@@ -4,11 +4,11 @@
         <Selector :items="selector.items" :width="selector.width" :height="selector.height" :styles="selector.styles" @get="getCountry"/>
 <!--        <Menu/>-->
 <!--        <ImageListGroup/>-->
-        <Address/>
+        <Address :item="address"/>
 <!--        <Fragment/>-->
         <Goods :item="goods" @get="getGoods"/>
         <Goods :item="goods" @get="getGoods"/>
-        <ColorGroup :items="colors.items" :width="colors.width" @get="getColors"/>
+<!--        <ColorGroup :items="colors.items" :width="colors.width" @get="getColors"/>-->
         <Carousel :items="banner.items" :width="banner.width" :height="banner.height" @get="getBanner"/>
         <Slide :items="slides.items" :width="slides.width" :height="slides.height" :step=1000 @get="getSlide"/>
         <Number :title="number.price" :max="number.max" :min="number.min"/>
@@ -24,7 +24,7 @@
 <script>
     import Selector from "../components/Basic/Selector";
     import TagGroup from "../components/Basic/TagGroup";
-    import ColorGroup from "../components/Basic/ColorGroup";
+    // import ColorGroup from "../components/Basic/ColorGroup";
     import Carousel from "../components/Basic/Carousel";
     import Slide from "../components/Basic/Slide";
     import Number from "../components/Basic/Number";
@@ -44,7 +44,7 @@
             Carousel,
             Selector,
             TagGroup,
-            ColorGroup,
+            // ColorGroup,
             Slide,
             Number,
             // ListGroup,
@@ -189,6 +189,20 @@
                         {value: "333", link: "/", icon: ""},
                         {value: "444中国你好", link: "/", icon: ""}
                     ],
+                },
+                address: {
+                    fullName: "richard.sun",
+                    email: "cugriver@qq.com",
+                    phone: "11011001110",
+                    line1: "111111111111111111111",
+                    line2: "",
+                    province: "Beijing",
+                    city: "Beijing",
+                    country: "China",
+                    zipCode: 66666,
+                    save: (item) => {
+                        console.log(item);
+                    }
                 },
                 goods: {
                     name: {en: "name"},
