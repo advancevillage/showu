@@ -1,12 +1,12 @@
 <template>
-    <div class="image-list-group" v-bind:style="{width: width + 'px', height: (70 * items.length) + 'px'}">
+    <div class="image-list-group" v-bind:style="{width: width + 'px'}">
         <ul>
             <li v-for="(item, index) in items" :key="index">
-                <div v-bind:style="{width: (64.0/width) * 100 + '%'}" >
-                    <img :src="item.imageUrl">
+                <div>
+                    <img v-bind:style="{width: height + 'px', height: height + 'px'}" :src="item.imageUrl">
                 </div>
-                <div class="descriptor" v-bind:style="{width: (1 - 64.0/width) * 100 + '%'}">
-                    <span class="operate" @click="deleteIndex(index)"><span class="mdi mdi-close-circle"></span></span>
+                <div class="descriptor" v-bind:style="{width: (1 - height/width) * 100 + '%'}">
+                    <span class="operate" @click="del(item, index)"><span class="mdi mdi-close-circle"></span></span>
                     <span v-bind:style="{width: '100%', display: 'inline-block'}">{{item.value}}</span>
                     <span v-bind:style="{width: '100%', display: 'inline-block'}">{{item.price}}</span>
                     <span v-bind:style="{width: '100%', display: 'inline-block'}"></span>
@@ -38,7 +38,7 @@
             height: {
                 type: Number,
                 required: false,
-                default: 300
+                default: 64
             },
             language: {
                 type: String,
@@ -57,16 +57,17 @@
                 item.count = parseInt(item.count)
                 this.$emit('update')
             },
-            deleteIndex(index) {
+            del(item, index) {
+                this.items.splice(index, 1);
                 this.$emit('del', index)
             },
             incr(item) {
                 item.count++;
-                this.$emit('incr', item)
+                this.$emit('incr')
             },
             decr(item) {
                 item.count--;
-                this.$emit('decr', item)
+                this.$emit('decr')
             }
         }
     }
@@ -74,7 +75,7 @@
 
 <style scoped>
     .image-list-group {
-        background-color: lightgray;
+        height: auto;
     }
     .image-list-group li {
         width: 100%;
@@ -82,15 +83,15 @@
         float: left;
         border-bottom: 1px solid lightgray;
         border-radius: 6px;
+        background: white;
+    }
+    .image-list-group li:hover {
+        background: #f8f8f8;
     }
     .image-list-group li > * {
         display: block;
         float: left;
         position: relative;
-    }
-    .image-list-group img {
-        width: 64px;
-        height: 64px;
     }
     .image-list-group button, .image-list-group input {
         width: 15px;
@@ -99,7 +100,7 @@
         outline: none;
         border: none;
         border-radius: 100%;
-        background: lightgray;
+        background: white;
     }
     .image-list-group input {
         width: 50px;

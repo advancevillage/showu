@@ -296,7 +296,8 @@ const OPERATE = {
         en: "check out"
     },
     SAVE: {
-        en: "save"
+        en: "save",
+        zh_CN: "保存"
     },
     BACK: {
         en:     "back",
@@ -382,6 +383,10 @@ const NOUN = {
     PAY: {
         en:     "Pay",
         zh_CN:  "支付"
+    },
+    SUMMARY: {
+        en:     "SUMMARY",
+        zh_CN:  "明细"
     }
 }
 

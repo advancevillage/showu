@@ -5,6 +5,7 @@
 <!--        <Menu/>-->
 <!--        <ImageListGroup/>-->
         <Address :item="address"/>
+        <Summary />
 <!--        <Fragment/>-->
         <Goods :item="goods" @get="getGoods"/>
         <Goods :item="goods" @get="getGoods"/>
@@ -36,6 +37,7 @@
     // import ImageListGroup from "../components/Basic/ImageListGroup";
     import Footer from "../components/Business/Footer";
     // import Fragment from "../components/Basic/Fragment";
+    import Summary from "../components/Business/Summary";
 
     export default {
         name: "Index",
@@ -54,6 +56,7 @@
             Address,
             Footer,
             // ImageListGroup,
+            Summary,
         },
         data() {
             return {

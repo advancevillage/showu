@@ -1,11 +1,10 @@
 <template>
-    <div v-if="items.length > 0" class="add-cart" v-bind:style="{width: width + 'px', height: height + 'px'}" @mouseenter="active = true" @mouseleave="active = !active">
+    <div  class="add-cart" v-bind:style="{width: width + 'px', height: height + 'px'}" @mouseenter="active = true" @mouseleave="active = !active">
         <button v-bind:style="[opacity ? {background: 'rgba(128,128,128,0)', border: '1px solid rgba(128,128,128,0)'}:{background: 'rgba(128,128,128,1)', border: '1px solid rgba(128,128,128,1)'}]">
             <span class="mdi mdi-cart" @click="go('/cart')"></span>
-            <p>{{total}}</p>
-            <em v-if="active"></em>
-            <div v-if="active">
-                <ImageListGroup :items="items" :width="(width + 10) << 2" @update="computeCount" @incr="incr" @decr="decr"/>
+            <em v-if="active  && items.length > 0"></em>
+            <div v-if="active && items.length > 0" >
+                <ImageListGroup :items="items" :width="(width + 10) << 2" @update="computeCount" @incr="computeCount" @decr="computeCount" />
                 <button class="checkout" @click="go('/checkout')">{{languages.OPERATE.CHECKOUT[language]}}</button>
             </div>
         </button>
@@ -64,14 +63,7 @@
                 for (let i = 0; i < this.items.length; i++) {
                     this.total += this.items[i].count;
                 }
-            },
-            incr(item) {
-                console.log(item);
-                this.computeCount();
-            },
-            decr(item) {
-                console.log(item);
-                this.computeCount();
+                this.$emit('getCart')
             },
             go(url) {
                 this.$router.push({path: url})

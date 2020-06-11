@@ -1,7 +1,7 @@
 <template>
     <div class="ss_header" v-bind:style="[scroll > height ? {position: 'fixed'}:{}]">
         <Notice :items="notices" :countries="countries" :width="width" :height="height/3" @getLanguage="getLanguage"/>
-        <Menu :categories="categories" :users="users" :carts="carts" :width="width" :height="2 * height/3" :language="language" :opacity="opacity"/>
+        <Menu :categories="categories" :users="users" :carts="carts" :width="width" :height="2 * height/3" :language="language" :opacity="opacity" @getCart="getCart"/>
     </div>
 </template>
 
@@ -103,6 +103,9 @@
             getLanguage(data) {
                 this.language = data.key;
                 this.$emit('getLanguage', this.language);
+            },
+            getCart(fn) {
+                this.$emit('getCart', this.carts, fn);
             },
             fixedHeader() {
                 this.scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;

@@ -6,7 +6,7 @@
                 <em v-bind:style="[active === index ? {display: 'block'}:{display: 'none'}]"></em>
             </div>
             <div class="cart">
-                <Cart :items="carts" :height="height" :opacity="opacity" />
+                <Cart :items="carts" :height="height" :opacity="opacity" @getCart="getCart"/>
             </div>
             <div class="user">
                 <User :items="users" :height="height" :opacity="opacity"/>
@@ -108,7 +108,6 @@
             },
             go(cat) {
                 let link = this.$api.GenerateLink("list", this.$project, cat.name, cat.id)
-                console.log(link);
                 this.$router.push({path: link})
                     .then(() => {
                         this.$router.go(1);
@@ -116,6 +115,9 @@
                     .catch(() => {
                         this.$router.go(-1);
                     });
+            },
+            getCart() {
+                this.$emit('getCart')
             }
         }
     }
