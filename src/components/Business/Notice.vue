@@ -2,7 +2,7 @@
     <div class="notice" v-bind:style="{width: width + 'px', height: height + 'px'}">
         <ul></ul>
         <ul>
-            <li  v-for="(item, index) in items" :key="index" v-bind:style="[compare(index) ? {display: 'block', marginLeft: ((width/3 - height - item.value.length*9) >> 1) + 'px'}:{display: 'none'}]">
+            <li  v-for="(item, index) in items" :key="index" v-bind:style="[compare(index) ? {display: 'block', marginLeft: ((width/3 - height - item.value.length*9) >> 1) + 'px'}:{display: 'none'}]" @mouseenter="hover = true" @mouseleave="hover = !hover">
                 <img v-if="item.icon && item.icon.length > 0" :src="item.icon" v-bind:style="{width: height + 'px', height: height + 'px', padding: (height >> 2)+ 'px'}" />
                 <a v-if="item.link && item.link.length > 0" :href="item.link">{{item.value}}</a>
                 <span v-else>{{item.value}}</span>
@@ -58,6 +58,7 @@
         data() {
             return {
                 active: 0,
+                hover: false,
                 timer: null
             }
         },
@@ -70,8 +71,10 @@
                 return this.active === index
             },
             cycle() {
-                this.active++
-                this.active %= this.items.length;
+                if (!this.hover) {
+                    this.active++
+                    this.active %= this.items.length;
+                }
             },
             getLanguage(data) {
                 this.$emit('getLanguage', data)

@@ -77,6 +77,7 @@
         text-align: center;
         width: 100%;
         font-family: monospace;
+        text-transform:capitalize;
         font-size: x-large;
         margin-bottom: 5%;
         color: black;

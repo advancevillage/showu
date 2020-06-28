@@ -1,13 +1,14 @@
 <template>
     <div class="ss_header" v-bind:style="[scroll > height ? {position: 'fixed'}:{}]">
-        <Notice :items="notices" :countries="countries" :width="width" :height="height/3" @getLanguage="getLanguage"/>
-        <Menu :categories="categories" :users="users" :carts="carts" :width="width" :height="2 * height/3" :language="language" :opacity="opacity" @getCart="getCart"/>
+        <Notice :items="notices" :countries="countries" :language="language" :width="width" :height="height/3" @getLanguage="getLanguage"></Notice>
+        <Menu :categories="categories" :users="users" :carts="carts" :width="width" :height="2 * height/3" :language="language" :opacity="opacity" :userClickFn="userLogin" @getCart="getCart"/>
     </div>
 </template>
 
 <script>
     import Notice from "./Notice";
     import Menu   from "./Menu";
+    import Login  from "./Login";
 
     export default {
         name: "Header",
@@ -35,6 +36,7 @@
             this.QueryCountries();
             this.QueryCategories();
             this.QueryCarts();
+            this.$bus.$on(this.$utils.SIG.AddCart, this.CreateCarts);
             window.addEventListener('scroll', this.fixedHeader, true)
         },
         beforeDestroy() {
@@ -42,16 +44,16 @@
         },
         data() {
             return {
+                languages: this.$languages,
                 notices: [],
                 countries: [],
                 categories: [],
                 users: [
-                    { value: "中国", fn: function (data) {
-                            console.log(data);
-                        }},
-                    { value: "开宝", link: "/"},
-                    { value: "Kelly", link: "/"},
-                    { value: "Richard", link: "/"},
+                    { value: this.$languages.NOUN.ACCOUNT, link: "/account"},
+                    { value: this.$languages.NOUN.ORDER, link: "/orders"},
+                    { value: this.$utils.HasLogin() ? this.$languages.OPERATE.LOGOUT : this.$languages.OPERATE.LOGIN,
+                      fn: this.$utils.HasLogin() ? this.userLogout : this.userLogin,
+                    },
                 ],
                 carts: [],
                 language: "en",
@@ -89,7 +91,10 @@
                     this.categories = response.data.items;
                 }
             },
-            async QueryCarts() {
+            QueryCarts() {
+                return this.$utils.HasLogin() ? this.queryCartsLogin() : this.queryCartsLogout();
+            },
+            async queryCartsLogin() {
                 const params = {};
                 const headers = {};
                 let response = await this.$api.QueryCarts(headers, params);
@@ -99,16 +104,66 @@
                     this.carts = response.data.items;
                 }
             },
+            queryCartsLogout() {
+                this.carts = this.$utils.QueryCart();
+            },
+            CreateCarts(goods) {
+                return this.$utils.HasLogin() ? this.createCartsLogin(goods) : this.createCartLogout(goods);
+            },
+            async createCartsLogin(goods) {
+                console.log(goods);
+            },
+            createCartLogout(goods) {
+                let snapshot = {};
+                snapshot.imageUrl      = goods.imageUrl;
+                snapshot.name          = goods.name;
+                snapshot.stateImageUrl = goods.stateImageUrl; //活动图片链接
+                snapshot.color         = goods.colors[goods.colorSelected];
+                snapshot.size          = goods.sizes[goods.sizeSelected];
+                snapshot.state         = goods.state;
+                snapshot.price         = goods.price;
+                snapshot.count         = 1;
+                snapshot.id            = goods.id;
+                snapshot.addCartTime   = this.$moment(Date.now()).format('X') //Unix Timestamp
+                snapshot.updateTime    = this.$moment(Date.now()).format('X') //Unix Timestamp
+                //先合并再更新 TODO
+                this.$utils.UpdateCart(goods);
+                this.carts = this.$utils.QueryCart();
+                console.log(this.carts, snapshot);
+            },
             //多语言事件触发
             getLanguage(data) {
-                this.language = data.key;
+                this.language = data.language;
                 this.$emit('getLanguage', this.language);
+                this.$emit('getObject', data);
             },
             getCart(fn) {
                 this.$emit('getCart', this.carts, fn);
             },
             fixedHeader() {
                 this.scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+            },
+            userLogin(data) {
+                if (this.$utils.HasLogin()) {
+                    //TODO 已登陆
+                    console.log(data)
+                } else {
+                    let config = {};
+                    config.props  = {
+                        language: this.language,
+                    };
+                    config.component = Login;
+                    config.parent = this;
+                    config.hasModalCard = true;
+                    config.trapFocus = true;
+                    config.scroll  = "keep";
+                    config.events  = {};
+                    this.$buefy.modal.open(config)
+                }
+            },
+            userLogout(data) {
+                console.log(data);
+                this.$utils.Logout();
             }
         }
     }

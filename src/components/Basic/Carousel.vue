@@ -1,7 +1,7 @@
 <template>
     <div class="slide" v-bind:style="{width: width + 'px', height: height + 'px'}">
         <ul class="slide-auto" v-bind:style="{width: width * items.length + 'px', marginLeft: marginLeft + 'px'}">
-            <li v-for="(item, index) in items" :key="index" v-bind:style="{width: width + 'px', height: height + 'px'}">
+            <li v-for="(item, index) in items" :key="index" v-bind:style="{width: width + 'px', height: height + 'px'}" @mouseenter="hover = true" @mouseleave="hover = !hover">
                 <a v-if="item.link" :href="item.link">
                     <img :src="item.imageUrl" v-bind:style="{width: width + 'px', height: height + 'px',}"/>
                 </a>
@@ -46,21 +46,29 @@
                 type: Number,
                 required: false,
                 default: 5
+            },
+            language: {
+                type: String,
+                required: false,
+                default: "en"
             }
         },
         data() {
             return {
                 marginLeft: 0,
                 clock: null,
+                hover: false,
                 active: 0
             }
         },
         mounted() {
             this.clock = window.setInterval(()=> {
-                this.marginLeft = 0 - this.active * this.width;
-                this.marginLeft %= this.width * this.items.length;
-                this.active++;
-                this.active %= this.items.length;
+                if (!this.hover) {
+                    this.marginLeft = 0 - this.active * this.width;
+                    this.marginLeft %= this.width * this.items.length;
+                    this.active++;
+                    this.active %= this.items.length;
+                }
             }, this.interval * 1000)
         },
         beforeDestroy() {

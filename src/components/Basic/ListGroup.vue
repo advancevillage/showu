@@ -3,10 +3,15 @@
         <ul>
             <li v-for="(item, index) in items" :key="index">
                 <a v-if="item.link" :href="item.link">
-                    <span>{{item.value}}</span>
+                    <span v-if="item.value[language]">{{item.value[language]}}</span>
+                    <span v-else-if="item.value">{{item.value}}</span>
+                    <span v-else>{{item}}</span>
                 </a>
-                <span v-else-if="item.fn" @click="item.fn(item)">{{item.value}}</span>
-                <span v-else>{{item.value}}</span>
+                <span v-else-if="item.value[language] && item.fn" @click="item.fn(item)">{{item.value[language]}}</span>
+                <span v-else-if="item.value[language] && !item.fn">{{item.value[language]}}</span>
+                <span v-else-if="item.value && item.fn" @click="item.fn(item)">{{item.value}}</span>
+                <span v-else-if="item.value && !item.fn">{{item.value}}</span>
+                <span v-else>{{item}}</span>
             </li>
         </ul>
     </div>
@@ -29,6 +34,11 @@
             items: {
                 type: Array,
                 required: true,
+            },
+            language: {
+                type: String,
+                required: false,
+                default: "en"
             }
             // (17 * items.length) + 'px'}
         },
@@ -40,6 +50,8 @@
         text-align: center;
         font-family: serif;
         overflow: auto;
+        font-size: smaller;
+        text-transform: capitalize;
     }
     .list-group ul {
         background: lightgray;

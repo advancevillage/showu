@@ -1,10 +1,10 @@
 <template>
     <div class="user" v-bind:style="{width: width + 'px', height: height + 'px'}" @mouseenter="active = true" @mouseleave="active = !active">
         <button v-bind:style="[opacity ? {background: 'rgba(128,128,128,0)', border: '1px solid rgba(128,128,128,0)'}:{background: 'rgba(128,128,128,1)', border: '1px solid rgba(128,128,128,1)'}]">
-            <span class="mdi mdi-account"></span>
+            <span class="mdi mdi-account" @click="IconClickAction"></span>
             <em  v-if="active"></em>
             <div v-if="active">
-                <ListGroup :items="items" :width="width << 1"/>
+                <ListGroup :items="items" :language="language" :width="width << 1"/>
             </div>
         </button>
     </div>
@@ -37,11 +37,28 @@
                 type: Boolean,
                 required: false,
                 default: false,
+            },
+            language: {
+                type: String,
+                required: false,
+                default: "en"
+            },
+            iconClickFn: {
+                type: Function,
+                required: false,
+                default: null,
             }
         },
         data() {
             return {
                 active: false,
+            }
+        },
+        methods: {
+            IconClickAction() {
+                if (this.iconClickFn) {
+                    this.iconClickFn();
+                }
             }
         }
     }

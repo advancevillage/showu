@@ -6,6 +6,8 @@
 <!--        <ImageListGroup/>-->
         <Address :item="address"/>
         <Summary />
+        <Beat/>
+        <Split :item="split" />
 <!--        <Fragment/>-->
         <Goods :item="goods" @get="getGoods"/>
         <Goods :item="goods" @get="getGoods"/>
@@ -38,11 +40,14 @@
     import Footer from "../components/Business/Footer";
     // import Fragment from "../components/Basic/Fragment";
     import Summary from "../components/Business/Summary";
+    import Beat from "../components/Basic/Beat";
+    import Split from "../components/Basic/Split";
 
     export default {
         name: "Index",
         components: {
             // Fragment,
+            Beat,
             Carousel,
             Selector,
             TagGroup,
@@ -57,9 +62,11 @@
             Footer,
             // ImageListGroup,
             Summary,
+            Split,
         },
         data() {
             return {
+                language: this.$languages,
                 selector: {
                     items: [{value: "CN"}, {value: "EN"}, {value: "日本"}, {value: "韩国"}],
                     width: 60,
@@ -244,6 +251,10 @@
                     sizes: [
                         "XSS", "XS", "S", "M", "L", "XL", "XLL"
                     ]
+                },
+                split: {
+                    name: this.$languages.NOUN.NEW_IN,
+                    link: "/newIns"
                 }
             }
         },

@@ -10,7 +10,7 @@
                     <img v-else :src="item.imageUrl" class="slide-item" v-bind:style="{width: width + 'px', height: height + 'px',}"/>
                 </div>
                 <div v-else>
-                    <Goods :item="item" :width="width" :height="height"/>
+                    <Goods :item="item" :width="width" :height="height" @get="getGoods"/>
                 </div>
             </li>
         </ul>
@@ -114,6 +114,9 @@
                         fn(this.step);
                     }
                 }, 100)
+            },
+            getGoods(data) {
+                this.$emit('getGoods', data);
             }
         }
     }

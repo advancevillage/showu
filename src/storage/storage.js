@@ -7,6 +7,9 @@ const info = {
     iv: "1994021519951101"
 };
 
+/**
+ *@brief: cookie 增删改查(不加密)
+ */
 const QueryCookie = (key) => {
     return localCookie.get(key)
 };
@@ -15,6 +18,14 @@ const DeleteCookie = (key) => {
     return localCookie.delete(key)
 };
 
+const CreateCookie = (key, value) => {
+    return localCookie.set(key, value, 7)
+}
+
+/**
+ *@brief: LocalStorage 增删改查(加密)(JSON 对象)
+ *@link: https://www.jianshu.com/p/1aed5b55ca27
+ */
 const QueryLocalStorage = (key) => {
     let value =  localStorage.get(key) || "";
     if (value.length === 0) {
@@ -34,7 +45,6 @@ const DeleteLocalStorage = (key) => {
 
 };
 
-//@link: https://www.jianshu.com/p/1aed5b55ca27
 function encode(data,key,iv){//加密
     let encrypted =CryptoJS.AES.encrypt(data,CryptoJS.enc.Utf8.parse(key), {
             iv:CryptoJS.enc.Utf8.parse(iv),
@@ -58,6 +68,7 @@ const sha1 = (message) => {
 };
 
 export default  {
+    CreateCookie,
     QueryCookie,
     DeleteCookie,
     QueryLocalStorage,

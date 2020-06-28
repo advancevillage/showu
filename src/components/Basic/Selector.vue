@@ -1,9 +1,11 @@
 <template>
-    <div class="selector">
+    <div class="selector" v-bind:style="{width: width + 'px'}">
         <label>
-            <select v-model="selected" v-bind:style="{width: width + 'px', height: height + 'px'}" v-on:change="get(selected)">
+            <select v-model="selected" v-bind:style="{height: height + 'px'}" v-on:change="get(selected)">
                 <option v-for="(item, index) in items" :key="index" :value="index">
-                    {{item.value}}
+                    <span v-if="item.value">{{item.value}}</span>
+                    <span v-else-if="item.country">{{item.country}}</span>
+                    <span v-else>{{item}}</span>
                 </option>
             </select>
         </label>

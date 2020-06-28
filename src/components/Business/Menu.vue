@@ -6,22 +6,25 @@
                 <em v-bind:style="[active === index ? {display: 'block'}:{display: 'none'}]"></em>
             </div>
             <div class="cart">
-                <Cart :items="carts" :height="height" :opacity="opacity" @getCart="getCart"/>
+                <Cart :items="carts" :height="height" :opacity="opacity" :language="language" @getCart="getCart"/>
             </div>
             <div class="user">
-                <User :items="users" :height="height" :opacity="opacity"/>
+                <User :items="users" :height="height" :opacity="opacity" :language="language" :iconClickFn="userClickFn"/>
             </div>
         </nav>
         <div v-if="active > -1"  v-bind:style="[childActive > -1 ? {backgroundColor: 'rgba(192,192,192,1)'}:{backgroundColor: 'rgba(192,192,192,0.75)'}]" @mouseenter="ccv" @mouseleave="ccp">
             <div class="children">
-                <ul>
-                    <li v-for="(child, index) in categories[active].children" :key="index">
-                        <span>{{child.name[language]}}</span>
-                    </li>
-                </ul>
+                <div v-for="(child,index) in categories[active].children" :key="index" :class="child.id">
+                    <ul>
+                        <li v-for="(type,index) in child" :key="index" @click="go(type)">
+                            {{type.name[language]}}
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="banner">
-                <Carousel :items="categories[active].banner" :width="width * 0.68" :height="240 * 0.9"/>
+<!--                <Carousel :items="categories[active].banner" :width="width * 0.68" :height="240 * 0.9" :interval=2 />-->
+                <Slide :items="categories[active].banner" :width="width * 0.35" :height="height * 2.5" />
             </div>
         </div>
     </div>
@@ -30,12 +33,12 @@
 <script>
     import User  from './User'
     import Cart  from './Cart'
-    import Carousel from "../Basic/Carousel";
+    import Slide    from "../Basic/Slide";
 
     export default {
         name: "Menu",
         components: {
-            Carousel,
+            Slide,
             Cart,
             User,
         },
@@ -71,6 +74,11 @@
                 type: Boolean,
                 required: false,
                 default: false
+            },
+            userClickFn: {
+                type: Function,
+                required: false,
+                default: null
             }
         },
         data() {
@@ -137,7 +145,7 @@
     }
     .menu > div {
         position: absolute;
-        height: 240px;
+        height: auto;
         border-top: 2px solid white;
         background: darkgray;
         margin-top: -2px;
@@ -170,20 +178,30 @@
     }
     .children, .banner {
         height: 100%;
-        width: 30%;
+        width: 25%;
         float: left;
-        padding: 1% 0 0;
+        padding: 0;
     }
     .banner {
-        width: 70%;
+        width: 75%;
+        padding: 0.5% 0 0;
+    }
+    .children ul {
+        float: left;
+        width: 30%;
     }
     .children li {
-        float: left;
         display: block;
-        width: 30%;
+        width: 100%;
         margin: 1%;
         line-height: 1.5rem;
-        text-align: left;
+        text-align: center;
+        font-size: x-small;
+    }
+    .children li:hover {
+        font-weight: bolder;
+        text-decoration: underline;
+        cursor: pointer;
     }
     .children span {
         color: black;

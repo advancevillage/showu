@@ -1,32 +1,6 @@
-# showu
+#### 品牌自营电商  前端系统
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
-
-### TODO
- 1: 导航栏 滚动置顶
- 2: 买家秀 
- 3: 页脚
- 
- 
+#### 注意事项
+ * 无登录状态或者登录状态加购商品需要存储当前商品快照
+   * 名称 单价 正面图 尺码 颜色 加购时间 数量 活动优惠
+ *   

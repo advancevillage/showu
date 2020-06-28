@@ -1,14 +1,14 @@
 <template>
-    <div class="goods" v-bind:style="{width: width + 'px', height: height + 'px'}">
+    <div class="goods" v-bind:style="{width: width + 'px', height: height + 'px'}" @mouseenter="zoom = 0.85" @mouseleave="zoom = 1">
         <div class="image">
             <div class="tags">
                 <span v-if="0 === item.state" v-bind:style="{width: width/6 + 'px', height: width/6 + 'px'}">
                     <img :src="item.stateImageUrl"/>
                 </span>
             </div>
-            <img v-if="decoration" :src="item.imageUrl" v-bind:style="{width: width + 'px', height: (0.85 * height) + 'px'}" @mouseenter="decoration = false" @mouseleave="decoration = true" />
-            <img v-else :src="item.backImageUrl" v-bind:style="{width: width + 'px', height: (0.85 * height) + 'px'}" @mouseenter="decoration = false" @mouseleave="decoration = true"/>
-            <div class="sizes" @mouseenter="sizeSelected = true" @mouseleave="sizeSelected = false">
+            <img v-if="decoration" :src="item.imageUrl" v-bind:style="{width: width + 'px', height: (zoom * height) + 'px'}" @mouseenter="decoration = false" @mouseleave="decoration = true" @click="goto(item)"/>
+            <img v-else :src="item.backImageUrl" v-bind:style="{width: width + 'px', height: (zoom * height) + 'px'}" @mouseenter="decoration = false" @mouseleave="decoration = true" @click="goto(item)"/>
+            <div v-if="zoom < 1" class="sizes" @mouseenter="sizeSelected = true" @mouseleave="sizeSelected = false">
                 <span v-if="sizeSelected" v-bind:style="{height: width >> 3 + 'px'}">
                     <ul v-bind:style="[((width - 25 * item.sizes.length) >> 1) <= 0 ? {}: {marginLeft: ((width - 25 * item.sizes.length) >> 1) + 'px'}]">
                         <li v-for="(size, index) in item.sizes" :key="index" @click="get(index)">
@@ -61,6 +61,7 @@
         },
         data() {
             return {
+                zoom: 1,
                 colorSelected: 0,
                 sizeSelected: false,
                 decoration: true,   //正面:true 背面: false
@@ -88,6 +89,18 @@
                     }
                 }, 330)
             },
+            goto(item) {
+                if (!item.link) {
+                    return
+                }
+                this.$router.push({path: item.link})
+                    .then(() => {
+                        this.$router.go(1);
+                    })
+                    .catch(() => {
+                        this.$router.go(-1);
+                    });
+             }
          }
     }
 </script>
@@ -101,10 +114,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    .goods:hover {
-        border: 1px solid black;
-        padding: 0;
-    }
+    .goods:hover {}
     .image {
         width: 100%;
         position: relative;

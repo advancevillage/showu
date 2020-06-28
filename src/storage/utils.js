@@ -1,9 +1,14 @@
 import storage from './storage'
 
 const keys = {
-    carts: "carts",
-    sessionId: "sid"
+    carts:      "carts",
+    sessionId:  "sid"
 };
+
+const SIG = {
+    AddCart: "0x0001",
+}
+
 
 const Singles = {
     SingleOfAddCart:  "sig_add_cart",
@@ -16,14 +21,19 @@ const Singles = {
     SingleOfQueryCreditLogo: "sig_query_credit_logo"
 };
 
-const QueryLogin = () => {
-    return storage.QueryCookie(keys.sessionId) || "";
-};
-
-const DeleteLogin = () => {
+/**
+ * @brief: 用户登录操作 是否登录/登出
+ */
+const HasLogin = () => {
+    return (storage.QueryCookie(keys.sessionId) || "").length !== 0;
+}
+const Logout = () => {
     storage.DeleteCookie(keys.sessionId);
-};
+}
 
+/**
+ * @brief: 购物车 无登录状态处理购物车
+ */
 const UpdateCart = (data) => {
    storage.CreateLocalStorage (keys.carts, JSON.stringify(data))
 };
@@ -38,15 +48,16 @@ const DeleteCart = () => {
 
 const SHA1 = (message) => {
     return storage.sha1(message)
-
 };
 
 export default {
     Singles,
+    Logout,
+    HasLogin,
+    SIG,
+
     QueryCart,
     UpdateCart,
     DeleteCart,
-    QueryLogin,
-    DeleteLogin,
     SHA1
 }

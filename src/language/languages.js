@@ -5,45 +5,45 @@ const Country = {
 
 const Login = {
     header: {
-        english: "<b>Let's go shopping</b>",
-        chinese: "<b>开始你的购物旅程!</b>"
+        en: "<b>Let's go shopping</b>",
+        zh_CN: "<b>开始你的购物旅程!</b>"
     },
     register: {
-        english: "If you have are a account, <b>Please login here.</b><br/>",
-        chinese: "如果已经是会员，<b>请在此登录。</b><br/>"
+        en:     "If you have are a account, <b>Please login here.</b><br/>",
+        zh_CN:  "如果已经是会员，<b>请在此登录。</b><br/>"
     },
     forget: {
-        english: "Forget Password",
-        chinese: "忘记密码"
+        en:     "Forget Password",
+        zh_CN:  "忘记密码"
     },
     login: {
-        english: "Login In",
-        chinese: "登录"
+        en:     "Login In",
+        zh_CN:  "登录"
     }
 };
 
 const Sign = {
     header: {
-        english: "<b>Welcome to Join In</b>",
-        chinese: "<b>加入会员，更多优惠送给你!</b>",
+        en:     "<b>Welcome to Join In</b>",
+        zh_CN:  "<b>加入会员，更多优惠送给你!</b>",
     },
     register: {
-        english: "If you still don't have a account, <b>Please register here.</b> <br/>" +
+        en:     "If you still don't have a account, <b>Please register here.</b> <br/>" +
             "By giving us your details, purchasing will be faster and an enjoyable experience. <br/>",
-        chinese: "如果您不是会员，<b>请在此注册。</b><br/>" +
+        zh_CN:  "如果您不是会员，<b>请在此注册。</b><br/>" +
             "请您给我们提供一些必要信息，这将使您有个更快更方便的购买过程。<br/>"
     },
     sign: {
-        english: "Sign Up",
-        chinese: "注册"
+        en:     "Sign Up",
+        zh_CN:  "注册"
     },
     man: {
-        english: "Man",
-        chinese: "男"
+        en:     "Man",
+        zh_CN:  "男"
     },
     women: {
-        english: "Women",
-        chinese: "女"
+        en:     "Women",
+        zh_CN:  "女"
     }
 };
 
@@ -302,6 +302,14 @@ const OPERATE = {
     BACK: {
         en:     "back",
         zh_CN:  "返回"
+    },
+    LOGOUT: {
+        en:     "logout",
+        zh_CN:  "登出"
+    },
+    LOGIN: {
+        en:     "login",
+        zh_CN:  "登录"
     }
 };
 
@@ -380,6 +388,10 @@ const NOUN = {
         en:     "Address",
         zh_CN:  "住址"
     },
+    ORDER: {
+        en:     "Order",
+        zh_CN:  "订单"
+    },
     PAY: {
         en:     "Pay",
         zh_CN:  "支付"
@@ -387,7 +399,15 @@ const NOUN = {
     SUMMARY: {
         en:     "SUMMARY",
         zh_CN:  "明细"
-    }
+    },
+    NEW_IN: {
+        en:     "New In",
+        zh_CN:  "新品来袭"
+    },
+    HOT: {
+        en:     "Hots Goods",
+        zh_CN:  "热卖衣服"
+    },
 }
 
 export default  {

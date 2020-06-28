@@ -2,7 +2,7 @@
     <div id="index">
         <div class="header">
             <!-- 头部栏 -->
-            <Header :width="width" :height="height * 0.13"/>
+            <Header :width="width" :height="height * 0.13" @getObject="getLanguage"/>
         </div>
         <!-- 首页Banner -->
         <div class="banner" v-bind:style="{top: height * 0.04 + 'px'}">
@@ -10,13 +10,13 @@
         </div>
         <!-- 新品 -->
         <div class="new" v-bind:style="{marginTop: height * 0.8 + 'px'}">
-            <span>NewIn</span>
-            <Slide :items="newIns" :width="width * 0.45" :height="height >> 1" :step=200 />
+            <Split :item="{name: languages.NOUN.NEW_IN, link: '/newIns'}" :language="language" :width="width * 0.98" :height="height / 10"/>
+            <Slide :items="newIns" :width="width * 0.45" :height="height >> 1" :cpt=true :direction=false :step=200 @getGoods="getGoods" />
         </div>
         <!-- 热销品 -->
         <div class="hot">
-            <span>NewIn</span>
-            <Slide :items="hots" :width="width * 0.2" :height="height >> 2" :step=15 />
+            <Split :item="{name: languages.NOUN.HOT, link: '/hots'}" :language="language" :width="width * 0.98" :height="height / 10"/>
+            <Slide :items="hots" :width="width * 0.2" :height="height * 0.4" :cpt=true :direction=false :step=50 @getGoods="getGoods" />
         </div>
         <!-- 尾部栏 -->
         <div class="ss_footers">
@@ -30,6 +30,7 @@
     import Carousel from "../components/Basic/Carousel";
     import Slide    from "../components/Basic/Slide";
     import Footer   from "../components/Business/Footer";
+    import Split    from "../components/Basic/Split";
 
     export default {
         name: "Index",
@@ -37,15 +38,18 @@
             Header,
             Carousel,
             Slide,
+            Split,
             Footer,
         },
         data() {
             return {
+                languages: this.$languages,
                 width: window.screen.availWidth,
                 height: window.screen.availHeight,
                 banners: [],
                 newIns: [],
-                hots: []
+                hots: [],
+                language: "en"
             }
         },
         mounted() {
@@ -83,6 +87,12 @@
                 } else {
                     this.hots = response.data.items;
                 }
+            },
+            getLanguage(data) {
+                this.language = data.language;
+            },
+            getGoods(data) {
+                this.$bus.$emit(this.$utils.SIG.AddCart, data);
             }
         }
     }
@@ -101,20 +111,11 @@
         float: left;
         width: 100%;
         margin-top: 80%;
+        padding: 0 1%;
+        margin-bottom: 1%;
     }
     .hot {
         margin-top: 0;
-    }
-    .new > span, .hot > span {
-        display: inline-block;
-        width: 98%;
-        text-align: center;
-        border-bottom: 2px solid darkgray;
-        margin: 1% 1% 0;
-        font-size: x-large;
-        letter-spacing: 2px;
-        font-family: monospace;
-        text-transform:uppercase;
     }
     .ss_footers {
         float: left;
