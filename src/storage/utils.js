@@ -2,7 +2,8 @@ import storage from './storage'
 
 const keys = {
     carts:      "carts",
-    sessionId:  "sid"
+    sessionId:  "sid",
+    country:    "country",
 };
 
 const SIG = {

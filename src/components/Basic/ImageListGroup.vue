@@ -7,7 +7,8 @@
                 </div>
                 <div class="descriptor" v-bind:style="{width: (1 - height/width) * 100 + '%'}">
                     <span class="operate" @click="del(item, index)"><span class="mdi mdi-close-circle"></span></span>
-                    <span v-bind:style="{width: '100%', display: 'inline-block'}">{{item.value}}</span>
+                    <span v-if="item.value" v-bind:style="{width: '100%', display: 'inline-block'}">{{item.value}}</span>
+                    <span v-else v-bind:style="{width: '100%', display: 'inline-block'}">{{item.name[language]}}&nbsp;&nbsp;{{item.color.name[language]}}&nbsp;&nbsp;{{item.size}}</span>
                     <span v-bind:style="{width: '100%', display: 'inline-block'}">{{item.price}}</span>
                     <span v-bind:style="{width: '100%', display: 'inline-block'}"></span>
                     <button v-bind:style="[item.count <= 1 ? {pointerEvents: 'none'}:{}]" @click="decr(item)">-</button>
@@ -15,7 +16,7 @@
                         <input v-model="item.count" type="tel" @input="changeCount(item)"/>
                     </label>
                     <button @click="incr(item)">+</button>
-                    <span class="price">{{(item.count * item.price).toFixed(1)}}</span>
+                    <span class="price">{{currency + (item.count * item.price).toFixed(1)}}</span>
                 </div>
             </li>
         </ul>
@@ -42,8 +43,11 @@
             },
             language: {
                 type: String,
-                required: false,
-                default: "en"
+                required: true
+            },
+            currency: {
+                type: String,
+                required: true
             }
         },
         data() {

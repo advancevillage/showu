@@ -6,7 +6,7 @@
                 <em v-bind:style="[active === index ? {display: 'block'}:{display: 'none'}]"></em>
             </div>
             <div class="cart">
-                <Cart :items="carts" :height="height" :opacity="opacity" :language="language" @getCart="getCart"/>
+                <Cart :items="carts" :height="height" :opacity="opacity" :language="language" :currency="currency" @getCart="getCart"/>
             </div>
             <div class="user">
                 <User :items="users" :height="height" :opacity="opacity" :language="language" :iconClickFn="userClickFn"/>
@@ -69,6 +69,11 @@
                 type: String,
                 required: false,
                 default: "en"
+            },
+            currency: {
+                type: String,
+                required: false,
+                default: "$"
             },
             opacity: {
                 type: Boolean,

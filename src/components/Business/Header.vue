@@ -1,7 +1,7 @@
 <template>
     <div class="ss_header" v-bind:style="[scroll > height ? {position: 'fixed'}:{}]">
         <Notice :items="notices" :countries="countries" :language="language" :width="width" :height="height/3" @getLanguage="getLanguage"></Notice>
-        <Menu :categories="categories" :users="users" :carts="carts" :width="width" :height="2 * height/3" :language="language" :opacity="opacity" :userClickFn="userLogin" @getCart="getCart"/>
+        <Menu :categories="categories" :users="users" :carts="carts" :width="width" :height="2 * height/3" :language="language" :currency="currency" :opacity="opacity" :userClickFn="userLogin" @getCart="getCart"/>
     </div>
 </template>
 
@@ -36,6 +36,7 @@
             this.QueryCountries();
             this.QueryCategories();
             this.QueryCarts();
+
             this.$bus.$on(this.$utils.SIG.AddCart, this.CreateCarts);
             window.addEventListener('scroll', this.fixedHeader, true)
         },
@@ -57,6 +58,7 @@
                 ],
                 carts: [],
                 language: "en",
+                currency: "$",
                 scroll: 0
             }
         },
@@ -126,19 +128,35 @@
                 snapshot.id            = goods.id;
                 snapshot.addCartTime   = this.$moment(Date.now()).format('X') //Unix Timestamp
                 snapshot.updateTime    = this.$moment(Date.now()).format('X') //Unix Timestamp
-                //先合并再更新 TODO
-                this.$utils.UpdateCart(goods);
-                this.carts = this.$utils.QueryCart();
-                console.log(this.carts, snapshot);
+
+                //合并购物车商品
+                let i = 0;
+                for (; i < this.carts.length; i++) {
+                    let g = this.carts[i];
+                    if (
+                        g.id === snapshot.id &&
+                        g.size === snapshot.size &&
+                        g.color.rgb === snapshot.color.rgb
+                    ) {
+                        g.count++;
+                        break
+                    }
+                }
+                if (i >= this.carts.length) {
+                    this.carts.push(snapshot);
+                }
+                this.$utils.UpdateCart(this.carts);
+                this.carts = this.$utils.QueryCart() || [];
             },
             //多语言事件触发
             getLanguage(data) {
                 this.language = data.language;
+                this.currency = data.currency;
                 this.$emit('getLanguage', this.language);
                 this.$emit('getObject', data);
             },
-            getCart(fn) {
-                this.$emit('getCart', this.carts, fn);
+            getCart() {
+                this.$utils.UpdateCart(this.carts);
             },
             fixedHeader() {
                 this.scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
@@ -164,7 +182,7 @@
             userLogout(data) {
                 console.log(data);
                 this.$utils.Logout();
-            }
+            },
         }
     }
 </script>

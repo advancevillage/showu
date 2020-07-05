@@ -4,7 +4,7 @@
             <span class="mdi mdi-cart" @click="go('/cart')"></span>
             <em v-if="active  && items.length > 0"></em>
             <div v-if="active && items.length > 0" >
-                <ImageListGroup :items="items" :width="(width + 10) << 2" @update="computeCount" @incr="computeCount" @decr="computeCount" />
+                <ImageListGroup :items="items" :width="(width + 10) << 2" :language="language" :currency="currency" @update="computeCount" @incr="computeCount" @decr="computeCount" />
                 <button class="checkout" @click="go('/checkout')">{{languages.OPERATE.CHECKOUT[language]}}</button>
             </div>
         </button>
@@ -35,6 +35,11 @@
                 default: 50
             },
             language: {
+                type: String,
+                required: false,
+                default: "en"
+            },//currency
+            currency: {
                 type: String,
                 required: false,
                 default: "en"
