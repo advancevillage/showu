@@ -105,7 +105,8 @@
                 this.marginLeft = -(this.width + this.interval) * this.items.length + this.left * (this.width + this.interval) / slow
             },
             get(index) {
-                this.$emit('get', this.items[index % this.items.length]);
+                // this.$emit('get', this.items[index % this.items.length]);
+                this.$emit('get', index % this.items.length);
             },
             trigger() {
                 this.clock = window.setInterval(()=> {

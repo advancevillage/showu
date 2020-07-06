@@ -9,9 +9,9 @@
             <ColorGroup :items="goods.colors" :width="width >> 3" :height="height * 0.05" :title="languages.GOODS.COLOR[language]"/>
         </div>
         <div class="ss_goods" v-bind:style="{top: height * 0.04 + 'px'}">
-            <Carousel :items="goods.thumbs" :width="width" :height="height * 0.75" :action="addCart"/>
+            <Carousel :items="goods.thumbs" :width="width" :height="height * 0.75" :setIndex="setIndex" :action="addCart"/>
             <div class="ss_thumb">
-                <Slide :items="goods.thumbs" :width="width / goods.thumbs.length" :height="height * 0.2" :step=20 />
+                <Slide :items="goods.thumbs" :width="width / goods.thumbs.length" :height="height * 0.2" :step=20 @get="clickThumb"/>
             </div>
             <div class="ss_desc">
                 <Fragment :items="goods.desc" :width="width * 0.98"/>
@@ -59,6 +59,7 @@
                     colors: [],
                     desc: []
                 },
+                setIndex: 0,
                 similar: [],
                 addCart: {
                     fn: this.AddCart,
@@ -78,7 +79,6 @@
                     console.log(response);
                 } else {
                     this.similar = response.data.items;
-                    console.log(this.similar);
                 }
             },
             async QueryOneGoods() {
@@ -89,12 +89,14 @@
                     console.log(response);
                 } else {
                     this.goods = response.data;
-                    console.log(this.goods);
                 }
             },
             AddCart() {
                 //添加购物车
                 console.log("add cart");
+            },
+            clickThumb(index) {
+                this.setIndex = index;
             }
         }
     }

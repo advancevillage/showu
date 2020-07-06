@@ -17,7 +17,7 @@
             </div>
             <div class="ss_list">
                 <div class="ss_goods" v-for="(item, index) in goods" :key="index">
-                    <Goods :item="item" :width="width >> 2"/>
+                    <Goods :item="item" :width="width >> 2" @get="getGoods"/>
                 </div>
             </div>
         </div>
@@ -113,6 +113,9 @@
                     this.goods = response.data.items;
                 }
             },
+            getGoods(data) {
+                this.$bus.$emit(this.$utils.SIG.AddCart, data);
+            }
         }
     }
 </script>

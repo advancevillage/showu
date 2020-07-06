@@ -1972,6 +1972,7 @@ goods = {
                 "imageUrl": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1588874077730&di=0e1ff22a90f71e9d2796205339940f21&imgtype=0&src=http%3A%2F%2Fbpic.588ku.com%2Felement_origin_min_pic%2F18%2F03%2F18%2Ff7ae017d4c92a900869d91a83e9f6161.jpg",
                 "backImageUrl": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589603852944&di=a280d4108abcb3a807ff81f23e742299&imgtype=0&src=http%3A%2F%2Fpic1.16pic.com%2F00%2F24%2F54%2F16pic_2454237_b.jpg",
                 "state": 0,
+                "link": "/products/name",
                 "nextState": 1,
                 "stateImageUrl": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589603852944&di=a280d4108abcb3a807ff81f23e742299&imgtype=0&src=http%3A%2F%2Fpic1.16pic.com%2F00%2F24%2F54%2F16pic_2454237_b.jpg",
                 "colors": [

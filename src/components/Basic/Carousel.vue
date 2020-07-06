@@ -15,7 +15,7 @@
             <button @click="action.fn"><span class="mdi mdi-cart"></span></button>
         </span>
         <span class="indicator" v-bind:style="{display: 'inline-block'}">
-            <button v-for="(item, index) in items" :key="index" v-on:click="get(index)">{{index + 1}}</button>
+            <button v-for="(item, index) in items" :key="index" v-on:click="get(index)" v-bind:style="[index === active ? {background: 'black', color: 'white'}:{}]">{{index + 1}}</button>
         </span>
     </div>
 </template>
@@ -51,6 +51,16 @@
                 type: String,
                 required: false,
                 default: "en"
+            },
+            setIndex: {
+                type: Number,
+                required: false,
+                default: 0,
+            }
+        },
+        watch: {
+            setIndex(v) {
+                this.get(v);
             }
         },
         data() {
@@ -58,7 +68,7 @@
                 marginLeft: 0,
                 clock: null,
                 hover: false,
-                active: 0
+                active: this.setIndex
             }
         },
         mounted() {
@@ -78,6 +88,7 @@
             get(index) {
                 this.marginLeft = 0 - index * this.width;
                 this.marginLeft %= this.width * this.items.length;
+                this.active = index;
                 this.$emit('get', this.items[index])
             }
         }
